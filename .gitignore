@@ -1,0 +1,49 @@
+# Gradle
+.gradle/
+**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+
+# Kotlin / KMP
+.kotlin/
+
+# Local configuration
+local.properties
+*.hprof
+
+# IDE - Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# macOS
+.DS_Store
+
+# Xcode / iOS
+iosApp/**/build/
+iosApp/**/DerivedData/
+iosApp/**/*.xcuserstate
+iosApp/**/xcuserdata/
+iosApp/**/*.xcscmblueprint
+iosApp/**/*.xccheckout
+iosApp/Pods/
+iosApp/Podfile.lock
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+
+# Web
+webApp/node_modules/
+kotlin-js-store/
+
+# Serena MCP local cache/state
+.serena/
+
+# Logs
+*.log
