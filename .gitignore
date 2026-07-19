@@ -47,3 +47,5 @@ kotlin-js-store/
 
 # Logs
 *.log
+
+local/

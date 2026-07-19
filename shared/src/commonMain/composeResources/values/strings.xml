@@ -1,0 +1,7 @@
+<resources>
+    <string name="onboarding_stub_title">Онбординг</string>
+    <string name="onboarding_continue">Продолжить</string>
+    <string name="auth_stub_title">Авторизация</string>
+    <string name="auth_stub_login">Войти</string>
+    <string name="home_stub_title">ChatShop</string>
+</resources>
