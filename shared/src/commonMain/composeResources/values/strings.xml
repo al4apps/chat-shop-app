@@ -23,7 +23,16 @@
     <string name="example_field_error_text">Текст ошибки под полем</string>
     <string name="example_field_disabled_value">Недоступное поле</string>
     <string name="example_section_icons">Иконки</string>
-    <string name="auth_stub_title">Авторизация</string>
-    <string name="auth_stub_login">Войти</string>
+    <string name="auth_phone_title">Вход</string>
+    <string name="auth_phone_subtitle">Введите номер телефона — отправим SMS с кодом подтверждения</string>
+    <string name="auth_phone_placeholder">Номер телефона</string>
+    <string name="auth_phone_continue">Получить код</string>
+    <string name="auth_code_title">Код из SMS</string>
+    <string name="auth_code_subtitle">Отправили код на %1$s</string>
+    <string name="auth_code_placeholder">Код</string>
+    <string name="auth_code_resend">Отправить код ещё раз</string>
+    <string name="auth_code_resend_in">Повторная отправка через %1$s с</string>
+    <string name="error_network">Нет соединения с сервером</string>
+    <string name="error_unknown">Что-то пошло не так. Попробуйте ещё раз</string>
     <string name="home_stub_title">ChatShop</string>
 </resources>

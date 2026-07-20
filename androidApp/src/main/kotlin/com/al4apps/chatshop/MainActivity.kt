@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.al4apps.chatshop.root.DefaultRootComponent
 import com.arkivanov.decompose.retainedComponent
+import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
 
@@ -14,7 +15,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val root = retainedComponent { componentContext ->
-            DefaultRootComponent(componentContext)
+            DefaultRootComponent(
+                componentContext = componentContext,
+                sessionManager = get(),
+                authInteractor = get(),
+            )
         }
 
         setContent {
