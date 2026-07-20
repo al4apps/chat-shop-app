@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.root
 
 import com.al4apps.chatshop.features.auth.AuthComponent
+import com.al4apps.chatshop.features.example.ExampleComponent
 import com.al4apps.chatshop.features.home.HomeComponent
 import com.al4apps.chatshop.features.onboarding.OnboardingComponent
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -17,5 +18,7 @@ interface RootComponent {
         class Auth(val component: AuthComponent) : Child
 
         class Home(val component: HomeComponent) : Child
+
+        class Example(val component: ExampleComponent) : Child
     }
 }

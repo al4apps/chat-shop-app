@@ -1,12 +1,15 @@
 package com.al4apps.chatshop.root
 
 import com.al4apps.chatshop.features.auth.DefaultAuthComponent
+import com.al4apps.chatshop.features.example.DefaultExampleComponent
 import com.al4apps.chatshop.features.home.DefaultHomeComponent
 import com.al4apps.chatshop.features.onboarding.DefaultOnboardingComponent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
@@ -34,6 +37,7 @@ class DefaultRootComponent(
             DefaultOnboardingComponent(
                 componentContext = context,
                 onFinished = { navigation.replaceAll(Config.Auth) },
+                onDesignSystemRequested = { navigation.pushNew(Config.Example) },
             ),
         )
 
@@ -46,6 +50,13 @@ class DefaultRootComponent(
 
         Config.Home -> RootComponent.Child.Home(
             DefaultHomeComponent(componentContext = context),
+        )
+
+        Config.Example -> RootComponent.Child.Example(
+            DefaultExampleComponent(
+                componentContext = context,
+                onBack = navigation::pop,
+            ),
         )
     }
 
@@ -60,5 +71,9 @@ class DefaultRootComponent(
 
         @Serializable
         data object Home : Config
+
+        // Витрина дизайн-системы (dev-экран, вход с онбординга — временный).
+        @Serializable
+        data object Example : Config
     }
 }
