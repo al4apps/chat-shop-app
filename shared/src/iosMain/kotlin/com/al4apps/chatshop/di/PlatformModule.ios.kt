@@ -1,5 +1,6 @@
 package com.al4apps.chatshop.di
 
+import com.al4apps.chatshop.core.db.DatabaseFactory
 import com.al4apps.chatshop.core.network.ApiConfig
 import eu.anifantakis.lib.ksafe.KSafe
 import io.ktor.client.engine.HttpClientEngine
@@ -14,4 +15,5 @@ actual val platformModule: Module = module {
     // iOS-симулятор обращается к хост-машине напрямую через localhost.
     single { ApiConfig(baseUrl = "http://localhost:8080/api/v1") }
     single<HttpClientEngine> { Darwin.create() }
+    single { DatabaseFactory() }
 }

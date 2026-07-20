@@ -6,6 +6,15 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+    databases {
+        create("ChatShopDatabase") {
+            packageName.set("com.al4apps.chatshop.db")
+        }
+    }
 }
 
 kotlin {
@@ -46,9 +55,11 @@ kotlin {
             implementation(libs.compose.uiTooling)
             implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqldelight.androidDriver)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.sqldelight.nativeDriver)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -73,6 +84,8 @@ kotlin {
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinxJson)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

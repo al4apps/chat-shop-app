@@ -1,0 +1,33 @@
+-- Метаданные вложений. Presigned url НЕ хранится (временный, CLIENT_GUIDE §8);
+-- localPath — путь к локальному кэшу по стабильному file.id.
+
+CREATE TABLE files (
+    id TEXT PRIMARY KEY NOT NULL,
+    mime TEXT NOT NULL,
+    size INTEGER NOT NULL,
+    durationSec INTEGER,
+    status TEXT NOT NULL,
+    localPath TEXT,
+    updatedAt INTEGER NOT NULL
+);
+
+selectById:
+SELECT * FROM files WHERE id = :id;
+
+-- Метаданные с сервера = insertOrIgnore + updateFromServer в транзакции;
+-- локальный путь кэша не затирается.
+insertOrIgnore:
+INSERT OR IGNORE INTO files(id, mime, size, durationSec, status, updatedAt)
+VALUES (:id, :mime, :size, :durationSec, :status, :updatedAt);
+
+updateFromServer:
+UPDATE files SET
+    mime = :mime,
+    size = :size,
+    durationSec = :durationSec,
+    status = :status,
+    updatedAt = :updatedAt
+WHERE id = :id;
+
+updateLocalPath:
+UPDATE files SET localPath = :localPath WHERE id = :id;

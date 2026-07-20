@@ -1,0 +1,64 @@
+-- Лента сообщений. localId — стабильный локальный ключ (в т.ч. для исходящих
+-- до получения seq). seq — серверный курсор, NULL у неотправленных.
+
+CREATE TABLE messages (
+    localId INTEGER PRIMARY KEY AUTOINCREMENT,
+    seq INTEGER UNIQUE,
+    dialogId TEXT NOT NULL,
+    clientMessageId TEXT UNIQUE,
+    senderRole TEXT NOT NULL,
+    type TEXT NOT NULL,
+    text TEXT,
+    eventType TEXT,
+    payload TEXT,
+    createdAt INTEGER NOT NULL,
+    sendState TEXT NOT NULL DEFAULT 'SYNCED',
+    fileId TEXT
+);
+
+CREATE INDEX idx_messages_dialog_seq ON messages(dialogId, seq);
+
+-- Лента диалога с файлами: серверные по seq, затем локальные по localId.
+selectByDialog:
+SELECT m.*, f.mime, f.size, f.durationSec, f.status AS fileStatus, f.localPath
+FROM messages m
+LEFT JOIN files f ON f.id = m.fileId
+WHERE m.dialogId = :dialogId
+ORDER BY CASE WHEN m.seq IS NULL THEN 1 ELSE 0 END, m.seq ASC, m.localId ASC;
+
+selectLocalIdByClientMessageId:
+SELECT localId FROM messages WHERE clientMessageId = :clientMessageId;
+
+-- Серверное сообщение: insertOrIgnore + updateBySeq в транзакции
+-- (payload/файл/текст могут обновляться при повторном получении).
+insertIgnoreBySeq:
+INSERT OR IGNORE INTO messages(seq, dialogId, clientMessageId, senderRole, type, text,
+    eventType, payload, createdAt, sendState, fileId)
+VALUES (:seq, :dialogId, :clientMessageId, :senderRole, :type, :text,
+    :eventType, :payload, :createdAt, 'SYNCED', :fileId);
+
+updateBySeq:
+UPDATE messages SET
+    text = :text,
+    eventType = :eventType,
+    payload = :payload,
+    fileId = :fileId,
+    sendState = 'SYNCED'
+WHERE seq = :seq;
+
+-- Серверный ответ на наше исходящее: локальная строка получает seq и данные сервера.
+updateFromServerByClientMessageId:
+UPDATE messages SET
+    seq = :seq,
+    senderRole = :senderRole,
+    type = :type,
+    text = :text,
+    eventType = :eventType,
+    payload = :payload,
+    createdAt = :createdAt,
+    sendState = 'SYNCED',
+    fileId = :fileId
+WHERE clientMessageId = :clientMessageId;
+
+maxSeqInDialog:
+SELECT MAX(seq) FROM messages WHERE dialogId = :dialogId;

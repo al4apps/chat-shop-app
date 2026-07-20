@@ -1,0 +1,54 @@
+-- Диалоги: проекция с сервера + локальный курсор поллинга lastSyncedSeq.
+-- Время — epoch millis (UTC). Деньги — decimal-строкой как на проводе.
+
+CREATE TABLE dialogs (
+    id TEXT PRIMARY KEY NOT NULL,
+    status TEXT NOT NULL,
+    orderStatus TEXT,
+    orderAmount TEXT,
+    orderDescription TEXT,
+    orderNo INTEGER NOT NULL DEFAULT 0,
+    lastMessageAt INTEGER,
+    lastMessageSeq INTEGER,
+    createdAt INTEGER NOT NULL,
+    hasOperator INTEGER NOT NULL DEFAULT 0,
+    lastSyncedSeq INTEGER NOT NULL DEFAULT 0
+);
+
+selectAll:
+SELECT * FROM dialogs
+ORDER BY COALESCE(lastMessageAt, createdAt) DESC;
+
+selectById:
+SELECT * FROM dialogs WHERE id = :id;
+
+countAll:
+SELECT COUNT(*) FROM dialogs;
+
+-- Снапшот с сервера = insertOrIgnore + updateFromServer в одной транзакции
+-- (upsert-синтаксис недоступен: системный SQLite Android API 24 старше 3.24).
+-- Локальный курсор lastSyncedSeq не затирается.
+insertOrIgnore:
+INSERT OR IGNORE INTO dialogs(id, status, orderStatus, orderAmount, orderDescription,
+    orderNo, lastMessageAt, lastMessageSeq, createdAt, hasOperator)
+VALUES (:id, :status, :orderStatus, :orderAmount, :orderDescription, :orderNo,
+    :lastMessageAt, :lastMessageSeq, :createdAt, :hasOperator);
+
+updateFromServer:
+UPDATE dialogs SET
+    status = :status,
+    orderStatus = :orderStatus,
+    orderAmount = :orderAmount,
+    orderDescription = :orderDescription,
+    orderNo = :orderNo,
+    lastMessageAt = :lastMessageAt,
+    lastMessageSeq = :lastMessageSeq,
+    hasOperator = :hasOperator
+WHERE id = :id;
+
+selectLastSyncedSeq:
+SELECT lastSyncedSeq FROM dialogs WHERE id = :id;
+
+-- Курсор двигается только вперёд.
+advanceLastSyncedSeq:
+UPDATE dialogs SET lastSyncedSeq = :seq WHERE id = :id AND lastSyncedSeq < :seq;
