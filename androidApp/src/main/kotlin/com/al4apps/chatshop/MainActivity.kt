@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
                 componentContext = componentContext,
                 sessionManager = get(),
                 authInteractor = get(),
+                appPreferences = get(),
             )
         }
 

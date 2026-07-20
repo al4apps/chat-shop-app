@@ -21,6 +21,7 @@ fun MainViewController(): UIViewController {
         componentContext = DefaultComponentContext(lifecycle = ApplicationLifecycle()),
         sessionManager = koin.get(),
         authInteractor = koin.get(),
+        appPreferences = koin.get(),
     )
 
     return ComposeUIViewController {

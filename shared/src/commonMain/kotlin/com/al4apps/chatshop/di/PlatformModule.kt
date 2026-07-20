@@ -4,6 +4,12 @@ import org.koin.core.module.Module
 
 /**
  * Платформенные зависимости, создаваемые на краю приложения:
- * KSafe (хранилище), ApiConfig (dev-хост платформы), Ktor-engine.
+ * KSafe (хранилища), ApiConfig (dev-хост платформы), Ktor-engine.
  */
 expect val platformModule: Module
+
+/** Квалификатор KSafe-инстанса для секретов (токены), шифрованный. */
+const val KSAFE_VAULT = "vault"
+
+/** Квалификатор KSafe-инстанса для настроек (не-секреты), Plain-записи. */
+const val KSAFE_PREFS = "prefs"

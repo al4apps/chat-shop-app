@@ -1,8 +1,13 @@
 <resources>
     <string name="common_back">Назад</string>
-    <string name="onboarding_stub_title">Онбординг</string>
-    <string name="onboarding_continue">Продолжить</string>
-    <string name="onboarding_design_system">Дизайн-система</string>
+    <string name="onboarding_page1_title">Заказы через чат</string>
+    <string name="onboarding_page1_text">Опишите, что вам нужно, в диалоге с оператором — как в привычном мессенджере</string>
+    <string name="onboarding_page2_title">Голосом или фото</string>
+    <string name="onboarding_page2_text">Отправьте голосовое сообщение или фотографию — оператор всё поймёт и подберёт заказ</string>
+    <string name="onboarding_page3_title">Статусы заказа</string>
+    <string name="onboarding_page3_text">Следите за заказом прямо в чате — от оформления до получения</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_start">Начать</string>
     <string name="example_title">Дизайн-система</string>
     <string name="example_section_typography">Типографика</string>
     <string name="example_typo_h1">Заголовок h1</string>

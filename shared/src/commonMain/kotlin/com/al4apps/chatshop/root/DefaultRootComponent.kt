@@ -3,6 +3,7 @@ package com.al4apps.chatshop.root
 import com.al4apps.chatshop.core.arch.CoroutineFeature
 import com.al4apps.chatshop.core.session.SessionManager
 import com.al4apps.chatshop.core.session.SessionState
+import com.al4apps.chatshop.core.settings.AppPreferences
 import com.al4apps.chatshop.features.auth.DefaultAuthComponent
 import com.al4apps.chatshop.features.auth.domain.AuthInteractor
 import com.al4apps.chatshop.features.example.DefaultExampleComponent
@@ -13,7 +14,6 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import kotlinx.coroutines.flow.drop
@@ -24,6 +24,7 @@ class DefaultRootComponent(
     componentContext: ComponentContext,
     private val sessionManager: SessionManager,
     private val authInteractor: AuthInteractor,
+    private val appPreferences: AppPreferences,
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -33,8 +34,11 @@ class DefaultRootComponent(
     override val stack: Value<ChildStack<*, RootComponent.Child>> = childStack(
         source = navigation,
         serializer = Config.serializer(),
-        // TODO(этап 3): флаг «онбординг показан» — пропускать Onboarding.
-        initialConfiguration = if (sessionManager.isAuthorized) Config.Home else Config.Onboarding,
+        initialConfiguration = when {
+            sessionManager.isAuthorized -> Config.Home
+            appPreferences.isOnboardingShown() -> Config.Auth
+            else -> Config.Onboarding
+        },
         handleBackButton = true,
         childFactory = ::createChild,
     )
@@ -61,8 +65,8 @@ class DefaultRootComponent(
         Config.Onboarding -> RootComponent.Child.Onboarding(
             DefaultOnboardingComponent(
                 componentContext = context,
+                appPreferences = appPreferences,
                 onFinished = { navigation.replaceAll(Config.Auth) },
-                onDesignSystemRequested = { navigation.pushNew(Config.Example) },
             ),
         )
 
@@ -98,7 +102,7 @@ class DefaultRootComponent(
         @Serializable
         data object Home : Config
 
-        // Витрина дизайн-системы (dev-экран, вход с онбординга — временный).
+        // Витрина дизайн-системы (dev-экран; входа из прод-UI нет, вызывается при необходимости).
         @Serializable
         data object Example : Config
     }

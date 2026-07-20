@@ -1,18 +1,22 @@
 package com.al4apps.chatshop.features.onboarding
 
+import com.al4apps.chatshop.core.arch.CoroutineFeature
+import com.al4apps.chatshop.core.settings.AppPreferences
 import com.arkivanov.decompose.ComponentContext
+import kotlinx.coroutines.launch
 
 class DefaultOnboardingComponent(
     componentContext: ComponentContext,
+    private val appPreferences: AppPreferences,
     private val onFinished: () -> Unit,
-    private val onDesignSystemRequested: () -> Unit,
 ) : OnboardingComponent, ComponentContext by componentContext {
 
-    override fun onContinueClick() {
-        onFinished()
-    }
+    private val scope = CoroutineFeature.attachedTo(lifecycle)
 
-    override fun onDesignSystemClick() {
-        onDesignSystemRequested()
+    override fun onFinishClick() {
+        scope.launch {
+            appPreferences.setOnboardingShown()
+            onFinished()
+        }
     }
 }
