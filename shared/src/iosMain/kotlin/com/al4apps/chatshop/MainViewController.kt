@@ -22,6 +22,8 @@ fun MainViewController(): UIViewController {
         sessionManager = koin.get(),
         authInteractor = koin.get(),
         appPreferences = koin.get(),
+        syncService = koin.get(),
+        dialogsRepository = koin.get(),
     )
 
     return ComposeUIViewController {

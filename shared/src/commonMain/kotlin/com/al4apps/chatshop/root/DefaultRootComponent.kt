@@ -6,9 +6,11 @@ import com.al4apps.chatshop.core.session.SessionState
 import com.al4apps.chatshop.core.settings.AppPreferences
 import com.al4apps.chatshop.features.auth.DefaultAuthComponent
 import com.al4apps.chatshop.features.auth.domain.AuthInteractor
+import com.al4apps.chatshop.features.chats.domain.DialogsRepository
 import com.al4apps.chatshop.features.example.DefaultExampleComponent
 import com.al4apps.chatshop.features.home.DefaultHomeComponent
 import com.al4apps.chatshop.features.onboarding.DefaultOnboardingComponent
+import com.al4apps.chatshop.services.sync.SyncService
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -16,6 +18,8 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnResume
+import com.arkivanov.essenty.lifecycle.doOnStop
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -25,6 +29,8 @@ class DefaultRootComponent(
     private val sessionManager: SessionManager,
     private val authInteractor: AuthInteractor,
     private val appPreferences: AppPreferences,
+    private val syncService: SyncService,
+    private val dialogsRepository: DialogsRepository,
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -44,6 +50,11 @@ class DefaultRootComponent(
     )
 
     init {
+        // Поллинг активен только на переднем плане (retained lifecycle транслирует
+        // resume/stop от Activity / UIApplication на обеих платформах).
+        lifecycle.doOnResume { syncService.onAppForeground() }
+        lifecycle.doOnStop { syncService.onAppBackground() }
+
         // Сессия умерла (невосстановимый 401) — возврат на авторизацию с любого экрана.
         scope.launch {
             sessionManager.state
@@ -79,7 +90,10 @@ class DefaultRootComponent(
         )
 
         Config.Home -> RootComponent.Child.Home(
-            DefaultHomeComponent(componentContext = context),
+            DefaultHomeComponent(
+                componentContext = context,
+                dialogsRepository = dialogsRepository,
+            ),
         )
 
         Config.Example -> RootComponent.Child.Example(

@@ -20,6 +20,8 @@ class MainActivity : ComponentActivity() {
                 sessionManager = get(),
                 authInteractor = get(),
                 appPreferences = get(),
+                syncService = get(),
+                dialogsRepository = get(),
             )
         }
 

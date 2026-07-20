@@ -15,7 +15,12 @@ import com.al4apps.chatshop.features.chats.data.DefaultDialogsRepository
 import com.al4apps.chatshop.features.chats.data.DefaultMessagesRepository
 import com.al4apps.chatshop.features.chats.domain.DialogsRepository
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
+import com.al4apps.chatshop.services.sync.SyncApi
+import com.al4apps.chatshop.services.sync.SyncService
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
@@ -28,6 +33,7 @@ fun appModules(): List<Module> = listOf(
     dbModule,
     authModule,
     chatsModule,
+    syncModule,
 )
 
 private val coreModule = module {
@@ -61,6 +67,19 @@ private val dbModule = module {
 private val chatsModule = module {
     single<DialogsRepository> { DefaultDialogsRepository(db = get()) }
     single<MessagesRepository> { DefaultMessagesRepository(db = get()) }
+}
+
+private val syncModule = module {
+    single { SyncApi(client = get()) }
+    single {
+        SyncService(
+            syncApi = get(),
+            dialogsRepository = get(),
+            messagesRepository = get(),
+            sessionManager = get(),
+            scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+        )
+    }
 }
 
 private val authModule = module {

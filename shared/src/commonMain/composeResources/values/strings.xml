@@ -40,4 +40,5 @@
     <string name="error_network">Нет соединения с сервером</string>
     <string name="error_unknown">Что-то пошло не так. Попробуйте ещё раз</string>
     <string name="home_stub_title">ChatShop</string>
+    <string name="home_dialogs_count">Диалогов: %1$s</string>
 </resources>
