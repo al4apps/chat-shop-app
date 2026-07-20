@@ -11,8 +11,11 @@ import com.al4apps.chatshop.db.ChatShopDatabase
 import com.al4apps.chatshop.features.auth.data.AuthApi
 import com.al4apps.chatshop.features.auth.data.DefaultAuthInteractor
 import com.al4apps.chatshop.features.auth.domain.AuthInteractor
+import com.al4apps.chatshop.features.chats.data.ChatsApi
+import com.al4apps.chatshop.features.chats.data.DefaultChatsInteractor
 import com.al4apps.chatshop.features.chats.data.DefaultDialogsRepository
 import com.al4apps.chatshop.features.chats.data.DefaultMessagesRepository
+import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
 import com.al4apps.chatshop.features.chats.domain.DialogsRepository
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
 import com.al4apps.chatshop.services.sync.SyncApi
@@ -67,6 +70,13 @@ private val dbModule = module {
 private val chatsModule = module {
     single<DialogsRepository> { DefaultDialogsRepository(db = get()) }
     single<MessagesRepository> { DefaultMessagesRepository(db = get()) }
+    single { ChatsApi(client = get()) }
+    single<ChatsInteractor> {
+        DefaultChatsInteractor(
+            chatsApi = get(),
+            dialogsRepository = get(),
+        )
+    }
 }
 
 private val syncModule = module {

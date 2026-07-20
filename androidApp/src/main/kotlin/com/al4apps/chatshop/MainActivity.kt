@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                 authInteractor = get(),
                 appPreferences = get(),
                 syncService = get(),
-                dialogsRepository = get(),
+                chatsInteractor = get(),
             )
         }
 

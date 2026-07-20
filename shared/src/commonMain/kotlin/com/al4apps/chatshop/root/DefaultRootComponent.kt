@@ -6,7 +6,7 @@ import com.al4apps.chatshop.core.session.SessionState
 import com.al4apps.chatshop.core.settings.AppPreferences
 import com.al4apps.chatshop.features.auth.DefaultAuthComponent
 import com.al4apps.chatshop.features.auth.domain.AuthInteractor
-import com.al4apps.chatshop.features.chats.domain.DialogsRepository
+import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
 import com.al4apps.chatshop.features.example.DefaultExampleComponent
 import com.al4apps.chatshop.features.home.DefaultHomeComponent
 import com.al4apps.chatshop.features.onboarding.DefaultOnboardingComponent
@@ -30,7 +30,7 @@ class DefaultRootComponent(
     private val authInteractor: AuthInteractor,
     private val appPreferences: AppPreferences,
     private val syncService: SyncService,
-    private val dialogsRepository: DialogsRepository,
+    private val chatsInteractor: ChatsInteractor,
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -92,7 +92,8 @@ class DefaultRootComponent(
         Config.Home -> RootComponent.Child.Home(
             DefaultHomeComponent(
                 componentContext = context,
-                dialogsRepository = dialogsRepository,
+                chatsInteractor = chatsInteractor,
+                syncService = syncService,
             ),
         )
 

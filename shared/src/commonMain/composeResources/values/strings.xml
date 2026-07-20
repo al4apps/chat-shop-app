@@ -39,6 +39,21 @@
     <string name="auth_code_resend_in">Повторная отправка через %1$s с</string>
     <string name="error_network">Нет соединения с сервером</string>
     <string name="error_unknown">Что-то пошло не так. Попробуйте ещё раз</string>
-    <string name="home_stub_title">ChatShop</string>
-    <string name="home_dialogs_count">Диалогов: %1$s</string>
+    <string name="chat_list_title">Чаты</string>
+    <string name="chat_list_new_dialog">Новый диалог</string>
+    <string name="chat_list_empty_title">Пока нет диалогов</string>
+    <string name="dialog_status_new">Ожидает оператора</string>
+    <string name="dialog_status_assigned">Оператор подключён</string>
+    <string name="dialog_status_active">В работе</string>
+    <string name="dialog_status_closed">Диалог закрыт</string>
+    <string name="order_status_created">Заказ оформлен</string>
+    <string name="order_status_paid">Оплачен</string>
+    <string name="order_status_processing">Собирается</string>
+    <string name="order_status_completed">Завершён</string>
+    <string name="order_status_cancelled">Отменён</string>
+    <string name="order_status_unknown">Статус неизвестен</string>
+    <string name="dialog_stub_title">Диалог</string>
+    <string name="dialog_stub_body">Экран диалога появится на следующем этапе</string>
+    <string name="first_order_stub_title">Опишите ваш заказ</string>
+    <string name="first_order_stub_body">Экран оформления первого заказа появится на этапе 8</string>
 </resources>

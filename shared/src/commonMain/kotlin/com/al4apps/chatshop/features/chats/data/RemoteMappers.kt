@@ -1,4 +1,4 @@
-package com.al4apps.chatshop.services.sync
+package com.al4apps.chatshop.features.chats.data
 
 import com.al4apps.chatshop.core.util.Money
 import com.al4apps.chatshop.features.chats.domain.model.AttachedFile
@@ -10,9 +10,9 @@ import com.al4apps.chatshop.features.chats.domain.model.MessageType
 import com.al4apps.chatshop.features.chats.domain.model.OrderStatus
 import com.al4apps.chatshop.features.chats.domain.model.SendState
 import com.al4apps.chatshop.features.chats.domain.model.SenderRole
-import com.al4apps.chatshop.services.sync.dto.DialogDto
-import com.al4apps.chatshop.services.sync.dto.FileDto
-import com.al4apps.chatshop.services.sync.dto.MessageDto
+import com.al4apps.chatshop.features.chats.data.dto.DialogDto
+import com.al4apps.chatshop.features.chats.data.dto.FileDto
+import com.al4apps.chatshop.features.chats.data.dto.MessageDto
 import kotlinx.datetime.Instant
 
 /** Битые данные (невалидное время) пропускаются, не роняя синхронизацию. */

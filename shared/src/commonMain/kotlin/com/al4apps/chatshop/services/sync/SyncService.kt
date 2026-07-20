@@ -3,6 +3,7 @@ package com.al4apps.chatshop.services.sync
 import com.al4apps.chatshop.core.network.AppResult
 import com.al4apps.chatshop.core.session.SessionManager
 import com.al4apps.chatshop.core.session.SessionState
+import com.al4apps.chatshop.features.chats.data.toDomainOrNull
 import com.al4apps.chatshop.features.chats.domain.DialogsRepository
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
 import kotlinx.coroutines.CoroutineScope

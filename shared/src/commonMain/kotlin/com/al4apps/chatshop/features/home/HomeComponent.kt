@@ -1,12 +1,27 @@
 package com.al4apps.chatshop.features.home
 
-import kotlinx.coroutines.flow.StateFlow
+import com.al4apps.chatshop.features.chats.dialog.DialogComponent
+import com.al4apps.chatshop.features.chats.firstorder.FirstOrderComponent
+import com.al4apps.chatshop.features.chats.list.ChatListComponent
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.value.Value
 
 /**
- * Контейнер всего после авторизации. Пока заглушка: показывает счётчик диалогов
- * из БД (сквозная проверка sync → БД → UI); список чатов — этап 6.
+ * Контейнер всего после авторизации. Стартовый роутинг: Bootstrap (первичная
+ * синхронизация) → список чатов, если диалоги есть, иначе экран первого заказа.
  */
 interface HomeComponent {
 
-    val dialogsCount: StateFlow<Int>
+    val stack: Value<ChildStack<*, Child>>
+
+    sealed interface Child {
+
+        data object Bootstrap : Child
+
+        class ChatList(val component: ChatListComponent) : Child
+
+        class FirstOrder(val component: FirstOrderComponent) : Child
+
+        class Dialog(val component: DialogComponent) : Child
+    }
 }

@@ -23,7 +23,7 @@ fun MainViewController(): UIViewController {
         authInteractor = koin.get(),
         appPreferences = koin.get(),
         syncService = koin.get(),
-        dialogsRepository = koin.get(),
+        chatsInteractor = koin.get(),
     )
 
     return ComposeUIViewController {

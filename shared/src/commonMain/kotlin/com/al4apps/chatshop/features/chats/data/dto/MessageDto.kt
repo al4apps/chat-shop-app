@@ -1,4 +1,4 @@
-package com.al4apps.chatshop.services.sync.dto
+package com.al4apps.chatshop.features.chats.data.dto
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
