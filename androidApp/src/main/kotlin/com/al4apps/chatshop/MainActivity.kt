@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
                 appPreferences = get(),
                 syncService = get(),
                 chatsInteractor = get(),
+                messagesInteractor = get(),
             )
         }
 

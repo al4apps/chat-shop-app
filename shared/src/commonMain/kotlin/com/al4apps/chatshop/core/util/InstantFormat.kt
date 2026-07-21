@@ -21,4 +21,10 @@ fun Instant.toListTimestamp(
     }
 }
 
+/** Метка времени в ленте: всегда `14:05`. */
+fun Instant.toClockLabel(timeZone: TimeZone = TimeZone.currentSystemDefault()): String {
+    val local = toLocalDateTime(timeZone)
+    return "${pad(local.hour)}:${pad(local.minute)}"
+}
+
 private fun pad(value: Int): String = value.toString().padStart(2, '0')

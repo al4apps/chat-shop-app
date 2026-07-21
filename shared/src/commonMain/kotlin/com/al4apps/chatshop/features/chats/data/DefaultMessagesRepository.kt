@@ -7,6 +7,7 @@ import com.al4apps.chatshop.db.ChatShopDatabase
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
 import com.al4apps.chatshop.features.chats.domain.model.AttachedFile
 import com.al4apps.chatshop.features.chats.domain.model.Message
+import com.al4apps.chatshop.features.chats.domain.model.SendState
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.CoroutineDispatcher
@@ -53,6 +54,86 @@ class DefaultMessagesRepository(
             status = file.status.wire,
             updatedAt = updatedAt,
         )
+    }
+
+    override suspend fun enqueueText(
+        dialogId: String,
+        clientMessageId: String,
+        text: String,
+    ) {
+        withContext(ioDispatcher) {
+            db.messagesQueries.insertOutgoingText(
+                dialogId = dialogId,
+                clientMessageId = clientMessageId,
+                text = text,
+                createdAt = Clock.System.now().toEpochMilliseconds(),
+            )
+        }
+    }
+
+    override suspend fun confirmSent(localId: Long, serverMessage: Message) {
+        withContext(ioDispatcher) {
+            val now = Clock.System.now().toEpochMilliseconds()
+            db.messagesQueries.transaction {
+                serverMessage.file?.let { file -> upsertFile(file, now) }
+                val seq = serverMessage.seq
+                val existing = seq?.let {
+                    db.messagesQueries.selectLocalIdBySeq(it).executeAsOneOrNull()
+                }
+                if (existing != null && existing != localId) {
+                    // Поллинг уже создал строку с этим seq — убираем оптимистичную.
+                    db.messagesQueries.deleteByLocalId(localId)
+                } else {
+                    db.messagesQueries.confirmSentByLocalId(
+                        seq = seq,
+                        senderRole = serverMessage.senderRole.wire,
+                        type = serverMessage.type.wire,
+                        text = serverMessage.text,
+                        eventType = serverMessage.eventType,
+                        payload = serverMessage.payload,
+                        createdAt = serverMessage.createdAt.toEpochMilliseconds(),
+                        fileId = serverMessage.file?.id,
+                        localId = localId,
+                    )
+                }
+            }
+        }
+    }
+
+    override fun observePending(): Flow<List<Message>> =
+        db.messagesQueries.selectPending()
+            .asFlow()
+            .mapToList(ioDispatcher)
+            .map { rows -> rows.map { it.toDomain() } }
+
+    override suspend fun markSending(localId: Long) {
+        withContext(ioDispatcher) {
+            db.messagesQueries.updateSendState(
+                sendState = SendState.SENDING.name,
+                localId = localId,
+            )
+        }
+    }
+
+    override suspend fun markFailed(localId: Long) {
+        withContext(ioDispatcher) {
+            db.messagesQueries.updateSendState(
+                sendState = SendState.FAILED.name,
+                localId = localId,
+            )
+        }
+    }
+
+    override suspend fun retry(localId: Long) {
+        withContext(ioDispatcher) {
+            db.messagesQueries.retryFailed(localId)
+        }
+    }
+
+    override suspend fun resetStuckSending() {
+        withContext(ioDispatcher) {
+            db.messagesQueries.resetStuckSending()
+        }
     }
 
     private fun upsertMessage(message: Message) {

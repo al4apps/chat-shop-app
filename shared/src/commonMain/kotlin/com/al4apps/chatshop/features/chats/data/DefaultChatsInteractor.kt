@@ -14,6 +14,8 @@ class DefaultChatsInteractor(
 
     override fun observeDialogs(): Flow<List<Dialog>> = dialogsRepository.observeDialogs()
 
+    override fun observeDialog(id: String): Flow<Dialog?> = dialogsRepository.observeDialog(id)
+
     override suspend fun hasDialogs(): Boolean = dialogsRepository.hasDialogs()
 
     override suspend fun createDialog(): AppResult<String> =

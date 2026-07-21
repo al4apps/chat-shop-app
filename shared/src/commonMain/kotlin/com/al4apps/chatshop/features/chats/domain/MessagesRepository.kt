@@ -19,4 +19,33 @@ interface MessagesRepository {
      * - метаданные вложений сохраняются в таблицу файлов (без затирания пути кэша).
      */
     suspend fun upsertFromServer(messages: List<Message>)
+
+    /**
+     * Кладёт исходящий TEXT в очередь отправки (`sendState=PENDING`).
+     * UI мгновенно видит сообщение из БД; доставку выполняет OutboxService.
+     */
+    suspend fun enqueueText(dialogId: String, clientMessageId: String, text: String)
+
+    /**
+     * Подтверждает доставку: оптимистичная строка [localId] получает данные сервера
+     * (seq, SYNCED). Сопоставление по `localId`, а не по clientMessageId — не зависит
+     * от того, эхает ли сервер clientMessageId. Если поллинг уже создал строку с этим
+     * `seq`, оптимистичная строка удаляется (каноничной остаётся серверная). Дублей нет.
+     */
+    suspend fun confirmSent(localId: Long, serverMessage: Message)
+
+    /** Поток очереди отправки (PENDING) в порядке создания. */
+    fun observePending(): Flow<List<Message>>
+
+    /** Помечает сообщение отправляемым (SENDING). */
+    suspend fun markSending(localId: Long)
+
+    /** Помечает отправку неуспешной (FAILED, доступен ручной повтор). */
+    suspend fun markFailed(localId: Long)
+
+    /** Возвращает FAILED-сообщение в очередь (тот же clientMessageId — без дублей). */
+    suspend fun retry(localId: Long)
+
+    /** Возвращает застрявшие SENDING в очередь (вызов на старте процесса). */
+    suspend fun resetStuckSending()
 }

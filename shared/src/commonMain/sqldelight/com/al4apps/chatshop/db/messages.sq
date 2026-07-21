@@ -62,3 +62,49 @@ WHERE clientMessageId = :clientMessageId;
 
 maxSeqInDialog:
 SELECT MAX(seq) FROM messages WHERE dialogId = :dialogId;
+
+selectLocalIdBySeq:
+SELECT localId FROM messages WHERE seq = :seq;
+
+-- Подтверждение отправки: наша оптимистичная строка (по localId) получает данные сервера.
+confirmSentByLocalId:
+UPDATE messages SET
+    seq = :seq,
+    senderRole = :senderRole,
+    type = :type,
+    text = :text,
+    eventType = :eventType,
+    payload = :payload,
+    createdAt = :createdAt,
+    sendState = 'SYNCED',
+    fileId = :fileId
+WHERE localId = :localId;
+
+deleteByLocalId:
+DELETE FROM messages WHERE localId = :localId;
+
+-- Исходящий TEXT в очередь отправки (outbox).
+insertOutgoingText:
+INSERT INTO messages(seq, dialogId, clientMessageId, senderRole, type, text,
+    eventType, payload, createdAt, sendState, fileId)
+VALUES (NULL, :dialogId, :clientMessageId, 'CLIENT', 'TEXT', :text,
+    NULL, NULL, :createdAt, 'PENDING', NULL);
+
+-- Очередь отправки в порядке создания (стабильный порядок в рамках диалога).
+selectPending:
+SELECT m.*, f.mime, f.size, f.durationSec, f.status AS fileStatus, f.localPath
+FROM messages m
+LEFT JOIN files f ON f.id = m.fileId
+WHERE m.sendState = 'PENDING'
+ORDER BY m.localId ASC;
+
+updateSendState:
+UPDATE messages SET sendState = :sendState WHERE localId = :localId;
+
+-- Ручной повтор неуспешной отправки.
+retryFailed:
+UPDATE messages SET sendState = 'PENDING' WHERE localId = :localId AND sendState = 'FAILED';
+
+-- Восстановление после смерти процесса посреди отправки (идемпотентно по clientMessageId).
+resetStuckSending:
+UPDATE messages SET sendState = 'PENDING' WHERE sendState = 'SENDING';

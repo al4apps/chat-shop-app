@@ -1,9 +1,18 @@
 package com.al4apps.chatshop.features.chats.dialog
 
-/** Экран диалога. Пока заглушка — лента и отправка появятся на этапе 7. */
+import com.al4apps.chatshop.features.chats.dialog.model.DialogUiState
+import kotlinx.coroutines.flow.StateFlow
+
+/** Экран диалога: лента из БД, отправка текста через outbox. */
 interface DialogComponent {
 
-    val dialogId: String
+    val uiState: StateFlow<DialogUiState>
+
+    fun onInputChange(text: String)
+
+    fun onSendClick()
+
+    fun onRetryClick(localId: Long)
 
     fun onBackClick()
 }

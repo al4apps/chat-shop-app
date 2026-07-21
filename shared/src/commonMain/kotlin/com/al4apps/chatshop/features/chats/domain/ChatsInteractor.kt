@@ -13,6 +13,13 @@ interface ChatsInteractor {
      */
     fun observeDialogs(): Flow<List<Dialog>>
 
+    /**
+     * Поток одного диалога из БД (проекция статуса/заказа).
+     *
+     * @return null в потоке, если диалога нет локально.
+     */
+    fun observeDialog(id: String): Flow<Dialog?>
+
     /** Есть ли хотя бы один диалог локально (роутинг: первый заказ vs список). */
     suspend fun hasDialogs(): Boolean
 

@@ -12,6 +12,27 @@ import androidx.compose.ui.unit.dp
  */
 object AppIcons {
 
+    val Send: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "Send",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+            autoMirror = true,
+        ).apply {
+            path(fill = SolidColor(Color.Black)) {
+                moveTo(2.01f, 21f)
+                lineTo(23f, 12f)
+                lineTo(2.01f, 3f)
+                lineTo(2f, 10f)
+                lineToRelative(15f, 2f)
+                lineToRelative(-15f, 2f)
+                close()
+            }
+        }.build()
+    }
+
     val Plus: ImageVector by lazy {
         ImageVector.Builder(
             name = "Plus",

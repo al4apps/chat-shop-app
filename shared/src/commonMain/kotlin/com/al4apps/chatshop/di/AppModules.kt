@@ -14,10 +14,13 @@ import com.al4apps.chatshop.features.auth.domain.AuthInteractor
 import com.al4apps.chatshop.features.chats.data.ChatsApi
 import com.al4apps.chatshop.features.chats.data.DefaultChatsInteractor
 import com.al4apps.chatshop.features.chats.data.DefaultDialogsRepository
+import com.al4apps.chatshop.features.chats.data.DefaultMessagesInteractor
 import com.al4apps.chatshop.features.chats.data.DefaultMessagesRepository
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
 import com.al4apps.chatshop.features.chats.domain.DialogsRepository
+import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
+import com.al4apps.chatshop.services.outbox.OutboxService
 import com.al4apps.chatshop.services.sync.SyncApi
 import com.al4apps.chatshop.services.sync.SyncService
 import io.ktor.client.HttpClient
@@ -37,6 +40,7 @@ fun appModules(): List<Module> = listOf(
     authModule,
     chatsModule,
     syncModule,
+    outboxModule,
 )
 
 private val coreModule = module {
@@ -77,6 +81,9 @@ private val chatsModule = module {
             dialogsRepository = get(),
         )
     }
+    single<MessagesInteractor> {
+        DefaultMessagesInteractor(messagesRepository = get())
+    }
 }
 
 private val syncModule = module {
@@ -85,6 +92,18 @@ private val syncModule = module {
         SyncService(
             syncApi = get(),
             dialogsRepository = get(),
+            messagesRepository = get(),
+            sessionManager = get(),
+            scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+        )
+    }
+}
+
+private val outboxModule = module {
+    // createdAtStart: сервис ни в кого не инжектится, но должен работать с запуска.
+    single(createdAtStart = true) {
+        OutboxService(
+            chatsApi = get(),
             messagesRepository = get(),
             sessionManager = get(),
             scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),

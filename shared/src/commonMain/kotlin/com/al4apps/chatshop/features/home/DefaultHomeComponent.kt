@@ -3,6 +3,7 @@ package com.al4apps.chatshop.features.home
 import com.al4apps.chatshop.core.arch.CoroutineFeature
 import com.al4apps.chatshop.features.chats.dialog.DefaultDialogComponent
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
+import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.features.chats.firstorder.DefaultFirstOrderComponent
 import com.al4apps.chatshop.features.chats.list.DefaultChatListComponent
 import com.al4apps.chatshop.services.sync.SyncService
@@ -20,6 +21,7 @@ import kotlinx.serialization.Serializable
 class DefaultHomeComponent(
     componentContext: ComponentContext,
     private val chatsInteractor: ChatsInteractor,
+    private val messagesInteractor: MessagesInteractor,
     private val syncService: SyncService,
 ) : HomeComponent, ComponentContext by componentContext {
 
@@ -73,6 +75,9 @@ class DefaultHomeComponent(
             DefaultDialogComponent(
                 componentContext = context,
                 dialogId = config.dialogId,
+                chatsInteractor = chatsInteractor,
+                messagesInteractor = messagesInteractor,
+                syncService = syncService,
                 onBack = navigation::pop,
             ),
         )
