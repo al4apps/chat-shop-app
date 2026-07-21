@@ -39,9 +39,10 @@
     <string name="auth_code_resend_in">Повторная отправка через %1$s с</string>
     <string name="error_network">Нет соединения с сервером</string>
     <string name="error_unknown">Что-то пошло не так. Попробуйте ещё раз</string>
-    <string name="chat_list_title">Чаты</string>
-    <string name="chat_list_new_dialog">Новый диалог</string>
-    <string name="chat_list_empty_title">Пока нет диалогов</string>
+    <string name="chat_list_title">Заказы</string>
+    <string name="chat_list_new_dialog">Новый заказ</string>
+    <string name="chat_list_order_number">Новый заказ %1$s</string>
+    <string name="chat_list_empty_title">Пока нет заказов</string>
     <string name="dialog_status_new">Ожидает оператора</string>
     <string name="dialog_status_assigned">Оператор подключён</string>
     <string name="dialog_status_active">В работе</string>
@@ -52,12 +53,14 @@
     <string name="order_status_completed">Завершён</string>
     <string name="order_status_cancelled">Отменён</string>
     <string name="order_status_unknown">Статус неизвестен</string>
-    <string name="dialog_title">Диалог</string>
+    <string name="dialog_title">Новый заказ</string>
+    <string name="new_order_title">Новый заказ</string>
     <string name="dialog_input_placeholder">Сообщение</string>
     <string name="dialog_send">Отправить</string>
     <string name="dialog_closed_note">Диалог закрыт</string>
     <string name="message_sending">Отправляется…</string>
     <string name="message_failed">Не отправлено. Нажмите, чтобы отправить снова</string>
-    <string name="first_order_stub_title">Опишите ваш заказ</string>
-    <string name="first_order_stub_body">Экран оформления первого заказа появится на этапе 8</string>
+    <string name="first_order_title">Опишите ваш заказ</string>
+    <string name="first_order_subtitle">Напишите, что вам нужно, или запишите голосовое сообщение — оператор ответит в чате</string>
+    <string name="first_order_record">Записать голосовое</string>
 </resources>

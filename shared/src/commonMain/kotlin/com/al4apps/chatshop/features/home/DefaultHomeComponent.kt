@@ -14,6 +14,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -64,11 +65,34 @@ class DefaultHomeComponent(
                 componentContext = context,
                 chatsInteractor = chatsInteractor,
                 onDialogSelected = { dialogId -> navigation.pushNew(Config.Dialog(dialogId)) },
+                onNewOrder = { navigation.pushNew(Config.NewOrder) },
             ),
         )
 
         Config.FirstOrder -> HomeComponent.Child.FirstOrder(
-            DefaultFirstOrderComponent(componentContext = context),
+            DefaultFirstOrderComponent(
+                componentContext = context,
+                chatsInteractor = chatsInteractor,
+                messagesInteractor = messagesInteractor,
+                // Первый заказ — корень (списка ещё нет). После отправки: список + диалог.
+                onOrderStarted = { dialogId ->
+                    navigation.replaceAll(Config.ChatList, Config.Dialog(dialogId))
+                },
+            ),
+        )
+
+        Config.NewOrder -> HomeComponent.Child.FirstOrder(
+            DefaultFirstOrderComponent(
+                componentContext = context,
+                chatsInteractor = chatsInteractor,
+                messagesInteractor = messagesInteractor,
+                // Открыт поверх списка через «+». Диалог создаётся лениво — только при
+                // отправке; выход назад без отправки не плодит пустых диалогов.
+                onOrderStarted = { dialogId ->
+                    navigation.replaceCurrent(Config.Dialog(dialogId))
+                },
+                onBack = navigation::pop,
+            ),
         )
 
         is Config.Dialog -> HomeComponent.Child.Dialog(
@@ -94,6 +118,10 @@ class DefaultHomeComponent(
 
         @Serializable
         data object FirstOrder : Config
+
+        // Новый заказ, открытый через «+» поверх списка (ленивое создание диалога).
+        @Serializable
+        data object NewOrder : Config
 
         @Serializable
         data class Dialog(val dialogId: String) : Config

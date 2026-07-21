@@ -1,7 +1,7 @@
 package com.al4apps.chatshop.features.chats.list
 
 import chatshop.shared.generated.resources.Res
-import chatshop.shared.generated.resources.chat_list_new_dialog
+import chatshop.shared.generated.resources.chat_list_order_number
 import chatshop.shared.generated.resources.dialog_status_active
 import chatshop.shared.generated.resources.dialog_status_assigned
 import chatshop.shared.generated.resources.dialog_status_closed
@@ -19,26 +19,33 @@ import com.al4apps.chatshop.features.chats.domain.model.DialogStatus
 import com.al4apps.chatshop.features.chats.domain.model.OrderStatus
 import com.al4apps.chatshop.features.chats.list.model.ChatListItemUiState
 import com.al4apps.chatshop.features.chats.list.model.ChatListUiState
-import com.al4apps.chatshop.features.chats.list.model.ChatListVmState
 import kotlinx.collections.immutable.toImmutableList
 
-/** Собирает uiState списка из vmState и диалогов БД. */
+/** Собирает uiState списка из диалогов БД. */
 class ChatListAssembler {
 
-    fun assemble(vmState: ChatListVmState, dialogs: List<Dialog>): ChatListUiState =
-        ChatListUiState(
-            items = dialogs.map { it.toItem() }.toImmutableList(),
-            isEmpty = dialogs.isEmpty(),
-            isCreating = vmState.isCreating,
-            error = vmState.error,
-        )
+    fun assemble(dialogs: List<Dialog>): ChatListUiState {
+        // Порядковый номер заказа без описания — по времени создания (createdAt неизменен),
+        // поэтому номер стабилен независимо от сортировки списка по активности.
+        val orderNumberById = dialogs
+            .sortedBy { it.createdAt }
+            .withIndex()
+            .associate { (index, dialog) -> dialog.id to (index + 1) }
 
-    private fun Dialog.toItem(): ChatListItemUiState = ChatListItemUiState(
+        return ChatListUiState(
+            items = dialogs
+                .map { it.toItem(orderNumberById[it.id] ?: 0) }
+                .toImmutableList(),
+            isEmpty = dialogs.isEmpty(),
+        )
+    }
+
+    private fun Dialog.toItem(orderNumber: Int): ChatListItemUiState = ChatListItemUiState(
         id = id,
         title = orderDescription
             ?.takeIf { it.isNotBlank() }
             ?.let { UiText(it) }
-            ?: UiText(Res.string.chat_list_new_dialog),
+            ?: UiText(Res.string.chat_list_order_number, orderNumber.toString()),
         subtitle = orderStatus?.toUiText() ?: status.toUiText(),
         timestamp = (lastMessageAt ?: createdAt).toListTimestamp(),
     )

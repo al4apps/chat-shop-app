@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -27,15 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import chatshop.shared.generated.resources.Res
 import chatshop.shared.generated.resources.dialog_closed_note
-import chatshop.shared.generated.resources.dialog_input_placeholder
-import chatshop.shared.generated.resources.dialog_send
 import chatshop.shared.generated.resources.message_failed
 import chatshop.shared.generated.resources.message_sending
-import com.al4apps.chatshop.core.design.icons.AppIcons
 import com.al4apps.chatshop.core.design.theme.AppTheme
-import com.al4apps.chatshop.core.design.widgets.AppIconButton
-import com.al4apps.chatshop.core.design.widgets.AppTextField
 import com.al4apps.chatshop.core.design.widgets.AppTopBar
+import com.al4apps.chatshop.core.design.widgets.MessageInputBar
 import com.al4apps.chatshop.core.ui.resolve
 import com.al4apps.chatshop.features.chats.dialog.DialogComponent
 import com.al4apps.chatshop.features.chats.dialog.model.MessageItemUiState
@@ -92,44 +87,13 @@ fun DialogScreen(
                 textAlign = TextAlign.Center,
             )
         } else {
-            InputRow(
+            MessageInputBar(
                 text = uiState.inputText,
                 isSendEnabled = uiState.isSendEnabled,
                 onTextChange = component::onInputChange,
                 onSendClick = component::onSendClick,
             )
         }
-    }
-}
-
-@Composable
-private fun InputRow(
-    text: String,
-    isSendEnabled: Boolean,
-    onTextChange: (String) -> Unit,
-    onSendClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.Bottom,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        AppTextField(
-            value = text,
-            onValueChange = onTextChange,
-            modifier = Modifier.weight(1f),
-            placeholder = stringResource(Res.string.dialog_input_placeholder),
-        )
-        AppIconButton(
-            icon = AppIcons.Send,
-            contentDescription = stringResource(Res.string.dialog_send),
-            onClick = onSendClick,
-            enabled = isSendEnabled,
-            tint = AppTheme.colors.accent,
-        )
     }
 }
 

@@ -53,19 +53,10 @@ fun ChatListScreen(
                     icon = AppIcons.Plus,
                     contentDescription = stringResource(Res.string.chat_list_new_dialog),
                     onClick = component::onNewDialogClick,
-                    enabled = !uiState.isCreating,
                     tint = AppTheme.colors.accent,
                 )
             },
         )
-        uiState.error?.let { error ->
-            Text(
-                text = error.resolve(),
-                style = AppTheme.typography.caption,
-                color = AppTheme.colors.error,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-            )
-        }
         if (uiState.isEmpty) {
             Box(
                 modifier = Modifier.fillMaxSize(),
