@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.features.home
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
+import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.features.chats.dialog.DefaultDialogComponent
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
@@ -24,6 +25,7 @@ class DefaultHomeComponent(
     private val chatsInteractor: ChatsInteractor,
     private val messagesInteractor: MessagesInteractor,
     private val syncService: SyncService,
+    private val imagePicker: ImagePicker,
 ) : HomeComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -102,6 +104,7 @@ class DefaultHomeComponent(
                 chatsInteractor = chatsInteractor,
                 messagesInteractor = messagesInteractor,
                 syncService = syncService,
+                imagePicker = imagePicker,
                 onBack = navigation::pop,
             ),
         )

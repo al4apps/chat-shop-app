@@ -27,6 +27,19 @@ interface MessagesRepository {
     suspend fun enqueueText(dialogId: String, clientMessageId: String, text: String)
 
     /**
+     * Кладёт исходящее IMAGE в очередь отправки. Байты уже сохранены в FileStore под
+     * [fileId]; создаётся локальная запись файла и сообщение `type=IMAGE, PENDING`.
+     */
+    suspend fun enqueueImage(
+        dialogId: String,
+        clientMessageId: String,
+        fileId: String,
+        mime: String,
+        size: Long,
+        localPath: String,
+    )
+
+    /**
      * Подтверждает доставку: оптимистичная строка [localId] получает данные сервера
      * (seq, SYNCED). Сопоставление по `localId`, а не по clientMessageId — не зависит
      * от того, эхает ли сервер clientMessageId. Если поллинг уже создал строку с этим

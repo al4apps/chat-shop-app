@@ -6,8 +6,12 @@ import com.al4apps.chatshop.features.chats.data.dto.DialogDto
 import com.al4apps.chatshop.features.chats.data.dto.MessageDto
 import com.al4apps.chatshop.features.chats.data.dto.SendMessageRequest
 import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 
 /** Действия фичи чатов (чтение — в SyncApi). */
 class ChatsApi(
@@ -30,5 +34,32 @@ class ChatsApi(
         client.post("dialogs/$dialogId/messages") {
             setBody(request)
         }
+    }
+
+    /**
+     * Загрузка изображения (multipart, CLIENT_GUIDE §8). Идемпотентна по [clientMessageId].
+     */
+    suspend fun sendImage(
+        dialogId: String,
+        bytes: ByteArray,
+        mime: String,
+        fileName: String,
+        clientMessageId: String,
+    ): AppResult<MessageDto> = apiCall {
+        client.submitFormWithBinaryData(
+            url = "dialogs/$dialogId/files",
+            formData = formData {
+                append("type", "IMAGE")
+                append("clientMessageId", clientMessageId)
+                append(
+                    key = "file",
+                    value = bytes,
+                    headers = Headers.build {
+                        append(HttpHeaders.ContentType, mime)
+                        append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
+                    },
+                )
+            },
+        )
     }
 }

@@ -79,6 +79,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.collections.immutable)
+            implementation(libs.coil.compose)
             implementation(libs.ksafe)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.contentNegotiation)

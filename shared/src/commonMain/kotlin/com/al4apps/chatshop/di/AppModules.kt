@@ -14,10 +14,12 @@ import com.al4apps.chatshop.features.auth.domain.AuthInteractor
 import com.al4apps.chatshop.features.chats.data.ChatsApi
 import com.al4apps.chatshop.features.chats.data.DefaultChatsInteractor
 import com.al4apps.chatshop.features.chats.data.DefaultDialogsRepository
+import com.al4apps.chatshop.features.chats.data.DefaultFilesRepository
 import com.al4apps.chatshop.features.chats.data.DefaultMessagesInteractor
 import com.al4apps.chatshop.features.chats.data.DefaultMessagesRepository
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
 import com.al4apps.chatshop.features.chats.domain.DialogsRepository
+import com.al4apps.chatshop.features.chats.domain.FilesRepository
 import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
 import com.al4apps.chatshop.services.outbox.OutboxService
@@ -74,6 +76,7 @@ private val dbModule = module {
 private val chatsModule = module {
     single<DialogsRepository> { DefaultDialogsRepository(db = get()) }
     single<MessagesRepository> { DefaultMessagesRepository(db = get()) }
+    single<FilesRepository> { DefaultFilesRepository(db = get()) }
     single { ChatsApi(client = get()) }
     single<ChatsInteractor> {
         DefaultChatsInteractor(
@@ -82,7 +85,10 @@ private val chatsModule = module {
         )
     }
     single<MessagesInteractor> {
-        DefaultMessagesInteractor(messagesRepository = get())
+        DefaultMessagesInteractor(
+            messagesRepository = get(),
+            fileStore = get(),
+        )
     }
 }
 
@@ -105,6 +111,8 @@ private val outboxModule = module {
         OutboxService(
             chatsApi = get(),
             messagesRepository = get(),
+            filesRepository = get(),
+            fileStore = get(),
             sessionManager = get(),
             scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
         )

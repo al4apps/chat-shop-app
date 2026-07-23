@@ -9,6 +9,7 @@ import com.al4apps.chatshop.features.chats.dialog.model.DialogVmState
 import com.al4apps.chatshop.features.chats.dialog.model.MessageItemUiState
 import com.al4apps.chatshop.features.chats.domain.model.Dialog
 import com.al4apps.chatshop.features.chats.domain.model.DialogStatus
+import com.al4apps.chatshop.features.chats.domain.model.FileStatus
 import com.al4apps.chatshop.features.chats.domain.model.Message
 import com.al4apps.chatshop.features.chats.domain.model.MessageType
 import com.al4apps.chatshop.features.chats.domain.model.SendState
@@ -41,6 +42,9 @@ class DialogAssembler {
         text = text.orEmpty(),
         isMine = senderRole == SenderRole.CLIENT,
         isSystem = type == MessageType.SYSTEM,
+        isImage = type == MessageType.IMAGE,
+        imagePath = file?.localPath,
+        isFileDeleted = file?.status == FileStatus.DELETED,
         time = createdAt.toClockLabel(),
         isSending = sendState == SendState.PENDING || sendState == SendState.SENDING,
         isFailed = sendState == SendState.FAILED,

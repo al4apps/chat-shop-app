@@ -12,6 +12,9 @@ interface DialogComponent {
 
     fun onSendClick()
 
+    /** Прикрепить изображение: системный пикер → отправка через outbox. */
+    fun onAttachClick()
+
     fun onRetryClick(localId: Long)
 
     fun onBackClick()

@@ -1,5 +1,6 @@
 package com.al4apps.chatshop.features.chats.domain
 
+import com.al4apps.chatshop.core.media.PickedImage
 import com.al4apps.chatshop.features.chats.domain.model.Message
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +19,12 @@ interface MessagesInteractor {
      * доставку выполняет OutboxService, ретраи — тем же id (без дублей).
      */
     suspend fun sendText(dialogId: String, text: String)
+
+    /**
+     * Отправляет изображение: сжимает в JPEG ≤5 МБ, сохраняет в локальный кэш и кладёт
+     * в очередь отправки. В ленте появляется мгновенно; доставку выполняет OutboxService.
+     */
+    suspend fun sendImage(dialogId: String, image: PickedImage)
 
     /** Возвращает неотправленное (FAILED) сообщение в очередь отправки. */
     suspend fun retryMessage(localId: Long)

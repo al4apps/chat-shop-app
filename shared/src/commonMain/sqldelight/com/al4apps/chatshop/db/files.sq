@@ -14,6 +14,11 @@ CREATE TABLE files (
 selectById:
 SELECT * FROM files WHERE id = :id;
 
+-- Локальный файл исходящего сообщения (байты уже в FileStore).
+insertLocal:
+INSERT OR REPLACE INTO files(id, mime, size, durationSec, status, localPath, updatedAt)
+VALUES (:id, :mime, :size, :durationSec, 'ACTIVE', :localPath, :updatedAt);
+
 -- Метаданные с сервера = insertOrIgnore + updateFromServer в транзакции;
 -- локальный путь кэша не затирается.
 insertOrIgnore:

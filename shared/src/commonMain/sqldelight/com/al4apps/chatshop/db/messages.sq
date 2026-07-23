@@ -90,6 +90,13 @@ INSERT INTO messages(seq, dialogId, clientMessageId, senderRole, type, text,
 VALUES (NULL, :dialogId, :clientMessageId, 'CLIENT', 'TEXT', :text,
     NULL, NULL, :createdAt, 'PENDING', NULL);
 
+-- Исходящее IMAGE-сообщение (байты уже сохранены локально, fileId — локальный).
+insertOutgoingImage:
+INSERT INTO messages(seq, dialogId, clientMessageId, senderRole, type, text,
+    eventType, payload, createdAt, sendState, fileId)
+VALUES (NULL, :dialogId, :clientMessageId, 'CLIENT', 'IMAGE', NULL,
+    NULL, NULL, :createdAt, 'PENDING', :fileId);
+
 -- Очередь отправки в порядке создания (стабильный порядок в рамках диалога).
 selectPending:
 SELECT m.*, f.mime, f.size, f.durationSec, f.status AS fileStatus, f.localPath

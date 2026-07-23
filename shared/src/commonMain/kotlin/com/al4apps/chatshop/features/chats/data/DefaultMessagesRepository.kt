@@ -100,6 +100,35 @@ class DefaultMessagesRepository(
         }
     }
 
+    override suspend fun enqueueImage(
+        dialogId: String,
+        clientMessageId: String,
+        fileId: String,
+        mime: String,
+        size: Long,
+        localPath: String,
+    ) {
+        withContext(ioDispatcher) {
+            val now = Clock.System.now().toEpochMilliseconds()
+            db.messagesQueries.transaction {
+                db.filesQueries.insertLocal(
+                    id = fileId,
+                    mime = mime,
+                    size = size,
+                    durationSec = null,
+                    localPath = localPath,
+                    updatedAt = now,
+                )
+                db.messagesQueries.insertOutgoingImage(
+                    dialogId = dialogId,
+                    clientMessageId = clientMessageId,
+                    createdAt = now,
+                    fileId = fileId,
+                )
+            }
+        }
+    }
+
     override fun observePending(): Flow<List<Message>> =
         db.messagesQueries.selectPending()
             .asFlow()

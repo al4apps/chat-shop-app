@@ -25,6 +25,7 @@ fun MainViewController(): UIViewController {
         syncService = koin.get(),
         chatsInteractor = koin.get(),
         messagesInteractor = koin.get(),
+        imagePicker = koin.get(),
     )
 
     return ComposeUIViewController {

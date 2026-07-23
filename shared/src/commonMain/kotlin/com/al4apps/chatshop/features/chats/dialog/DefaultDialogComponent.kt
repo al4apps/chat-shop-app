@@ -2,6 +2,7 @@ package com.al4apps.chatshop.features.chats.dialog
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
 import com.al4apps.chatshop.core.arch.StateStore
+import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.features.chats.dialog.model.DialogUiState
 import com.al4apps.chatshop.features.chats.dialog.model.DialogVmState
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
@@ -21,6 +22,7 @@ class DefaultDialogComponent(
     private val chatsInteractor: ChatsInteractor,
     private val messagesInteractor: MessagesInteractor,
     private val syncService: SyncService,
+    private val imagePicker: ImagePicker,
     private val onBack: () -> Unit,
     private val assembler: DialogAssembler = DialogAssembler(),
 ) : DialogComponent, ComponentContext by componentContext {
@@ -67,6 +69,13 @@ class DefaultDialogComponent(
         store.update { it.copy(inputText = "") }
         scope.launch {
             messagesInteractor.sendText(dialogId = dialogId, text = text)
+        }
+    }
+
+    override fun onAttachClick() {
+        scope.launch {
+            val image = imagePicker.pickImage() ?: return@launch
+            messagesInteractor.sendImage(dialogId = dialogId, image = image)
         }
     }
 
