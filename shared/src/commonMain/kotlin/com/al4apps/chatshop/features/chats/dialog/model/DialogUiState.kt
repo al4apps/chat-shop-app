@@ -13,4 +13,6 @@ data class DialogUiState(
     val isSendEnabled: Boolean,
     /** Диалог закрыт — ввод недоступен. */
     val isInputBlocked: Boolean,
+    /** Открытое на весь экран изображение; null — просмотр закрыт. */
+    val fullscreenImagePath: String?,
 )

@@ -13,3 +13,6 @@ const val KSAFE_VAULT = "vault"
 
 /** Квалификатор KSafe-инстанса для настроек (не-секреты), Plain-записи. */
 const val KSAFE_PREFS = "prefs"
+
+/** Квалификатор HTTP-клиента без Auth (скачивание presigned-файлов). */
+const val PLAIN_HTTP_CLIENT = "plainHttpClient"

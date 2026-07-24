@@ -6,4 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DialogVmState(
     val inputText: String = "",
+    /** Путь изображения, открытого на весь экран; null — просмотр закрыт. */
+    val fullscreenImagePath: String? = null,
 )

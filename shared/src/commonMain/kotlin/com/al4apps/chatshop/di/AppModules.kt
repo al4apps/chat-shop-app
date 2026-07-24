@@ -22,10 +22,12 @@ import com.al4apps.chatshop.features.chats.domain.DialogsRepository
 import com.al4apps.chatshop.features.chats.domain.FilesRepository
 import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
+import com.al4apps.chatshop.services.files.FileDownloadService
 import com.al4apps.chatshop.services.outbox.OutboxService
 import com.al4apps.chatshop.services.sync.SyncApi
 import com.al4apps.chatshop.services.sync.SyncService
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -43,6 +45,7 @@ fun appModules(): List<Module> = listOf(
     chatsModule,
     syncModule,
     outboxModule,
+    filesModule,
 )
 
 private val coreModule = module {
@@ -66,6 +69,12 @@ private val networkModule = module {
             tokenStorage = get(),
             sessionManager = get(),
         ).create()
+    }
+    // Плейн-клиент без Auth — для скачивания presigned-файлов (§8: GET без Authorization).
+    single<HttpClient>(named(PLAIN_HTTP_CLIENT)) {
+        HttpClient(get<HttpClientEngine>()) {
+            expectSuccess = false
+        }
     }
 }
 
@@ -111,6 +120,19 @@ private val outboxModule = module {
         OutboxService(
             chatsApi = get(),
             messagesRepository = get(),
+            filesRepository = get(),
+            fileStore = get(),
+            sessionManager = get(),
+            scope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+        )
+    }
+}
+
+private val filesModule = module {
+    // createdAtStart: скачиватель ни в кого не инжектится, работает с запуска.
+    single(createdAtStart = true) {
+        FileDownloadService(
+            plainClient = get(named(PLAIN_HTTP_CLIENT)),
             filesRepository = get(),
             fileStore = get(),
             sessionManager = get(),

@@ -57,6 +57,7 @@ fun FileDto.toDomain(): AttachedFile = AttachedFile(
     durationSec = durationSec,
     status = FileStatus.fromWire(status),
     localPath = null,
+    remoteUrl = url,
 )
 
 private fun parseInstantOrNull(value: String): Instant? = try {

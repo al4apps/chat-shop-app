@@ -34,6 +34,7 @@ class DialogAssembler {
             inputText = vmState.inputText,
             isSendEnabled = vmState.inputText.isNotBlank() && !isClosed,
             isInputBlocked = isClosed,
+            fullscreenImagePath = vmState.fullscreenImagePath,
         )
     }
 

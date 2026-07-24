@@ -9,6 +9,7 @@ import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.services.sync.SyncService
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,7 +43,14 @@ class DefaultDialogComponent(
 
     override val uiState: StateFlow<DialogUiState> = mutableUiState.asStateFlow()
 
+    // «Назад» при открытом полноэкранном просмотре закрывает его, а не экран.
+    private val fullscreenBackCallback = BackCallback(isEnabled = false) {
+        onFullscreenDismiss()
+    }
+
     init {
+        backHandler.register(fullscreenBackCallback)
+
         // Частый поллинг ленты — только пока экран открыт.
         syncService.onDialogOpened(dialogId)
         lifecycle.doOnDestroy { syncService.onDialogClosed() }
@@ -54,7 +62,10 @@ class DefaultDialogComponent(
                 messagesInteractor.observeMessages(dialogId),
             ) { vmState, dialog, messages ->
                 assembler.assemble(vmState, dialog, messages)
-            }.collect { mutableUiState.value = it }
+            }.collect {
+                mutableUiState.value = it
+                fullscreenBackCallback.isEnabled = it.fullscreenImagePath != null
+            }
         }
     }
 
@@ -77,6 +88,14 @@ class DefaultDialogComponent(
             val image = imagePicker.pickImage() ?: return@launch
             messagesInteractor.sendImage(dialogId = dialogId, image = image)
         }
+    }
+
+    override fun onImageClick(imagePath: String) {
+        store.update { it.copy(fullscreenImagePath = imagePath) }
+    }
+
+    override fun onFullscreenDismiss() {
+        store.update { it.copy(fullscreenImagePath = null) }
     }
 
     override fun onRetryClick(localId: Long) {

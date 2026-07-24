@@ -1,5 +1,6 @@
--- Метаданные вложений. Presigned url НЕ хранится (временный, CLIENT_GUIDE §8);
--- localPath — путь к локальному кэшу по стабильному file.id.
+-- Метаданные вложений. localPath — путь к локальному кэшу по стабильному file.id.
+-- remoteUrl — последний известный presigned (временный, CLIENT_GUIDE §8): перезаписывается
+-- при каждом опросе, используется скачивателем, постоянным не считается.
 
 CREATE TABLE files (
     id TEXT PRIMARY KEY NOT NULL,
@@ -8,6 +9,7 @@ CREATE TABLE files (
     durationSec INTEGER,
     status TEXT NOT NULL,
     localPath TEXT,
+    remoteUrl TEXT,
     updatedAt INTEGER NOT NULL
 );
 
@@ -16,14 +18,14 @@ SELECT * FROM files WHERE id = :id;
 
 -- Локальный файл исходящего сообщения (байты уже в FileStore).
 insertLocal:
-INSERT OR REPLACE INTO files(id, mime, size, durationSec, status, localPath, updatedAt)
-VALUES (:id, :mime, :size, :durationSec, 'ACTIVE', :localPath, :updatedAt);
+INSERT OR REPLACE INTO files(id, mime, size, durationSec, status, localPath, remoteUrl, updatedAt)
+VALUES (:id, :mime, :size, :durationSec, 'ACTIVE', :localPath, NULL, :updatedAt);
 
 -- Метаданные с сервера = insertOrIgnore + updateFromServer в транзакции;
 -- локальный путь кэша не затирается.
 insertOrIgnore:
-INSERT OR IGNORE INTO files(id, mime, size, durationSec, status, updatedAt)
-VALUES (:id, :mime, :size, :durationSec, :status, :updatedAt);
+INSERT OR IGNORE INTO files(id, mime, size, durationSec, status, remoteUrl, updatedAt)
+VALUES (:id, :mime, :size, :durationSec, :status, :remoteUrl, :updatedAt);
 
 updateFromServer:
 UPDATE files SET
@@ -31,8 +33,14 @@ UPDATE files SET
     size = :size,
     durationSec = :durationSec,
     status = :status,
+    remoteUrl = :remoteUrl,
     updatedAt = :updatedAt
 WHERE id = :id;
 
 updateLocalPath:
 UPDATE files SET localPath = :localPath WHERE id = :id;
+
+-- Файлы, которые нужно скачать: активны, ещё нет локального кэша, есть свежий url.
+selectDownloadable:
+SELECT id, remoteUrl FROM files
+WHERE status = 'ACTIVE' AND localPath IS NULL AND remoteUrl IS NOT NULL;

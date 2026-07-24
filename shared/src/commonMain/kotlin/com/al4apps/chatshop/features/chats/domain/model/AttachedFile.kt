@@ -12,4 +12,6 @@ data class AttachedFile(
     val status: FileStatus,
     /** Путь в локальном кэше; null — ещё не скачан. */
     val localPath: String?,
+    /** Временная presigned-ссылка с сервера (для скачивания); в UI не используется. */
+    val remoteUrl: String? = null,
 )

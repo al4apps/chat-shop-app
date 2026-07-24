@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -57,56 +58,85 @@ fun DialogScreen(
         }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .imePadding(),
-    ) {
-        AppTopBar(
-            title = uiState.title.resolve(),
-            onBackClick = component::onBackClick,
-        )
-        LazyColumn(
-            state = listState,
-            reverseLayout = true,
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+                .fillMaxSize()
+                .imePadding(),
         ) {
-            items(items = uiState.items, key = { it.localId }) { item ->
-                MessageRow(
-                    item = item,
-                    onRetryClick = { component.onRetryClick(item.localId) },
+            AppTopBar(
+                title = uiState.title.resolve(),
+                onBackClick = component::onBackClick,
+            )
+            LazyColumn(
+                state = listState,
+                reverseLayout = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(items = uiState.items, key = { it.localId }) { item ->
+                    MessageRow(
+                        item = item,
+                        onRetryClick = { component.onRetryClick(item.localId) },
+                        onImageClick = component::onImageClick,
+                    )
+                }
+            }
+            if (uiState.isInputBlocked) {
+                Text(
+                    text = stringResource(Res.string.dialog_closed_note),
+                    style = AppTheme.typography.caption,
+                    color = AppTheme.colors.textSecondary,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    textAlign = TextAlign.Center,
+                )
+            } else {
+                MessageInputBar(
+                    text = uiState.inputText,
+                    isSendEnabled = uiState.isSendEnabled,
+                    onTextChange = component::onInputChange,
+                    onSendClick = component::onSendClick,
+                    onAttachClick = component::onAttachClick,
                 )
             }
         }
-        if (uiState.isInputBlocked) {
-            Text(
-                text = stringResource(Res.string.dialog_closed_note),
-                style = AppTheme.typography.caption,
-                color = AppTheme.colors.textSecondary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                textAlign = TextAlign.Center,
-            )
-        } else {
-            MessageInputBar(
-                text = uiState.inputText,
-                isSendEnabled = uiState.isSendEnabled,
-                onTextChange = component::onInputChange,
-                onSendClick = component::onSendClick,
-                onAttachClick = component::onAttachClick,
-            )
+        uiState.fullscreenImagePath?.let { path ->
+            FullscreenImage(path = path, onDismiss = component::onFullscreenDismiss)
         }
+    }
+}
+
+@Composable
+private fun FullscreenImage(
+    path: String,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .clickable(onClick = onDismiss),
+        contentAlignment = Alignment.Center,
+    ) {
+        AsyncImage(
+            model = path.toPath(),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize(),
+        )
     }
 }
 
 @Composable
 private fun ImageContent(
     item: MessageItemUiState,
+    onImageClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val shape = AppTheme.shapes.medium
@@ -128,7 +158,9 @@ private fun ImageContent(
                 model = item.imagePath.toPath(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onImageClick(item.imagePath) },
             )
 
             else -> CircularProgressIndicator(color = AppTheme.colors.accent)
@@ -140,11 +172,17 @@ private fun ImageContent(
 private fun MessageRow(
     item: MessageItemUiState,
     onRetryClick: () -> Unit,
+    onImageClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when {
         item.isSystem -> SystemMessage(item = item, modifier = modifier)
-        else -> ChatBubble(item = item, onRetryClick = onRetryClick, modifier = modifier)
+        else -> ChatBubble(
+            item = item,
+            onRetryClick = onRetryClick,
+            onImageClick = onImageClick,
+            modifier = modifier,
+        )
     }
 }
 
@@ -176,6 +214,7 @@ private fun SystemMessage(
 private fun ChatBubble(
     item: MessageItemUiState,
     onRetryClick: () -> Unit,
+    onImageClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -195,7 +234,7 @@ private fun ChatBubble(
                 ),
         ) {
             if (item.isImage) {
-                ImageContent(item = item)
+                ImageContent(item = item, onImageClick = onImageClick)
             } else {
                 Text(
                     text = item.text,

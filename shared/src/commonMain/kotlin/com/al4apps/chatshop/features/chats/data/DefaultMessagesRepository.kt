@@ -44,6 +44,7 @@ class DefaultMessagesRepository(
             size = file.size,
             durationSec = file.durationSec?.toLong(),
             status = file.status.wire,
+            remoteUrl = file.remoteUrl,
             updatedAt = updatedAt,
         )
         db.filesQueries.updateFromServer(
@@ -52,6 +53,7 @@ class DefaultMessagesRepository(
             size = file.size,
             durationSec = file.durationSec?.toLong(),
             status = file.status.wire,
+            remoteUrl = file.remoteUrl,
             updatedAt = updatedAt,
         )
     }

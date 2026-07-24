@@ -15,6 +15,12 @@ interface DialogComponent {
     /** Прикрепить изображение: системный пикер → отправка через outbox. */
     fun onAttachClick()
 
+    /** Открыть изображение на весь экран. */
+    fun onImageClick(imagePath: String)
+
+    /** Закрыть полноэкранный просмотр. */
+    fun onFullscreenDismiss()
+
     fun onRetryClick(localId: Long)
 
     fun onBackClick()
