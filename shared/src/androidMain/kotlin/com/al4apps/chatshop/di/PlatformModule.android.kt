@@ -1,7 +1,9 @@
 package com.al4apps.chatshop.di
 
 import com.al4apps.chatshop.core.db.DatabaseFactory
+import com.al4apps.chatshop.core.media.AndroidAudioRecorder
 import com.al4apps.chatshop.core.media.AndroidImagePicker
+import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.core.network.ApiConfig
@@ -26,4 +28,5 @@ actual val platformModule: Module = module {
     single { DatabaseFactory(context = androidContext().applicationContext) }
     single { FileStore(context = androidContext().applicationContext) }
     single<ImagePicker> { AndroidImagePicker() }
+    single<AudioRecorder> { AndroidAudioRecorder(context = androidContext().applicationContext) }
 }

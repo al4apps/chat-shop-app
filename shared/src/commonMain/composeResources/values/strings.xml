@@ -58,7 +58,11 @@
     <string name="dialog_input_placeholder">Сообщение</string>
     <string name="dialog_send">Отправить</string>
     <string name="dialog_attach">Прикрепить фото</string>
+    <string name="dialog_record">Записать голосовое</string>
+    <string name="dialog_record_stop">Остановить и отправить</string>
+    <string name="dialog_record_cancel">Отменить запись</string>
     <string name="message_image_deleted">Файл удалён</string>
+    <string name="message_voice">Голосовое сообщение</string>
     <string name="dialog_closed_note">Диалог закрыт</string>
     <string name="message_sending">Отправляется…</string>
     <string name="message_failed">Не отправлено. Нажмите, чтобы отправить снова</string>

@@ -26,6 +26,7 @@ fun MainViewController(): UIViewController {
         chatsInteractor = koin.get(),
         messagesInteractor = koin.get(),
         imagePicker = koin.get(),
+        audioRecorder = koin.get(),
     )
 
     return ComposeUIViewController {

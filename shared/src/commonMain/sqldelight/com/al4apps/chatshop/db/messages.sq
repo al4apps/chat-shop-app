@@ -97,6 +97,13 @@ INSERT INTO messages(seq, dialogId, clientMessageId, senderRole, type, text,
 VALUES (NULL, :dialogId, :clientMessageId, 'CLIENT', 'IMAGE', NULL,
     NULL, NULL, :createdAt, 'PENDING', :fileId);
 
+-- Исходящее VOICE-сообщение (байты уже сохранены локально, fileId — локальный).
+insertOutgoingVoice:
+INSERT INTO messages(seq, dialogId, clientMessageId, senderRole, type, text,
+    eventType, payload, createdAt, sendState, fileId)
+VALUES (NULL, :dialogId, :clientMessageId, 'CLIENT', 'VOICE', NULL,
+    NULL, NULL, :createdAt, 'PENDING', :fileId);
+
 -- Очередь отправки в порядке создания (стабильный порядок в рамках диалога).
 selectPending:
 SELECT m.*, f.mime, f.size, f.durationSec, f.status AS fileStatus, f.localPath

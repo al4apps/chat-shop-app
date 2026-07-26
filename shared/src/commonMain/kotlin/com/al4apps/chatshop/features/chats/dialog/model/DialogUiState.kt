@@ -15,4 +15,8 @@ data class DialogUiState(
     val isInputBlocked: Boolean,
     /** Открытое на весь экран изображение; null — просмотр закрыт. */
     val fullscreenImagePath: String?,
+    /** Доступна ли запись голосовых на платформе. */
+    val canRecord: Boolean,
+    val isRecording: Boolean,
+    val recordingSeconds: Int,
 )

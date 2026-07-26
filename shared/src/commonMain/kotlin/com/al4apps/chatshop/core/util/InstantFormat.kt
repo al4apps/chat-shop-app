@@ -27,4 +27,10 @@ fun Instant.toClockLabel(timeZone: TimeZone = TimeZone.currentSystemDefault()): 
     return "${pad(local.hour)}:${pad(local.minute)}"
 }
 
+/** Секунды → `mm:ss` (таймер записи и длительность голосового). */
+fun formatSeconds(totalSeconds: Int): String {
+    val safe = totalSeconds.coerceAtLeast(0)
+    return "${pad(safe / 60)}:${pad(safe % 60)}"
+}
+
 private fun pad(value: Int): String = value.toString().padStart(2, '0')

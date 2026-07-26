@@ -64,8 +64,8 @@ class OutboxService(
             return
         }
 
-        // Для IMAGE заранее читаем локальные байты (потеря файла → FAILED).
-        val imageBytes: ByteArray? = if (message.type == MessageType.IMAGE) {
+        // Для файловых сообщений заранее читаем локальные байты (потеря файла → FAILED).
+        val fileBytes: ByteArray? = if (message.type == MessageType.IMAGE || message.type == MessageType.VOICE) {
             val bytes = message.file?.id?.let { fileStore.readBytes(it) }
             if (bytes == null) {
                 messagesRepository.markFailed(message.localId)
@@ -80,7 +80,7 @@ class OutboxService(
 
         var attempt = 0
         while (true) {
-            val result = send(message, clientMessageId, imageBytes)
+            val result = send(message, clientMessageId, fileBytes)
             when (result) {
                 is AppResult.Success -> {
                     val serverMessage = result.value.toDomainOrNull()
@@ -89,8 +89,8 @@ class OutboxService(
                         return
                     }
                     messagesRepository.confirmSent(message.localId, serverMessage)
-                    if (imageBytes != null) {
-                        associateLocalImage(serverMessage, imageBytes)
+                    if (fileBytes != null) {
+                        associateLocalFile(serverMessage, fileBytes)
                     }
                     return
                 }
@@ -117,17 +117,26 @@ class OutboxService(
     private suspend fun send(
         message: Message,
         clientMessageId: String,
-        imageBytes: ByteArray?,
-    ): AppResult<MessageDto> = if (imageBytes != null) {
-        chatsApi.sendImage(
+        fileBytes: ByteArray?,
+    ): AppResult<MessageDto> = when {
+        fileBytes != null && message.type == MessageType.VOICE -> chatsApi.sendVoice(
             dialogId = message.dialogId,
-            bytes = imageBytes,
+            bytes = fileBytes,
+            mime = message.file?.mime ?: "audio/mp4",
+            fileName = "voice.m4a",
+            durationSec = message.file?.durationSec ?: 1,
+            clientMessageId = clientMessageId,
+        )
+
+        fileBytes != null -> chatsApi.sendImage(
+            dialogId = message.dialogId,
+            bytes = fileBytes,
             mime = message.file?.mime ?: "image/jpeg",
             fileName = "image.jpg",
             clientMessageId = clientMessageId,
         )
-    } else {
-        chatsApi.sendTextMessage(
+
+        else -> chatsApi.sendTextMessage(
             dialogId = message.dialogId,
             request = SendMessageRequest(
                 text = message.text.orEmpty(),
@@ -136,8 +145,8 @@ class OutboxService(
         )
     }
 
-    /** Кэширует свои байты под серверным file.id, чтобы не скачивать своё же изображение. */
-    private suspend fun associateLocalImage(serverMessage: Message, bytes: ByteArray) {
+    /** Кэширует свои байты под серверным file.id, чтобы не скачивать своё же вложение. */
+    private suspend fun associateLocalFile(serverMessage: Message, bytes: ByteArray) {
         val serverFileId = serverMessage.file?.id ?: return
         val path = fileStore.save(serverFileId, bytes)
         filesRepository.setLocalPath(serverFileId, path)

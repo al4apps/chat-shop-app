@@ -131,6 +131,36 @@ class DefaultMessagesRepository(
         }
     }
 
+    override suspend fun enqueueVoice(
+        dialogId: String,
+        clientMessageId: String,
+        fileId: String,
+        mime: String,
+        size: Long,
+        durationSec: Int,
+        localPath: String,
+    ) {
+        withContext(ioDispatcher) {
+            val now = Clock.System.now().toEpochMilliseconds()
+            db.messagesQueries.transaction {
+                db.filesQueries.insertLocal(
+                    id = fileId,
+                    mime = mime,
+                    size = size,
+                    durationSec = durationSec.toLong(),
+                    localPath = localPath,
+                    updatedAt = now,
+                )
+                db.messagesQueries.insertOutgoingVoice(
+                    dialogId = dialogId,
+                    clientMessageId = clientMessageId,
+                    createdAt = now,
+                    fileId = fileId,
+                )
+            }
+        }
+    }
+
     override fun observePending(): Flow<List<Message>> =
         db.messagesQueries.selectPending()
             .asFlow()

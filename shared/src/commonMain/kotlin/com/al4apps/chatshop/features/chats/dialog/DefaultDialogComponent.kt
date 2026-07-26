@@ -2,7 +2,9 @@ package com.al4apps.chatshop.features.chats.dialog
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
 import com.al4apps.chatshop.core.arch.StateStore
+import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.ImagePicker
+import com.al4apps.chatshop.core.media.VoiceRecordingController
 import com.al4apps.chatshop.features.chats.dialog.model.DialogUiState
 import com.al4apps.chatshop.features.chats.dialog.model.DialogVmState
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
@@ -24,6 +26,7 @@ class DefaultDialogComponent(
     private val messagesInteractor: MessagesInteractor,
     private val syncService: SyncService,
     private val imagePicker: ImagePicker,
+    audioRecorder: AudioRecorder,
     private val onBack: () -> Unit,
     private val assembler: DialogAssembler = DialogAssembler(),
 ) : DialogComponent, ComponentContext by componentContext {
@@ -37,8 +40,20 @@ class DefaultDialogComponent(
         initialState = ::DialogVmState,
     )
 
+    private val recordingController = VoiceRecordingController(
+        recorder = audioRecorder,
+        scope = scope,
+        onCompleted = { audio -> messagesInteractor.sendVoice(dialogId, audio) },
+    )
+
     private val mutableUiState = MutableStateFlow(
-        assembler.assemble(store.value, dialog = null, messages = emptyList()),
+        assembler.assemble(
+            vmState = store.value,
+            dialog = null,
+            messages = emptyList(),
+            recording = recordingController.state.value,
+            canRecord = recordingController.isAvailable,
+        ),
     )
 
     override val uiState: StateFlow<DialogUiState> = mutableUiState.asStateFlow()
@@ -53,15 +68,25 @@ class DefaultDialogComponent(
 
         // Частый поллинг ленты — только пока экран открыт.
         syncService.onDialogOpened(dialogId)
-        lifecycle.doOnDestroy { syncService.onDialogClosed() }
+        lifecycle.doOnDestroy {
+            recordingController.cancel()
+            syncService.onDialogClosed()
+        }
 
         scope.launch {
             combine(
                 store.state,
                 chatsInteractor.observeDialog(dialogId),
                 messagesInteractor.observeMessages(dialogId),
-            ) { vmState, dialog, messages ->
-                assembler.assemble(vmState, dialog, messages)
+                recordingController.state,
+            ) { vmState, dialog, messages, recording ->
+                assembler.assemble(
+                    vmState = vmState,
+                    dialog = dialog,
+                    messages = messages,
+                    recording = recording,
+                    canRecord = recordingController.isAvailable,
+                )
             }.collect {
                 mutableUiState.value = it
                 fullscreenBackCallback.isEnabled = it.fullscreenImagePath != null
@@ -88,6 +113,18 @@ class DefaultDialogComponent(
             val image = imagePicker.pickImage() ?: return@launch
             messagesInteractor.sendImage(dialogId = dialogId, image = image)
         }
+    }
+
+    override fun onRecordStart() {
+        recordingController.start()
+    }
+
+    override fun onRecordStop() {
+        recordingController.stop()
+    }
+
+    override fun onRecordCancel() {
+        recordingController.cancel()
     }
 
     override fun onImageClick(imagePath: String) {

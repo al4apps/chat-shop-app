@@ -2,6 +2,7 @@ package com.al4apps.chatshop.features.chats.dialog
 
 import chatshop.shared.generated.resources.Res
 import chatshop.shared.generated.resources.dialog_title
+import com.al4apps.chatshop.core.media.VoiceRecordingState
 import com.al4apps.chatshop.core.ui.UiText
 import com.al4apps.chatshop.core.util.toClockLabel
 import com.al4apps.chatshop.features.chats.dialog.model.DialogUiState
@@ -23,6 +24,8 @@ class DialogAssembler {
         vmState: DialogVmState,
         dialog: Dialog?,
         messages: List<Message>,
+        recording: VoiceRecordingState,
+        canRecord: Boolean,
     ): DialogUiState {
         val isClosed = dialog?.status == DialogStatus.CLOSED
         return DialogUiState(
@@ -35,6 +38,9 @@ class DialogAssembler {
             isSendEnabled = vmState.inputText.isNotBlank() && !isClosed,
             isInputBlocked = isClosed,
             fullscreenImagePath = vmState.fullscreenImagePath,
+            canRecord = canRecord && !isClosed,
+            isRecording = recording.isRecording,
+            recordingSeconds = recording.seconds,
         )
     }
 

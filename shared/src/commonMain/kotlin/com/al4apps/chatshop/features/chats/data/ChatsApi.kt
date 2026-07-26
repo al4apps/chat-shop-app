@@ -62,4 +62,34 @@ class ChatsApi(
             },
         )
     }
+
+    /**
+     * Загрузка голосового (multipart, CLIENT_GUIDE §8): type=VOICE, durationSec (1..120).
+     * Идемпотентна по [clientMessageId].
+     */
+    suspend fun sendVoice(
+        dialogId: String,
+        bytes: ByteArray,
+        mime: String,
+        fileName: String,
+        durationSec: Int,
+        clientMessageId: String,
+    ): AppResult<MessageDto> = apiCall {
+        client.submitFormWithBinaryData(
+            url = "dialogs/$dialogId/files",
+            formData = formData {
+                append("type", "VOICE")
+                append("durationSec", durationSec.toString())
+                append("clientMessageId", clientMessageId)
+                append(
+                    key = "file",
+                    value = bytes,
+                    headers = Headers.build {
+                        append(HttpHeaders.ContentType, mime)
+                        append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
+                    },
+                )
+            },
+        )
+    }
 }

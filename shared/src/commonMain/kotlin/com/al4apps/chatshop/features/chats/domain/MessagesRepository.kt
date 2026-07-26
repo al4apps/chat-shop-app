@@ -40,6 +40,20 @@ interface MessagesRepository {
     )
 
     /**
+     * Кладёт исходящее VOICE в очередь отправки. Байты уже в FileStore под [fileId];
+     * [durationSec] — реальная длительность записи (1..120, CLIENT_GUIDE §8).
+     */
+    suspend fun enqueueVoice(
+        dialogId: String,
+        clientMessageId: String,
+        fileId: String,
+        mime: String,
+        size: Long,
+        durationSec: Int,
+        localPath: String,
+    )
+
+    /**
      * Подтверждает доставку: оптимистичная строка [localId] получает данные сервера
      * (seq, SYNCED). Сопоставление по `localId`, а не по clientMessageId — не зависит
      * от того, эхает ли сервер clientMessageId. Если поллинг уже создал строку с этим

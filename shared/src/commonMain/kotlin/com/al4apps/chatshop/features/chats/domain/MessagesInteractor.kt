@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.features.chats.domain
 
 import com.al4apps.chatshop.core.media.PickedImage
+import com.al4apps.chatshop.core.media.RecordedAudio
 import com.al4apps.chatshop.features.chats.domain.model.Message
 import kotlinx.coroutines.flow.Flow
 
@@ -25,6 +26,12 @@ interface MessagesInteractor {
      * в очередь отправки. В ленте появляется мгновенно; доставку выполняет OutboxService.
      */
     suspend fun sendImage(dialogId: String, image: PickedImage)
+
+    /**
+     * Отправляет голосовое: сохраняет записанные байты в локальный кэш и кладёт
+     * в очередь отправки с длительностью. В ленте появляется мгновенно.
+     */
+    suspend fun sendVoice(dialogId: String, audio: RecordedAudio)
 
     /** Возвращает неотправленное (FAILED) сообщение в очередь отправки. */
     suspend fun retryMessage(localId: Long)

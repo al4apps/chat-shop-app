@@ -1,8 +1,10 @@
 package com.al4apps.chatshop.di
 
 import com.al4apps.chatshop.core.db.DatabaseFactory
+import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.media.ImagePicker
+import com.al4apps.chatshop.core.media.IosAudioRecorder
 import com.al4apps.chatshop.core.media.IosImagePicker
 import com.al4apps.chatshop.core.network.ApiConfig
 import eu.anifantakis.lib.ksafe.KSafe
@@ -21,4 +23,5 @@ actual val platformModule: Module = module {
     single { DatabaseFactory() }
     single { FileStore() }
     single<ImagePicker> { IosImagePicker() }
+    single<AudioRecorder> { IosAudioRecorder() }
 }

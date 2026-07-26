@@ -10,4 +10,8 @@ data class FirstOrderUiState(
     /** Идёт создание диалога и отправка — блокирует повторные действия. */
     val isSubmitting: Boolean,
     val error: UiText?,
+    /** Доступна ли запись голосовых на платформе. */
+    val canRecord: Boolean,
+    val isRecording: Boolean,
+    val recordingSeconds: Int,
 )

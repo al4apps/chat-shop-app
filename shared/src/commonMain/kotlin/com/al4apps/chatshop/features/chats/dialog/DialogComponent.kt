@@ -15,6 +15,15 @@ interface DialogComponent {
     /** Прикрепить изображение: системный пикер → отправка через outbox. */
     fun onAttachClick()
 
+    /** Начать запись голосового. */
+    fun onRecordStart()
+
+    /** Остановить запись и отправить. */
+    fun onRecordStop()
+
+    /** Отменить запись без отправки. */
+    fun onRecordCancel()
+
     /** Открыть изображение на весь экран. */
     fun onImageClick(imagePath: String)
 

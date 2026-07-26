@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.root
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
+import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.core.session.SessionManager
 import com.al4apps.chatshop.core.session.SessionState
@@ -35,6 +36,7 @@ class DefaultRootComponent(
     private val chatsInteractor: ChatsInteractor,
     private val messagesInteractor: MessagesInteractor,
     private val imagePicker: ImagePicker,
+    private val audioRecorder: AudioRecorder,
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -100,6 +102,7 @@ class DefaultRootComponent(
                 messagesInteractor = messagesInteractor,
                 syncService = syncService,
                 imagePicker = imagePicker,
+                audioRecorder = audioRecorder,
             ),
         )
 

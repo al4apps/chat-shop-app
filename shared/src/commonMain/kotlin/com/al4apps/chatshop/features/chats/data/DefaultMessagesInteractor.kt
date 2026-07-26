@@ -3,6 +3,7 @@ package com.al4apps.chatshop.features.chats.data
 import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.media.IMAGE_MAX_BYTES
 import com.al4apps.chatshop.core.media.PickedImage
+import com.al4apps.chatshop.core.media.RecordedAudio
 import com.al4apps.chatshop.core.media.compressImageToJpeg
 import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
@@ -38,6 +39,20 @@ class DefaultMessagesInteractor(
             fileId = fileId,
             mime = "image/jpeg",
             size = jpeg.size.toLong(),
+            localPath = localPath,
+        )
+    }
+
+    override suspend fun sendVoice(dialogId: String, audio: RecordedAudio) {
+        val fileId = Uuid.random().toString()
+        val localPath = fileStore.save(fileId, audio.bytes)
+        messagesRepository.enqueueVoice(
+            dialogId = dialogId,
+            clientMessageId = Uuid.random().toString(),
+            fileId = fileId,
+            mime = audio.mime,
+            size = audio.bytes.size.toLong(),
+            durationSec = audio.durationSec,
             localPath = localPath,
         )
     }

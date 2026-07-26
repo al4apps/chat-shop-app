@@ -102,6 +102,12 @@ fun DialogScreen(
                     onTextChange = component::onInputChange,
                     onSendClick = component::onSendClick,
                     onAttachClick = component::onAttachClick,
+                    canRecord = uiState.canRecord,
+                    isRecording = uiState.isRecording,
+                    recordingSeconds = uiState.recordingSeconds,
+                    onRecordStart = component::onRecordStart,
+                    onRecordStop = component::onRecordStop,
+                    onRecordCancel = component::onRecordCancel,
                 )
             }
         }

@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.features.home
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
+import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.features.chats.dialog.DefaultDialogComponent
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
@@ -26,6 +27,7 @@ class DefaultHomeComponent(
     private val messagesInteractor: MessagesInteractor,
     private val syncService: SyncService,
     private val imagePicker: ImagePicker,
+    private val audioRecorder: AudioRecorder,
 ) : HomeComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -76,6 +78,7 @@ class DefaultHomeComponent(
                 componentContext = context,
                 chatsInteractor = chatsInteractor,
                 messagesInteractor = messagesInteractor,
+                audioRecorder = audioRecorder,
                 // Первый заказ — корень (списка ещё нет). После отправки: список + диалог.
                 onOrderStarted = { dialogId ->
                     navigation.replaceAll(Config.ChatList, Config.Dialog(dialogId))
@@ -88,6 +91,7 @@ class DefaultHomeComponent(
                 componentContext = context,
                 chatsInteractor = chatsInteractor,
                 messagesInteractor = messagesInteractor,
+                audioRecorder = audioRecorder,
                 // Открыт поверх списка через «+». Диалог создаётся лениво — только при
                 // отправке; выход назад без отправки не плодит пустых диалогов.
                 onOrderStarted = { dialogId ->
@@ -105,6 +109,7 @@ class DefaultHomeComponent(
                 messagesInteractor = messagesInteractor,
                 syncService = syncService,
                 imagePicker = imagePicker,
+                audioRecorder = audioRecorder,
                 onBack = navigation::pop,
             ),
         )
