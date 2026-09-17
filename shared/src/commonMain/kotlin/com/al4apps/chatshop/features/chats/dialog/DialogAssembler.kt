@@ -2,6 +2,7 @@ package com.al4apps.chatshop.features.chats.dialog
 
 import chatshop.shared.generated.resources.Res
 import chatshop.shared.generated.resources.dialog_title
+import com.al4apps.chatshop.core.media.AudioPlaybackState
 import com.al4apps.chatshop.core.media.VoiceRecordingState
 import com.al4apps.chatshop.core.ui.UiText
 import com.al4apps.chatshop.core.util.toClockLabel
@@ -26,6 +27,7 @@ class DialogAssembler {
         messages: List<Message>,
         recording: VoiceRecordingState,
         canRecord: Boolean,
+        playback: AudioPlaybackState,
     ): DialogUiState {
         val isClosed = dialog?.status == DialogStatus.CLOSED
         return DialogUiState(
@@ -33,7 +35,7 @@ class DialogAssembler {
                 ?.takeIf { it.isNotBlank() }
                 ?.let { UiText(it) }
                 ?: UiText(Res.string.dialog_title),
-            items = messages.asReversed().map { it.toItem() }.toImmutableList(),
+            items = messages.asReversed().map { it.toItem(playback) }.toImmutableList(),
             inputText = vmState.inputText,
             isSendEnabled = vmState.inputText.isNotBlank() && !isClosed,
             isInputBlocked = isClosed,
@@ -44,16 +46,26 @@ class DialogAssembler {
         )
     }
 
-    private fun Message.toItem(): MessageItemUiState = MessageItemUiState(
-        localId = localId,
-        text = text.orEmpty(),
-        isMine = senderRole == SenderRole.CLIENT,
-        isSystem = type == MessageType.SYSTEM,
-        isImage = type == MessageType.IMAGE,
-        imagePath = file?.localPath,
-        isFileDeleted = file?.status == FileStatus.DELETED,
-        time = createdAt.toClockLabel(),
-        isSending = sendState == SendState.PENDING || sendState == SendState.SENDING,
-        isFailed = sendState == SendState.FAILED,
-    )
+    private fun Message.toItem(playback: AudioPlaybackState): MessageItemUiState {
+        val fileId = file?.id
+        val isThisPlaying = fileId != null && playback.playingId == fileId
+        return MessageItemUiState(
+            localId = localId,
+            text = text.orEmpty(),
+            isMine = senderRole == SenderRole.CLIENT,
+            isSystem = type == MessageType.SYSTEM,
+            isImage = type == MessageType.IMAGE,
+            imagePath = file?.localPath,
+            isVoice = type == MessageType.VOICE,
+            voiceFileId = fileId,
+            voicePath = file?.localPath,
+            voiceDurationSec = file?.durationSec ?: 0,
+            isVoicePlaying = isThisPlaying && playback.isPlaying,
+            voicePositionSec = if (isThisPlaying) playback.positionSec else 0,
+            isFileDeleted = file?.status == FileStatus.DELETED,
+            time = createdAt.toClockLabel(),
+            isSending = sendState == SendState.PENDING || sendState == SendState.SENDING,
+            isFailed = sendState == SendState.FAILED,
+        )
+    }
 }

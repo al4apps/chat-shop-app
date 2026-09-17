@@ -2,6 +2,7 @@ package com.al4apps.chatshop.features.chats.dialog
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
 import com.al4apps.chatshop.core.arch.StateStore
+import com.al4apps.chatshop.core.media.AudioPlayer
 import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.core.media.VoiceRecordingController
@@ -27,6 +28,7 @@ class DefaultDialogComponent(
     private val syncService: SyncService,
     private val imagePicker: ImagePicker,
     audioRecorder: AudioRecorder,
+    private val audioPlayer: AudioPlayer,
     private val onBack: () -> Unit,
     private val assembler: DialogAssembler = DialogAssembler(),
 ) : DialogComponent, ComponentContext by componentContext {
@@ -53,6 +55,7 @@ class DefaultDialogComponent(
             messages = emptyList(),
             recording = recordingController.state.value,
             canRecord = recordingController.isAvailable,
+            playback = audioPlayer.state.value,
         ),
     )
 
@@ -70,6 +73,7 @@ class DefaultDialogComponent(
         syncService.onDialogOpened(dialogId)
         lifecycle.doOnDestroy {
             recordingController.cancel()
+            audioPlayer.stop()
             syncService.onDialogClosed()
         }
 
@@ -79,13 +83,15 @@ class DefaultDialogComponent(
                 chatsInteractor.observeDialog(dialogId),
                 messagesInteractor.observeMessages(dialogId),
                 recordingController.state,
-            ) { vmState, dialog, messages, recording ->
+                audioPlayer.state,
+            ) { vmState, dialog, messages, recording, playback ->
                 assembler.assemble(
                     vmState = vmState,
                     dialog = dialog,
                     messages = messages,
                     recording = recording,
                     canRecord = recordingController.isAvailable,
+                    playback = playback,
                 )
             }.collect {
                 mutableUiState.value = it
@@ -125,6 +131,10 @@ class DefaultDialogComponent(
 
     override fun onRecordCancel() {
         recordingController.cancel()
+    }
+
+    override fun onVoiceClick(fileId: String, path: String, durationSec: Int) {
+        audioPlayer.toggle(fileId, path, durationSec)
     }
 
     override fun onImageClick(imagePath: String) {

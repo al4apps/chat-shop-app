@@ -1,8 +1,10 @@
 package com.al4apps.chatshop.di
 
 import com.al4apps.chatshop.core.db.DatabaseFactory
+import com.al4apps.chatshop.core.media.AndroidAudioPlayer
 import com.al4apps.chatshop.core.media.AndroidAudioRecorder
 import com.al4apps.chatshop.core.media.AndroidImagePicker
+import com.al4apps.chatshop.core.media.AudioPlayer
 import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.media.ImagePicker
@@ -29,4 +31,5 @@ actual val platformModule: Module = module {
     single { FileStore(context = androidContext().applicationContext) }
     single<ImagePicker> { AndroidImagePicker() }
     single<AudioRecorder> { AndroidAudioRecorder(context = androidContext().applicationContext) }
+    single<AudioPlayer> { AndroidAudioPlayer() }
 }

@@ -24,6 +24,9 @@ interface DialogComponent {
     /** Отменить запись без отправки. */
     fun onRecordCancel()
 
+    /** Воспроизвести/поставить на паузу голосовое. */
+    fun onVoiceClick(fileId: String, path: String, durationSec: Int)
+
     /** Открыть изображение на весь экран. */
     fun onImageClick(imagePath: String)
 

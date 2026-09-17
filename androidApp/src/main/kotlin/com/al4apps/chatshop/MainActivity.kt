@@ -63,6 +63,7 @@ class MainActivity : ComponentActivity() {
                 messagesInteractor = get(),
                 imagePicker = imagePicker,
                 audioRecorder = audioRecorder,
+                audioPlayer = get(),
             )
         }
 

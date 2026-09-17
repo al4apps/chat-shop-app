@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.features.home
 
 import com.al4apps.chatshop.core.arch.CoroutineFeature
+import com.al4apps.chatshop.core.media.AudioPlayer
 import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.features.chats.dialog.DefaultDialogComponent
@@ -28,6 +29,7 @@ class DefaultHomeComponent(
     private val syncService: SyncService,
     private val imagePicker: ImagePicker,
     private val audioRecorder: AudioRecorder,
+    private val audioPlayer: AudioPlayer,
 ) : HomeComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -110,6 +112,7 @@ class DefaultHomeComponent(
                 syncService = syncService,
                 imagePicker = imagePicker,
                 audioRecorder = audioRecorder,
+                audioPlayer = audioPlayer,
                 onBack = navigation::pop,
             ),
         )
