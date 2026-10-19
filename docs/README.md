@@ -13,6 +13,12 @@ README репозитория — [`../README.md`](../README.md).
 | [`openapi.yaml`](openapi.yaml) | OpenAPI-контракт ChatShop API (несмотря на имя и расширение — это не конфиг приложения). |
 | [`DEBT.md`](DEBT.md) | Реестр технического долга и осознанных компромиссов. |
 
+## OpenSpec
+
+- [`../openspec/specs`](../openspec/specs) — baseline-спеки по возможностям системы.
+- [`../openspec/changes`](../openspec/changes) — активные изменения (proposal → specs → design → tasks).
+- Проверка: `openspec validate --specs`, `openspec validate --changes`.
+
 ## Приоритет источников
 
 1. Исполняемая конфигурация: `settings.gradle.kts`, `build.gradle.kts`,

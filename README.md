@@ -5,6 +5,7 @@ Kotlin Multiplatform (Android + iOS) клиент для chat-commerce: пере
 
 - Инструкции для агентов: [AGENTS.md](AGENTS.md)
 - Документация проекта: [docs/README.md](docs/README.md)
+- Спеки (OpenSpec): [openspec/specs](openspec/specs)
 - Контракт API: [docs/openapi.yaml](docs/openapi.yaml), семантика — [docs/CLIENT_GUIDE.md](docs/CLIENT_GUIDE.md)
 
 ```bash

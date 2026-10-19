@@ -18,6 +18,16 @@ ChatShop — клиент chat-commerce: переписка с оператор�
 
 `opencode.json` подключает `docs/CODING_RULES.md` как дополнительные инструкции.
 
+## OpenSpec
+
+Проект использует spec-driven development. Поведение системы описывается в `openspec/specs/`:
+
+- `openspec/specs/<capability>/spec.md` — baseline-спеки (источник истины для поведения).
+- Новое поведение и изменения оформляются через `openspec/changes/<change>/`, а не правкой main specs напрямую.
+- Команды: `/opsx-propose` — план изменения, `/opsx-apply` — реализация, `/opsx-archive` — архивация.
+- Проверка: `openspec validate --specs` и `openspec validate --changes`.
+- Спеки пишутся на русском; структурные заголовки и `SHALL`/`WHEN`/`THEN` остаются на английском.
+
 ## Сборка и проверки
 
 Toolchain: Gradle daemon JVM 21 (авто-провижининг), Kotlin/JVM target 17, Gradle 9.6.0,
