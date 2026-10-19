@@ -12,5 +12,32 @@
       "resource": "git push *",
       "effect": "ask"
     }
-  ]
+  ],
+  "mcp": {
+    "servers": {
+      "likec4": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "@likec4/mcp@1.60.0",
+          "--stdio",
+          "--no-watch",
+          "docs/architecture"
+        ]
+      },
+      "serena": {
+        "type": "local",
+        "command": [
+          "/Users/all4apps/.local/bin/serena",
+          "start-mcp-server",
+          "--context",
+          "ide",
+          "--project-from-cwd",
+          "--enable-web-dashboard",
+          "false"
+        ]
+      }
+    }
+  }
 }
