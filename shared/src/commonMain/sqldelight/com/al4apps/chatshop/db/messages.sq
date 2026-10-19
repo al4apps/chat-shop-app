@@ -122,3 +122,7 @@ UPDATE messages SET sendState = 'PENDING' WHERE localId = :localId AND sendState
 -- Восстановление после смерти процесса посреди отправки (идемпотентно по clientMessageId).
 resetStuckSending:
 UPDATE messages SET sendState = 'PENDING' WHERE sendState = 'SENDING';
+
+-- Полная очистка таблицы (вход в тестовый режим).
+deleteAll:
+DELETE FROM messages;

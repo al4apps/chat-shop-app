@@ -1,27 +1,18 @@
 package com.al4apps.chatshop.features.chats.data
 
 import com.al4apps.chatshop.core.network.AppResult
-import com.al4apps.chatshop.core.network.apiCall
 import com.al4apps.chatshop.features.chats.data.dto.DialogDto
 import com.al4apps.chatshop.features.chats.data.dto.MessageDto
 import com.al4apps.chatshop.features.chats.data.dto.SendMessageRequest
-import io.ktor.client.HttpClient
-import io.ktor.client.request.forms.formData
-import io.ktor.client.request.forms.submitFormWithBinaryData
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.http.Headers
-import io.ktor.http.HttpHeaders
 
-/** Действия фичи чатов (чтение — в SyncApi). */
-class ChatsApi(
-    private val client: HttpClient,
-) {
+/**
+ * Действия фичи чатов (чтение — в SyncApi). Реализации: сетевая ([DefaultChatsApi])
+ * и тестовая ([TestChatsApi]); выбор реализации — в DI (`DiConfig.TEST_MODE`).
+ */
+interface ChatsApi {
 
     /** `POST /dialogs` — создаёт новый диалог (CLIENT_GUIDE §11, статус NEW). */
-    suspend fun createDialog(): AppResult<DialogDto> = apiCall {
-        client.post("dialogs")
-    }
+    suspend fun createDialog(): AppResult<DialogDto>
 
     /**
      * Отправка TEXT-сообщения. Идемпотентна по `clientMessageId`:
@@ -30,11 +21,7 @@ class ChatsApi(
     suspend fun sendTextMessage(
         dialogId: String,
         request: SendMessageRequest,
-    ): AppResult<MessageDto> = apiCall {
-        client.post("dialogs/$dialogId/messages") {
-            setBody(request)
-        }
-    }
+    ): AppResult<MessageDto>
 
     /**
      * Загрузка изображения (multipart, CLIENT_GUIDE §8). Идемпотентна по [clientMessageId].
@@ -45,23 +32,7 @@ class ChatsApi(
         mime: String,
         fileName: String,
         clientMessageId: String,
-    ): AppResult<MessageDto> = apiCall {
-        client.submitFormWithBinaryData(
-            url = "dialogs/$dialogId/files",
-            formData = formData {
-                append("type", "IMAGE")
-                append("clientMessageId", clientMessageId)
-                append(
-                    key = "file",
-                    value = bytes,
-                    headers = Headers.build {
-                        append(HttpHeaders.ContentType, mime)
-                        append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
-                    },
-                )
-            },
-        )
-    }
+    ): AppResult<MessageDto>
 
     /**
      * Загрузка голосового (multipart, CLIENT_GUIDE §8): type=VOICE, durationSec (1..120).
@@ -74,22 +45,5 @@ class ChatsApi(
         fileName: String,
         durationSec: Int,
         clientMessageId: String,
-    ): AppResult<MessageDto> = apiCall {
-        client.submitFormWithBinaryData(
-            url = "dialogs/$dialogId/files",
-            formData = formData {
-                append("type", "VOICE")
-                append("durationSec", durationSec.toString())
-                append("clientMessageId", clientMessageId)
-                append(
-                    key = "file",
-                    value = bytes,
-                    headers = Headers.build {
-                        append(HttpHeaders.ContentType, mime)
-                        append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
-                    },
-                )
-            },
-        )
-    }
+    ): AppResult<MessageDto>
 }

@@ -44,3 +44,7 @@ UPDATE files SET localPath = :localPath WHERE id = :id;
 selectDownloadable:
 SELECT id, remoteUrl FROM files
 WHERE status = 'ACTIVE' AND localPath IS NULL AND remoteUrl IS NOT NULL;
+
+-- Полная очистка таблицы (вход в тестовый режим).
+deleteAll:
+DELETE FROM files;

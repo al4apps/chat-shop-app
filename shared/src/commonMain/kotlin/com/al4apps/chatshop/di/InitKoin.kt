@@ -6,6 +6,6 @@ import org.koin.core.context.startKoin
 fun initKoin(platformConfig: (KoinApplication.() -> Unit)? = null) {
     startKoin {
         platformConfig?.invoke(this)
-        modules(appModules())
+        modules(appModules(testMode = DiConfig.TEST_MODE))
     }
 }
