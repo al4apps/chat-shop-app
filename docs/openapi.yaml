@@ -1,0 +1,508 @@
+openapi: 3.0.3
+info:
+  title: ChatShop API
+  version: "1.0.0"
+  description: >
+    Backend для мобильного приложения заказа автозапчастей: диалоги (чаты) между клиентами и
+    операторами, оформление заказов по event-log модели. Все ответы — JSON; ошибки —
+    application/problem+json. Авторизация — Bearer JWT (кроме /auth/*).
+
+servers:
+  - url: /api/v1
+    description: Базовый префикс API
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: auth
+    description: Авторизация по телефону и SMS
+  - name: devices
+    description: Регистрация устройств для push (FCM)
+  - name: dialogs
+    description: Диалоги, сообщения, файлы, команды заказа
+  - name: admin
+    description: Администрирование (только роль ADMIN)
+
+paths:
+  /auth/request-code:
+    post:
+      tags: [auth]
+      summary: Запросить SMS-код
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RequestCode' }
+      responses:
+        '200': { description: Код отправлен (в dev — пишется в лог) }
+        '429': { $ref: '#/components/responses/Problem' }
+
+  /auth/verify:
+    post:
+      tags: [auth]
+      summary: Проверить код и получить токены
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/VerifyRequest' }
+      responses:
+        '200':
+          description: Пара токенов
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenPair' }
+        '401': { $ref: '#/components/responses/Problem' }
+
+  /auth/refresh:
+    post:
+      tags: [auth]
+      summary: Обновить токены (rotating refresh)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefreshRequest' }
+      responses:
+        '200':
+          description: Новая пара токенов
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenPair' }
+        '401': { $ref: '#/components/responses/Problem' }
+
+  /auth/logout:
+    post:
+      tags: [auth]
+      summary: Выйти (отозвать refresh-токен)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefreshRequest' }
+      responses:
+        '200': { description: Токен отозван }
+
+  /me:
+    get:
+      tags: [auth]
+      summary: Текущий пользователь из токена
+      responses:
+        '200':
+          description: Идентификатор и роль
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId: { type: string }
+                  role: { type: string, enum: [CLIENT, OPERATOR, ADMIN] }
+
+  /devices:
+    post:
+      tags: [devices]
+      summary: Зарегистрировать устройство (FCM-токен)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterDevice' }
+      responses:
+        '204': { description: Зарегистрировано }
+        '400': { $ref: '#/components/responses/Problem' }
+
+  /devices/{token}:
+    delete:
+      tags: [devices]
+      summary: Снять регистрацию устройства (logout)
+      parameters:
+        - { name: token, in: path, required: true, schema: { type: string } }
+      responses:
+        '204': { description: Удалено }
+
+  /dialogs:
+    get:
+      tags: [dialogs]
+      summary: Список диалогов
+      description: >
+        Клиенту — свои; оператору без фильтра — назначенные ему; оператору с `status=NEW` —
+        очередь свободных диалогов.
+      parameters:
+        - { name: status, in: query, required: false, schema: { $ref: '#/components/schemas/DialogStatus' } }
+        - { name: limit, in: query, required: false, schema: { type: integer, default: 50, minimum: 1, maximum: 100 } }
+      responses:
+        '200':
+          description: Диалоги
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DialogsResponse' }
+    post:
+      tags: [dialogs]
+      summary: Создать диалог (клиент)
+      responses:
+        '201':
+          description: Создан
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dialog' }
+        '403': { $ref: '#/components/responses/Problem' }
+
+  /dialogs/{id}:
+    get:
+      tags: [dialogs]
+      summary: Детали диалога
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Диалог
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dialog' }
+        '403': { $ref: '#/components/responses/Problem' }
+        '404': { $ref: '#/components/responses/Problem' }
+
+  /dialogs/{id}/messages:
+    get:
+      tags: [dialogs]
+      summary: Лента сообщений (инкрементально)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+        - { name: afterSeq, in: query, required: false, schema: { type: integer, format: int64, default: 0 } }
+        - { name: limit, in: query, required: false, schema: { type: integer, default: 100, minimum: 1, maximum: 200 } }
+      responses:
+        '200':
+          description: Сообщения
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MessagesResponse' }
+    post:
+      tags: [dialogs]
+      summary: Отправить текстовое сообщение
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SendMessageRequest' }
+      responses:
+        '201':
+          description: Сообщение создано (или существующее — при идемпотентном повторе)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Message' }
+        '403': { $ref: '#/components/responses/Problem' }
+        '409': { $ref: '#/components/responses/Problem' }
+
+  /dialogs/{id}/files:
+    post:
+      tags: [dialogs]
+      summary: Загрузить файл (IMAGE/VOICE)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                type: { type: string, enum: [IMAGE, VOICE] }
+                file: { type: string, format: binary }
+                durationSec: { type: integer, description: 'Для VOICE, ≤120' }
+                clientMessageId: { type: string, description: 'Ключ идемпотентности' }
+              required: [type, file]
+      responses:
+        '201':
+          description: Медиа-сообщение с ссылкой на файл
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Message' }
+        '400': { $ref: '#/components/responses/Problem' }
+        '413': { $ref: '#/components/responses/Problem' }
+
+  /dialogs/{id}/commands:
+    post:
+      tags: [dialogs]
+      summary: Команда заказа/диалога (машина состояний)
+      description: >
+        ORDER_CREATED (описание+сумма), ORDER_PAID, ORDER_PROCESSING, ORDER_COMPLETED,
+        ORDER_CANCELLED, DIALOG_CLOSED. Сервер авторизует по роли и текущему состоянию.
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CommandRequest' }
+      responses:
+        '200':
+          description: Обновлённый диалог
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dialog' }
+        '400': { $ref: '#/components/responses/Problem' }
+        '403': { $ref: '#/components/responses/Problem' }
+        '409': { $ref: '#/components/responses/Problem' }
+
+  /dialogs/{id}/assign:
+    post:
+      tags: [dialogs]
+      summary: Оператор принимает диалог (атомарно)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Диалог назначен
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dialog' }
+        '409': { $ref: '#/components/responses/Problem' }
+
+  /dialogs/{id}/release:
+    post:
+      tags: [dialogs]
+      summary: Оператор освобождает диалог
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Диалог возвращён в очередь
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dialog' }
+        '403': { $ref: '#/components/responses/Problem' }
+
+  /admin/operators:
+    get:
+      tags: [admin]
+      summary: Список операторов
+      responses:
+        '200':
+          description: Операторы
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/OperatorsResponse' }
+        '403': { $ref: '#/components/responses/Problem' }
+    post:
+      tags: [admin]
+      summary: Создать оператора
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateOperatorRequest' }
+      responses:
+        '201':
+          description: Оператор создан/повышен
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '409': { $ref: '#/components/responses/Problem' }
+
+  /admin/operators/{id}:
+    delete:
+      tags: [admin]
+      summary: Удалить оператора (демоут в CLIENT)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '204': { description: Удалён }
+        '400': { $ref: '#/components/responses/Problem' }
+        '404': { $ref: '#/components/responses/Problem' }
+
+  /admin/users/{id}/block:
+    post:
+      tags: [admin]
+      summary: Заблокировать пользователя (флаг для операторов)
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '204': { description: Заблокирован }
+        '404': { $ref: '#/components/responses/Problem' }
+
+  /admin/users/{id}/unblock:
+    post:
+      tags: [admin]
+      summary: Разблокировать пользователя
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '204': { description: Разблокирован }
+        '404': { $ref: '#/components/responses/Problem' }
+
+  /admin/maintenance/files-cleanup:
+    post:
+      tags: [admin]
+      summary: Ручной запуск TTL-уборки файлов
+      responses:
+        '200':
+          description: Число удалённых файлов
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CleanupResponse' }
+        '403': { $ref: '#/components/responses/Problem' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    Problem:
+      description: Ошибка (application/problem+json, RFC 7807)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+  schemas:
+    DialogStatus:
+      type: string
+      enum: [NEW, ASSIGNED, ACTIVE, CLOSED]
+
+    RequestCode:
+      type: object
+      required: [phone]
+      properties:
+        phone: { type: string, example: '+79995556677' }
+
+    VerifyRequest:
+      type: object
+      required: [phone, code]
+      properties:
+        phone: { type: string }
+        code: { type: string, example: '123456' }
+
+    RefreshRequest:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken: { type: string }
+
+    TokenPair:
+      type: object
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        role: { type: string, enum: [CLIENT, OPERATOR, ADMIN] }
+        expiresIn: { type: integer, description: 'Срок жизни access, сек' }
+
+    RegisterDevice:
+      type: object
+      required: [fcmToken, platform]
+      properties:
+        fcmToken: { type: string }
+        platform: { type: string, enum: [android, ios] }
+
+    Dialog:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        status: { $ref: '#/components/schemas/DialogStatus' }
+        orderStatus: { type: string, nullable: true, enum: [CREATED, PAID, PROCESSING, COMPLETED, CANCELLED] }
+        orderAmount: { type: string, nullable: true, description: 'Деньги строкой (BigDecimal)' }
+        orderDescription: { type: string, nullable: true }
+        orderNo: { type: integer }
+        lastMessageAt: { type: string, nullable: true, format: date-time }
+        lastMessageSeq: { type: integer, format: int64, nullable: true }
+        createdAt: { type: string, format: date-time }
+        hasOperator: { type: boolean }
+        clientBlocked: { type: boolean, nullable: true, description: 'Только в ответах оператору (§9)' }
+
+    DialogsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/Dialog' }
+
+    File:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        mime: { type: string }
+        size: { type: integer, format: int64 }
+        durationSec: { type: integer, nullable: true }
+        url: { type: string, nullable: true, description: 'Временная presigned-ссылка (null у удалённых)' }
+        status: { type: string, enum: [ACTIVE, DELETED] }
+
+    Message:
+      type: object
+      properties:
+        seq: { type: integer, format: int64 }
+        dialogId: { type: string, format: uuid }
+        senderId: { type: string, format: uuid, nullable: true }
+        senderRole: { type: string }
+        type: { type: string, enum: [TEXT, IMAGE, VOICE, SYSTEM] }
+        text: { type: string, nullable: true }
+        eventType: { type: string, nullable: true }
+        payload: { type: object, nullable: true }
+        createdAt: { type: string, format: date-time }
+        file: { $ref: '#/components/schemas/File' }
+
+    MessagesResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/Message' }
+        nextAfterSeq: { type: integer, format: int64, nullable: true }
+
+    SendMessageRequest:
+      type: object
+      required: [text]
+      properties:
+        text: { type: string }
+        clientMessageId: { type: string, description: 'Ключ идемпотентности' }
+
+    CommandRequest:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [ORDER_CREATED, ORDER_PAID, ORDER_PROCESSING, ORDER_COMPLETED, ORDER_CANCELLED, DIALOG_CLOSED]
+        description: { type: string, description: 'Для ORDER_CREATED' }
+        amount: { type: string, description: 'Для ORDER_CREATED, деньги строкой' }
+
+    CreateOperatorRequest:
+      type: object
+      required: [phone]
+      properties:
+        phone: { type: string }
+
+    User:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        phone: { type: string }
+        role: { type: string, enum: [CLIENT, OPERATOR, ADMIN] }
+        isBlocked: { type: boolean }
+
+    OperatorsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/User' }
+
+    CleanupResponse:
+      type: object
+      properties:
+        cleaned: { type: integer }
+
+    Problem:
+      type: object
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
