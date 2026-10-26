@@ -4,21 +4,23 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 /**
- * Палитра приложения: белый фон, единственный синий акцент,
- * серые — вспомогательные. Светлая тема (тёмная — вне MVP).
+ * Палитра приложения v2: белый фон, насыщенный синий акцент,
+ * прохладные нейтрали и мягкий тинт для статусов.
+ * Светлая тема (тёмная — вне MVP).
  */
 @Immutable
 data class AppColors(
     val background: Color = Color(0xFFFFFFFF),
-    val surface: Color = Color(0xFFF5F7FA),
-    val accent: Color = Color(0xFF1A73E8),
-    val accentPressed: Color = Color(0xFF1765CC),
+    val surface: Color = Color(0xFFF4F7FB),
+    val accent: Color = Color(0xFF0B63F6),
+    val accentPressed: Color = Color(0xFF084CC4),
+    val accentSoft: Color = Color(0xFFE8F1FF),
     val onAccent: Color = Color(0xFFFFFFFF),
-    val textPrimary: Color = Color(0xFF1A1C1E),
-    val textSecondary: Color = Color(0xFF6B7280),
-    val divider: Color = Color(0xFFE5E7EB),
-    val disabledContainer: Color = Color(0xFFEFF1F4),
-    val disabledContent: Color = Color(0xFF9CA3AF),
-    val error: Color = Color(0xFFDC362E),
+    val textPrimary: Color = Color(0xFF101828),
+    val textSecondary: Color = Color(0xFF5B6472),
+    val divider: Color = Color(0xFFE3E9F2),
+    val disabledContainer: Color = Color(0xFFEEF2F7),
+    val disabledContent: Color = Color(0xFF98A2B3),
+    val error: Color = Color(0xFFE5484D),
     val onError: Color = Color(0xFFFFFFFF),
 )

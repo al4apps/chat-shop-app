@@ -28,6 +28,7 @@
     <string name="example_field_error_text">Текст ошибки под полем</string>
     <string name="example_field_disabled_value">Недоступное поле</string>
     <string name="example_section_icons">Иконки</string>
+    <string name="example_section_badges">Статусы</string>
     <string name="auth_phone_title">Вход</string>
     <string name="auth_phone_subtitle">Введите номер телефона — отправим SMS с кодом подтверждения</string>
     <string name="auth_phone_placeholder">Номер телефона</string>

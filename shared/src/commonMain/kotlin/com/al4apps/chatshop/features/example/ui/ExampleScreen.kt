@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import chatshop.shared.generated.resources.Res
+import chatshop.shared.generated.resources.dialog_status_active
 import chatshop.shared.generated.resources.example_button_disabled
 import chatshop.shared.generated.resources.example_button_from_state
 import chatshop.shared.generated.resources.example_button_primary
@@ -33,6 +34,7 @@ import chatshop.shared.generated.resources.example_field_disabled_value
 import chatshop.shared.generated.resources.example_field_error_text
 import chatshop.shared.generated.resources.example_field_error_value
 import chatshop.shared.generated.resources.example_field_placeholder
+import chatshop.shared.generated.resources.example_section_badges
 import chatshop.shared.generated.resources.example_section_buttons
 import chatshop.shared.generated.resources.example_section_colors
 import chatshop.shared.generated.resources.example_section_fields
@@ -44,9 +46,12 @@ import chatshop.shared.generated.resources.example_typo_caption
 import chatshop.shared.generated.resources.example_typo_h1
 import chatshop.shared.generated.resources.example_typo_h2
 import chatshop.shared.generated.resources.example_typo_title
+import chatshop.shared.generated.resources.order_status_completed
+import chatshop.shared.generated.resources.order_status_processing
 import com.al4apps.chatshop.core.design.icons.AppIcons
 import com.al4apps.chatshop.core.design.model.ButtonUiState
 import com.al4apps.chatshop.core.design.theme.AppTheme
+import com.al4apps.chatshop.core.design.widgets.AppBadge
 import com.al4apps.chatshop.core.design.widgets.AppIconButton
 import com.al4apps.chatshop.core.design.widgets.AppPrimaryButton
 import com.al4apps.chatshop.core.design.widgets.AppSecondaryButton
@@ -79,6 +84,8 @@ fun ExampleScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             TypographySection()
+            SectionDivider()
+            BadgesSection()
             SectionDivider()
             ColorsSection()
             SectionDivider()
@@ -136,6 +143,23 @@ private fun TypographySection() {
         style = AppTheme.typography.caption,
         color = AppTheme.colors.textSecondary,
     )
+}
+
+@Composable
+private fun BadgesSection() {
+    SectionTitle(stringResource(Res.string.example_section_badges))
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        AppBadge(text = stringResource(Res.string.dialog_status_active))
+        AppBadge(text = stringResource(Res.string.order_status_processing))
+        AppBadge(
+            text = stringResource(Res.string.order_status_completed),
+            containerColor = AppTheme.colors.surface,
+            contentColor = AppTheme.colors.textSecondary,
+        )
+    }
 }
 
 @Composable

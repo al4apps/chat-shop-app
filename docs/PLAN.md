@@ -169,14 +169,19 @@ DefaultRootComponent (childStack)
 
 ## 6. Дизайн-система (принципы)
 
-- Стиль: простота и чистота, белый фон, синий — единственный акцент, серые — вспомогательные.
-  Без сложных цветов и градиентов. Одно основное действие на экран.
-- Светлая тема (тёмная — вне MVP). Системные шрифты (SF / Roboto).
-- Палитра (стартовая, уточняется на этапе 1): Primary #1A73E8 (синий), фон #FFFFFF,
-  поверхность #F5F7FA, текст #1A1C1E / вторичный #6B7280, ошибки — стандартный красный M3.
-- Базовые компоненты этапа 1: `AppButton` (primary/secondary/text), `AppTextField`,
-  `AppTopBar`, `AppIconButton`, стили текста. Дополняется по мере фич
-  (MessageBubble, SystemEventCard, RecordButton, AudioPlayerBar, StatusBadge...).
+- Стиль: простота и чистота, белый фон, синий — единственный акцент, прохладные нейтрали —
+  вспомогательные. Без визуального шума. Одно основное действие на экран.
+- Светлая тема (тёмная — вне MVP). Основной шрифт — **Manrope** (TTF в
+  `shared/src/commonMain/composeResources/font/`, OFL), системный шрифт — fallback.
+- Палитра v2: accent `#0B63F6`, accentPressed `#084CC4`, accentSoft `#E8F1FF`,
+  фон `#FFFFFF`, поверхность `#F4F7FB`, текст `#101828` / вторичный `#5B6472`,
+  divider `#E3E9F2`, disabled `#EEF2F7` / `#98A2B3`, error `#E5484D`.
+- Типографика: Display 52/56 Bold, H1 32/38 Bold, H2 24/30 Bold, Title 17/22 SemiBold,
+  Body 16/24 Regular, Caption 13/18 Regular, Button 16/20 SemiBold.
+- Радиусы: 8 / 12 / 16 / 20 / 24. Кнопка — высота 52, поле — 56 и радиус 12.
+- Базовые компоненты: `AppButton` (primary/secondary/text), `AppTextField`,
+  `AppTopBar`, `AppIconButton`, `MessageInputBar`, `AppBadge`. Дополняется по мере фич
+  (MessageBubble, SystemEventCard, RecordButton, AudioPlayerBar...).
 - Все строки — через UiText + compose-ресурсы (ru), хардкод запрещён.
 
 ---

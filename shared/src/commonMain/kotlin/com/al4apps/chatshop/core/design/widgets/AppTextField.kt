@@ -2,12 +2,14 @@ package com.al4apps.chatshop.core.design.widgets
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.al4apps.chatshop.core.design.theme.AppTheme
 
 /** Базовое поле ввода: белый фон, синяя рамка в фокусе. */
@@ -28,7 +30,7 @@ fun AppTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier,
+        modifier = modifier.heightIn(min = 56.dp),
         enabled = enabled,
         isError = isError,
         singleLine = singleLine,
