@@ -28,11 +28,16 @@
 | Время | kotlinx-datetime (+ kotlin.time.Instant) | парсинг ISO-8601, форматирование |
 | Токены | KSafe (шифрованное KMP-хранилище: Keystore/Keychain) | access/refresh, флаг онбординга — там же или Settings |
 | Изображения | Coil 3 (compose multiplatform) | показ картинок из локального кэша/файлов |
-| Аудио запись/плеер | без библиотек: expect/actual (MediaRecorder / AVAudioRecorder, MediaPlayer / AVAudioPlayer) | |
-| Выбор фото | без библиотек: expect/actual (Android Photo Picker / iOS PHPicker) | |
+| Аудио запись/плеер | приоритет — стабильная KMP-библиотека; текущий fallback — expect/actual (MediaRecorder/MediaPlayer; iOS voice — stub) | см. `BACKLOG.md` `IOS-VOICE-1` |
+| Выбор фото | приоритет — стабильная KMP-библиотека; текущий fallback — expect/actual (Android Photo Picker / iOS PHPicker) | |
 | Деньги | без библиотек: `Money` value class (минорные единицы `Long`, парсинг decimal-строки) | Double запрещён контрактом |
 
 Версии пиню на этапе 0 (последние стабильные, совместимые с Kotlin 2.4.10 / AGP 9.4.0).
+
+**Правило выбора библиотек:** сначала стабильная KMP-библиотека с подтверждённой
+поддержкой Android/iOS; нативная реализация через `expect/actual` — только если
+подходящей библиотеки нет или она нестабильна. Решение и альтернативы фиксируются
+в [`DEBT.md`](DEBT.md) или [`BACKLOG.md`](BACKLOG.md).
 
 ---
 

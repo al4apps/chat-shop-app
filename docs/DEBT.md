@@ -23,11 +23,14 @@
   `IosAudioRecorder.kt` (isAvailable=false). Android-реализации полные.
 - Суть: на iOS не реализованы выбор фото (PHPicker) и запись голосовых
   (AVAudioRecorder + AVAudioSession permission). Приложение тестируется на Android.
+- Приоритет исправления: сначала оценить стабильную KMP-библиотеку для записи/пикера;
+  нативная реализация — fallback. Детали и критерии выбора — [`BACKLOG.md`](BACKLOG.md)
+  (`IOS-VOICE-1`).
 - Риск: на iOS кнопки «прикрепить»/«микрофон» неактивны (isAvailable=false скрывает
   микрофон в UI — деградация корректная, без мёртвых кнопок).
-- Как исправить: PHPickerViewController + NSItemProvider (пикер); AVAudioRecorder в
-  M4A/AAC + запрос разрешения на микрофон (Info.plist NSMicrophoneUsageDescription),
-  презентация с корневого UIViewController.
+- Как исправить: рассмотреть KMP-библиотеки; если подходящей нет — PHPickerViewController
+  + NSItemProvider (пикер); AVAudioRecorder в M4A/AAC + запрос разрешения на микрофон
+  (Info.plist NSMicrophoneUsageDescription), презентация с корневого UIViewController.
 
 ## [2026-09-17] Тестовый режим без бэкенда доступен в прод-сборке
 - Модуль/файл: `shared` commonMain `di/DiConfig.kt` (`TEST_MODE`), `di/AppModules.kt`
