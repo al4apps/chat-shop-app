@@ -6,6 +6,8 @@ import com.al4apps.chatshop.features.chats.data.dto.MessageDto
 import com.al4apps.chatshop.features.chats.data.dto.MessagesPageDto
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,19 +20,19 @@ import kotlinx.serialization.json.JsonElement
  * In-memory «сервер» тестового режима: диалоги и лента в памяти.
  * Общий для [TestSyncApi] (чтение) и [TestChatsApi] (запись), чтобы `seq` не расходились.
  *
+ * Идентификаторы диалогов и файлов — UUID, как в production-контракте.
+ * `seq` — единый глобальный курсор ленты, а не идентификатор сущности.
+ *
  * Данные живут только в рамках рантайма и не персистятся. Набор — текст + SYSTEM-события.
  */
-@OptIn(ExperimentalTime::class)
+@OptIn(ExperimentalTime::class, ExperimentalUuidApi::class)
 class TestChatsStore {
 
     private val mutex = Mutex()
 
     private val dialogs = mutableListOf<DialogDto>()
     private val messages = mutableMapOf<String, MutableList<MessageDto>>()
-    private val seqCounters = mutableMapOf<String, Long>()
-
-    private var dialogCounter = 0
-    private var fileCounter = 0
+    private var nextSeq = 0L
 
     private val mutableClientMessages = MutableSharedFlow<String>(extraBufferCapacity = 16)
 
@@ -41,7 +43,7 @@ class TestChatsStore {
     suspend fun reset() = mutex.withLock {
         dialogs.clear()
         messages.clear()
-        seqCounters.clear()
+        nextSeq = 0
         seed()
     }
 
@@ -64,7 +66,7 @@ class TestChatsStore {
         ensureSeeded()
         val now = nowIso()
         val dialog = DialogDto(
-            id = "test-dialog-${++dialogCounter}",
+            id = Uuid.random().toString(),
             status = "NEW",
             createdAt = now,
             lastMessageAt = now,
@@ -75,17 +77,19 @@ class TestChatsStore {
     }
 
     suspend fun addClientText(dialogId: String, text: String, clientMessageId: String): MessageDto {
+        var created = false
         val message = mutex.withLock {
             ensureSeeded()
-            appendMessageLocked(
-                dialogId = dialogId,
-                senderRole = "CLIENT",
-                type = "TEXT",
-                text = text,
-                clientMessageId = clientMessageId,
-            )
+            findByClientMessageIdLocked(clientMessageId)
+                ?: appendMessageLocked(
+                    dialogId = dialogId,
+                    senderRole = "CLIENT",
+                    type = "TEXT",
+                    text = text,
+                    clientMessageId = clientMessageId,
+                ).also { created = true }
         }
-        mutableClientMessages.tryEmit(dialogId)
+        if (created) mutableClientMessages.tryEmit(dialogId)
         return message
     }
 
@@ -108,21 +112,27 @@ class TestChatsStore {
         clientMessageId: String,
     ): MessageDto = mutex.withLock {
         ensureSeeded()
-        appendMessageLocked(
-            dialogId = dialogId,
-            senderRole = "CLIENT",
-            type = type,
-            clientMessageId = clientMessageId,
-            file = FileDto(
-                id = "test-file-${++fileCounter}",
-                mime = mime,
-                size = size,
-                durationSec = durationSec,
-                url = null,
-                status = "ACTIVE",
-            ),
-        )
+        findByClientMessageIdLocked(clientMessageId)
+            ?: appendMessageLocked(
+                dialogId = dialogId,
+                senderRole = "CLIENT",
+                type = type,
+                clientMessageId = clientMessageId,
+                file = FileDto(
+                    id = Uuid.random().toString(),
+                    mime = mime,
+                    size = size,
+                    durationSec = durationSec,
+                    url = null,
+                    status = "ACTIVE",
+                ),
+            )
     }
+
+    private fun findByClientMessageIdLocked(clientMessageId: String): MessageDto? =
+        messages.values.asSequence()
+            .flatMap { it.asSequence() }
+            .firstOrNull { it.clientMessageId == clientMessageId }
 
     private fun appendMessageLocked(
         dialogId: String,
@@ -134,8 +144,7 @@ class TestChatsStore {
         clientMessageId: String? = null,
         file: FileDto? = null,
     ): MessageDto {
-        val seq = (seqCounters[dialogId] ?: 0L) + 1
-        seqCounters[dialogId] = seq
+        val seq = ++nextSeq
         val createdAt = nowIso()
         val message = MessageDto(
             seq = seq,
@@ -167,8 +176,10 @@ class TestChatsStore {
 
     private fun seed() {
         val now = nowIso()
+        val firstId = Uuid.random().toString()
+        val secondId = Uuid.random().toString()
         val first = DialogDto(
-            id = "test-dialog-1",
+            id = firstId,
             status = "ACTIVE",
             orderStatus = "PROCESSING",
             orderAmount = "1250.00",
@@ -180,14 +191,14 @@ class TestChatsStore {
             hasOperator = true,
         )
         val second = DialogDto(
-            id = "test-dialog-2",
+            id = secondId,
             status = "ACTIVE",
             orderStatus = "PAID",
             orderAmount = "480.00",
             orderDescription = "Заказ №102 — масляный фильтр",
             orderNo = 102,
             lastMessageAt = now,
-            lastMessageSeq = 2,
+            lastMessageSeq = 6,
             createdAt = now,
             hasOperator = true,
         )
@@ -230,14 +241,14 @@ class TestChatsStore {
         messages[second.id] = mutableListOf(
             system(
                 dialogId = second.id,
-                seq = 1,
+                seq = 5,
                 eventType = "ORDER_CREATED",
                 text = "Заказ №102 создан на сумму 480.00",
                 amount = "480.00",
                 createdAt = now,
             ),
             MessageDto(
-                seq = 2,
+                seq = 6,
                 dialogId = second.id,
                 senderRole = "OPERATOR",
                 type = "TEXT",
@@ -245,9 +256,7 @@ class TestChatsStore {
                 createdAt = now,
             ),
         )
-        seqCounters[first.id] = 4
-        seqCounters[second.id] = 2
-        dialogCounter = 2
+        nextSeq = 6
     }
 
     private fun system(
