@@ -68,8 +68,7 @@ fun DialogScreen(
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .imePadding(),
+                .fillMaxSize(),
         ) {
             AppTopBar(
                 title = uiState.title.resolve(),
@@ -116,6 +115,7 @@ fun DialogScreen(
                     onRecordStart = component::onRecordStart,
                     onRecordStop = component::onRecordStop,
                     onRecordCancel = component::onRecordCancel,
+                    modifier = Modifier.imePadding(),
                 )
             }
         }

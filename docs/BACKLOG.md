@@ -29,24 +29,6 @@
   - есть тест/ручной чек-лист и обновлённый `DEBT.md`.
 - **Следующий шаг:** spike-сравнение библиотек, решение в `design.md` change-а.
 
-## [CHAT-IME-1] Android: клавиатура и IME-отступы
-
-- **Статус:** требует воспроизведения
-- **Приоритет:** высокий (ломает ввод)
-- **Контекст:** `MainActivity` использует `enableEdgeToEdge()`; `HomeContent` —
-  `Scaffold` + `modifier.padding(it)`; `DialogScreen` — `imePadding()` на всём Column;
-  `FirstOrderScreen` — без `imePadding`; Auth-экраны — `safeContentPadding().imePadding()`.
-- **Гипотеза:** двойной учёт IME/insets или конфликт `Scaffold` padding и `imePadding`.
-  Это общий UI-риск, не обязательно только тестовый режим.
-- **Что проверить:** Android API/устройство, gesture/navigation bar, Dialog и FirstOrder,
-  открытие/закрытие клавиатуры, поворот, возврат из фона. Разделить test-mode и general.
-- **Acceptance criteria:**
-  - при открытой клавиатуре нет ложного верхнего отступа;
-  - поле ввода видно, лента скроллится, TopBar не уезжает;
-  - «Назад» закрывает клавиатуру, затем экран;
-  - поведение одинаково в Dialog и FirstOrder, на Android и iOS.
-- **Следующий шаг:** воспроизведение с видео/логами и отдельный change.
-
 ## [CHAT-OUTBOX-1] Аудит маршрутизации и отправки сообщений
 
 - **Статус:** требует проверки после `CHAT-TESTSEQ-1`
@@ -75,3 +57,17 @@
 - **Проверка:** `TestChatsStoreTest` — уникальность `seq`, изоляция диалогов,
   `senderRole`/`dialogId`, UUID, повтор без дубля; `:shared:testAndroidHostTest` — passed.
 - **Результат:** сообщения разных диалогов больше не конкурируют за один `seq` в тестовом режиме.
+
+## [CHAT-IME-1] Android: клавиатура и IME-отступы
+
+- **Статус:** закрыто (2026-10-27; Android; iOS — только сборка)
+- **Исправлено:** change `fix-chat-ime-insets`
+- **Что сделано:** IME-padding перенесён с корневого `Column` в `DialogScreen` на
+  `MessageInputBar` (Dialog и FirstOrder); Auth оставлен только на `safeContentPadding`;
+  в `MainActivity` добавлен `windowSoftInputMode="adjustResize"`.
+- **Проверка:** Android API 37.2 (Pixel 10 Pro), API 36.1 и API 30 (Medium Tablet):
+  Auth phone/code, Dialog и FirstOrder — при открытой клавиатуре нет ложного верхнего
+  отступа, поле ввода видно, TopBar на месте; отправка сообщения работает; Back сначала
+  закрывает клавиатуру, затем экран. iOS: `linkDebugFrameworkIosSimulatorArm64` и сборка
+  приложения — passed; визуальная проверка клавиатуры на iOS в этой итерации не выполнялась.
+- **Результат:** общий UI-фикс, не только test-mode.
