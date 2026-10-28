@@ -6,6 +6,9 @@ import com.al4apps.chatshop.core.media.AudioPlayer
 import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.core.media.VoiceRecordingController
+import com.al4apps.chatshop.core.network.AppError
+import com.al4apps.chatshop.core.network.AppResult
+import com.al4apps.chatshop.core.ui.toUiText
 import com.al4apps.chatshop.features.chats.dialog.model.DialogUiState
 import com.al4apps.chatshop.features.chats.dialog.model.DialogVmState
 import com.al4apps.chatshop.features.chats.domain.ChatsInteractor
@@ -148,6 +151,35 @@ class DefaultDialogComponent(
     override fun onRetryClick(localId: Long) {
         scope.launch {
             messagesInteractor.retryMessage(localId)
+        }
+    }
+
+    override fun onConfirmReceipt() {
+        val vmState = store.value
+        if (vmState.isConfirmingReceipt || vmState.isConfirmActionForbidden) return
+
+        store.update { it.copy(isConfirmingReceipt = true, commandError = null) }
+        scope.launch {
+            when (val result = chatsInteractor.confirmOrderReceived(dialogId)) {
+                is AppResult.Success -> store.update {
+                    it.copy(isConfirmingReceipt = false, commandError = null)
+                }
+
+                is AppResult.Failure -> {
+                    val status = (result.error as? AppError.Api)?.status
+                    if (status == 409) {
+                        syncService.syncDialogsOnce()
+                        syncService.syncMessagesOnce(dialogId)
+                    }
+                    store.update {
+                        it.copy(
+                            isConfirmingReceipt = false,
+                            commandError = result.error.toUiText(),
+                            isConfirmActionForbidden = it.isConfirmActionForbidden || status == 403,
+                        )
+                    }
+                }
+            }
         }
     }
 

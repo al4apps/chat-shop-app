@@ -68,7 +68,8 @@ adb shell am start -n com.al4apps.chatshop/.MainActivity
   framework статический, `baseName = "Shared"`.
 - CI, ktlint/detekt, formatter, pre-commit и `verifyMigrations` **не настроены**. Не выдумывай
   отдельный lint-gate: минимальная проверка — сборка + тесты.
-- Тесты сейчас smoke-заглушки (`assertEquals(3, 1 + 2)`); реального покрытия нет.
+- Тесты покрывают `Money`, assemblers, тестовый store/API и команду заказа; UI проверяется
+  ручной матрицей на Android.
 
 ## Модули и entrypoints
 

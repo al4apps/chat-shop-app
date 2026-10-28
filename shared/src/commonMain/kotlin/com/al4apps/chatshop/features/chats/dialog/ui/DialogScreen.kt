@@ -36,18 +36,32 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import okio.Path.Companion.toPath
 import chatshop.shared.generated.resources.Res
-import chatshop.shared.generated.resources.dialog_closed_note
 import chatshop.shared.generated.resources.message_failed
 import chatshop.shared.generated.resources.message_image_deleted
 import chatshop.shared.generated.resources.message_sending
+import chatshop.shared.generated.resources.order_amount
+import chatshop.shared.generated.resources.order_closed_footer
+import chatshop.shared.generated.resources.order_confirm_receipt
+import chatshop.shared.generated.resources.order_confirming
+import chatshop.shared.generated.resources.order_event_cancelled_title
+import chatshop.shared.generated.resources.order_event_closed_title
+import chatshop.shared.generated.resources.order_event_completed_title
+import chatshop.shared.generated.resources.order_event_created_title
+import chatshop.shared.generated.resources.order_event_paid_title
+import chatshop.shared.generated.resources.order_event_processing_title
+import chatshop.shared.generated.resources.order_processing_hint
 import com.al4apps.chatshop.core.design.icons.AppIcons
+import com.al4apps.chatshop.core.design.model.StatusBadgeTone
 import com.al4apps.chatshop.core.design.theme.AppTheme
 import com.al4apps.chatshop.core.design.widgets.AppTopBar
 import com.al4apps.chatshop.core.design.widgets.MessageInputBar
+import com.al4apps.chatshop.core.design.widgets.StatusBadge
+import com.al4apps.chatshop.core.design.widgets.SystemEventCard
 import com.al4apps.chatshop.core.ui.resolve
 import com.al4apps.chatshop.core.util.formatSeconds
 import com.al4apps.chatshop.features.chats.dialog.DialogComponent
 import com.al4apps.chatshop.features.chats.dialog.model.MessageItemUiState
+import com.al4apps.chatshop.features.chats.dialog.model.OrderSummaryUiState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -74,6 +88,7 @@ fun DialogScreen(
                 title = uiState.title.resolve(),
                 onBackClick = component::onBackClick,
             )
+            uiState.orderSummary?.let { OrderSummaryStrip(it) }
             LazyColumn(
                 state = listState,
                 reverseLayout = true,
@@ -86,22 +101,24 @@ fun DialogScreen(
                 items(items = uiState.items, key = { it.localId }) { item ->
                     MessageRow(
                         item = item,
+                        isConfirmingReceipt = uiState.isConfirmingReceipt,
+                        onConfirmReceipt = component::onConfirmReceipt,
                         onRetryClick = { component.onRetryClick(item.localId) },
                         onImageClick = component::onImageClick,
                         onVoiceClick = component::onVoiceClick,
                     )
                 }
             }
-            if (uiState.isInputBlocked) {
+            uiState.commandError?.let { error ->
                 Text(
-                    text = stringResource(Res.string.dialog_closed_note),
+                    text = error.resolve(),
                     style = AppTheme.typography.caption,
-                    color = AppTheme.colors.textSecondary,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
+                    color = AppTheme.colors.error,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                 )
+            }
+            if (uiState.isInputBlocked) {
+                ClosedFooter()
             } else {
                 MessageInputBar(
                     text = uiState.inputText,
@@ -122,6 +139,60 @@ fun DialogScreen(
         uiState.fullscreenImagePath?.let { path ->
             FullscreenImage(path = path, onDismiss = component::onFullscreenDismiss)
         }
+    }
+}
+
+@Composable
+private fun OrderSummaryStrip(
+    summary: OrderSummaryUiState,
+    modifier: Modifier = Modifier,
+) {
+    val parts = listOfNotNull(
+        summary.description,
+        summary.amount?.let { stringResource(Res.string.order_amount, it) },
+    )
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        if (parts.isNotEmpty()) {
+            Text(
+                text = parts.joinToString(" · "),
+                style = AppTheme.typography.caption,
+                color = AppTheme.colors.textSecondary,
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+            )
+        }
+        StatusBadge(text = summary.status, tone = summary.tone)
+    }
+}
+
+@Composable
+private fun ClosedFooter(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(AppTheme.colors.surface)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Icon(
+            imageVector = AppIcons.Lock,
+            contentDescription = null,
+            tint = AppTheme.colors.textSecondary,
+            modifier = Modifier.size(18.dp),
+        )
+        Text(
+            text = stringResource(Res.string.order_closed_footer),
+            style = AppTheme.typography.caption,
+            color = AppTheme.colors.textSecondary,
+            modifier = Modifier.padding(start = 8.dp),
+        )
     }
 }
 
@@ -269,13 +340,21 @@ private fun VoiceContent(
 @Composable
 private fun MessageRow(
     item: MessageItemUiState,
+    isConfirmingReceipt: Boolean,
+    onConfirmReceipt: () -> Unit,
     onRetryClick: () -> Unit,
     onImageClick: (String) -> Unit,
     onVoiceClick: (fileId: String, path: String, durationSec: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when {
-        item.isSystem -> SystemMessage(item = item, modifier = modifier)
+        item.isSystem -> SystemMessage(
+            item = item,
+            isConfirmingReceipt = isConfirmingReceipt,
+            onConfirmReceipt = onConfirmReceipt,
+            modifier = modifier,
+        )
+
         else -> ChatBubble(
             item = item,
             onRetryClick = onRetryClick,
@@ -289,6 +368,118 @@ private fun MessageRow(
 @Composable
 private fun SystemMessage(
     item: MessageItemUiState,
+    isConfirmingReceipt: Boolean,
+    onConfirmReceipt: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    when {
+        item.eventType == "DIALOG_CLOSED" -> SystemEventCard(
+            icon = AppIcons.Lock,
+            title = stringResource(Res.string.order_event_closed_title),
+            subtitle = item.text.ifBlank { stringResource(Res.string.order_closed_footer) },
+            tone = StatusBadgeTone.NEUTRAL,
+            modifier = modifier,
+        )
+
+        item.eventType?.startsWith("ORDER_") == true -> OrderEventCard(
+            item = item,
+            isConfirmingReceipt = isConfirmingReceipt,
+            onConfirmReceipt = onConfirmReceipt,
+            modifier = modifier,
+        )
+
+        else -> SystemPill(text = item.text, modifier = modifier)
+    }
+}
+
+@Composable
+private fun OrderEventCard(
+    item: MessageItemUiState,
+    isConfirmingReceipt: Boolean,
+    onConfirmReceipt: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val event = item.orderEvent
+    val amount = event?.amount?.let { stringResource(Res.string.order_amount, it) }
+    val eventType = item.eventType.orEmpty()
+    val presentation = when (eventType) {
+        "ORDER_CREATED" -> Triple(
+            AppIcons.Receipt,
+            StatusBadgeTone.ACCENT,
+            event?.orderNo
+                ?.let { stringResource(Res.string.order_event_created_title, it.toString()) }
+                ?: item.text,
+        )
+
+        "ORDER_PAID" -> Triple(
+            AppIcons.Payment,
+            StatusBadgeTone.ACCENT,
+            stringResource(Res.string.order_event_paid_title),
+        )
+
+        "ORDER_PROCESSING" -> Triple(
+            AppIcons.Package,
+            StatusBadgeTone.ACCENT,
+            stringResource(Res.string.order_event_processing_title),
+        )
+
+        "ORDER_COMPLETED" -> Triple(
+            AppIcons.CheckCircle,
+            StatusBadgeTone.ACCENT,
+            stringResource(Res.string.order_event_completed_title),
+        )
+
+        "ORDER_CANCELLED" -> Triple(
+            AppIcons.Cancel,
+            StatusBadgeTone.ERROR,
+            stringResource(Res.string.order_event_cancelled_title),
+        )
+
+        else -> null
+    }
+    if (presentation == null) {
+        SystemPill(text = item.text, modifier = modifier)
+        return
+    }
+
+    val subtitle = when (eventType) {
+        "ORDER_CREATED" -> listOfNotNull(event?.description, amount)
+            .joinToString(" · ")
+            .ifBlank { item.text }
+
+        "ORDER_PROCESSING" -> listOfNotNull(
+            amount,
+            stringResource(Res.string.order_processing_hint),
+        ).joinToString(" · ")
+
+        "ORDER_PAID" -> amount ?: item.text
+        "ORDER_COMPLETED" -> amount ?: item.text
+        "ORDER_CANCELLED" -> amount ?: item.text
+        else -> item.text
+    }
+    val actionLabel = if (item.showConfirmAction) {
+        stringResource(
+            if (isConfirmingReceipt) Res.string.order_confirming else Res.string.order_confirm_receipt,
+        )
+    } else {
+        null
+    }
+
+    SystemEventCard(
+        icon = presentation.first,
+        title = presentation.third,
+        subtitle = subtitle,
+        tone = presentation.second,
+        modifier = modifier,
+        actionLabel = actionLabel,
+        isActionEnabled = !isConfirmingReceipt,
+        onAction = if (item.showConfirmAction) onConfirmReceipt else null,
+    )
+}
+
+@Composable
+private fun SystemPill(
+    text: String,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -296,7 +487,7 @@ private fun SystemMessage(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = item.text,
+            text = text,
             style = AppTheme.typography.caption,
             color = AppTheme.colors.textSecondary,
             textAlign = TextAlign.Center,

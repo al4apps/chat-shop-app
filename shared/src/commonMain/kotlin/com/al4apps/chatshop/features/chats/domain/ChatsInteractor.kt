@@ -31,4 +31,15 @@ interface ChatsInteractor {
      * @return id созданного диалога; ошибки: сеть, сервер (problem+json).
      */
     suspend fun createDialog(): AppResult<String>
+
+    /**
+     * Подтверждает получение заказа командой `ORDER_COMPLETED`.
+     *
+     * Поведение: `POST /dialogs/{id}/commands`; ответ-снапшот сохраняется в БД
+     * транзакционно. Само SYSTEM-событие в ленте появится при следующем опросе.
+     *
+     * @return `Success(Unit)` после сохранения снапшота; `Failure` с ошибкой
+     *   `403`/`409`/сети — без автоматического ретрая.
+     */
+    suspend fun confirmOrderReceived(dialogId: String): AppResult<Unit>
 }

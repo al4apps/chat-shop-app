@@ -287,4 +287,195 @@ object AppIcons {
             }
         }.build()
     }
+
+    val Receipt: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "Receipt",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(fill = SolidColor(Color.Black)) {
+                moveTo(19f, 3f)
+                horizontalLineTo(5f)
+                curveTo(3.9f, 3f, 3f, 3.9f, 3f, 5f)
+                verticalLineToRelative(16f)
+                lineToRelative(3f, -2f)
+                lineToRelative(3f, 2f)
+                lineToRelative(3f, -2f)
+                lineToRelative(3f, 2f)
+                lineToRelative(3f, -2f)
+                lineToRelative(3f, 2f)
+                verticalLineTo(5f)
+                curveTo(21f, 3.9f, 20.1f, 3f, 19f, 3f)
+                close()
+                moveTo(17f, 15f)
+                horizontalLineTo(7f)
+                verticalLineToRelative(-2f)
+                horizontalLineToRelative(10f)
+                verticalLineTo(15f)
+                close()
+                moveTo(17f, 11f)
+                horizontalLineTo(7f)
+                verticalLineTo(9f)
+                horizontalLineToRelative(10f)
+                verticalLineTo(11f)
+                close()
+                moveTo(17f, 7f)
+                horizontalLineTo(7f)
+                verticalLineTo(5f)
+                horizontalLineToRelative(10f)
+                verticalLineTo(7f)
+                close()
+            }
+        }.build()
+    }
+
+    val Payment: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "Payment",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(fill = SolidColor(Color.Black)) {
+                moveTo(20f, 4f)
+                horizontalLineTo(4f)
+                curveTo(2.89f, 4f, 2.01f, 4.89f, 2.01f, 6f)
+                lineTo(2f, 18f)
+                curveTo(2f, 19.11f, 2.89f, 20f, 4f, 20f)
+                horizontalLineToRelative(16f)
+                curveToRelative(1.11f, 0f, 2f, -0.89f, 2f, -2f)
+                verticalLineTo(6f)
+                curveTo(22f, 4.89f, 21.11f, 4f, 20f, 4f)
+                close()
+                moveTo(20f, 18f)
+                horizontalLineTo(4f)
+                verticalLineTo(12f)
+                horizontalLineToRelative(16f)
+                verticalLineTo(18f)
+                close()
+                moveTo(20f, 8f)
+                horizontalLineTo(4f)
+                verticalLineTo(6f)
+                horizontalLineToRelative(16f)
+                verticalLineTo(8f)
+                close()
+            }
+        }.build()
+    }
+
+    val Package: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "Package",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(fill = SolidColor(Color.Black)) {
+                moveTo(20f, 2f)
+                horizontalLineTo(4f)
+                curveTo(3f, 2f, 2f, 2.9f, 2f, 4f)
+                verticalLineToRelative(3.01f)
+                curveToRelative(0f, 0.72f, 0.43f, 1.34f, 1f, 1.69f)
+                verticalLineTo(20f)
+                curveToRelative(0f, 1.1f, 1.1f, 2f, 2f, 2f)
+                horizontalLineToRelative(14f)
+                curveToRelative(0.9f, 0f, 2f, -0.9f, 2f, -2f)
+                verticalLineTo(8.7f)
+                curveToRelative(0.57f, -0.35f, 1f, -0.97f, 1f, -1.69f)
+                verticalLineTo(4f)
+                curveTo(22f, 2.9f, 21f, 2f, 20f, 2f)
+                close()
+                moveTo(15f, 14f)
+                horizontalLineTo(9f)
+                verticalLineToRelative(-2f)
+                horizontalLineToRelative(6f)
+                verticalLineTo(14f)
+                close()
+                moveTo(20f, 7f)
+                horizontalLineTo(4f)
+                verticalLineTo(4f)
+                horizontalLineToRelative(16f)
+                verticalLineTo(7f)
+                close()
+            }
+        }.build()
+    }
+
+    val Cancel: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "Cancel",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(fill = SolidColor(Color.Black)) {
+                moveTo(12f, 2f)
+                curveTo(6.48f, 2f, 2f, 6.48f, 2f, 12f)
+                reflectiveCurveToRelative(4.48f, 10f, 10f, 10f)
+                reflectiveCurveToRelative(10f, -4.48f, 10f, -10f)
+                reflectiveCurveTo(17.52f, 2f, 12f, 2f)
+                close()
+                moveTo(17f, 15.59f)
+                lineTo(15.59f, 17f)
+                lineTo(12f, 13.41f)
+                lineTo(8.41f, 17f)
+                lineTo(7f, 15.59f)
+                lineTo(10.59f, 12f)
+                lineTo(7f, 8.41f)
+                lineTo(8.41f, 7f)
+                lineTo(12f, 10.59f)
+                lineTo(15.59f, 7f)
+                lineTo(17f, 8.41f)
+                lineTo(13.41f, 12f)
+                close()
+            }
+        }.build()
+    }
+
+    val Lock: ImageVector by lazy {
+        ImageVector.Builder(
+            name = "Lock",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24f,
+            viewportHeight = 24f,
+        ).apply {
+            path(fill = SolidColor(Color.Black)) {
+                moveTo(18f, 8f)
+                horizontalLineToRelative(-1f)
+                verticalLineTo(6f)
+                curveToRelative(0f, -2.76f, -2.24f, -5f, -5f, -5f)
+                reflectiveCurveTo(7f, 3.24f, 7f, 6f)
+                verticalLineToRelative(2f)
+                horizontalLineTo(6f)
+                curveToRelative(-1.1f, 0f, -2f, 0.9f, -2f, 2f)
+                verticalLineToRelative(10f)
+                curveToRelative(0f, 1.1f, 0.9f, 2f, 2f, 2f)
+                horizontalLineToRelative(12f)
+                curveToRelative(1.1f, 0f, 2f, -0.9f, 2f, -2f)
+                verticalLineTo(10f)
+                curveToRelative(0f, -1.1f, -0.9f, -2f, -2f, -2f)
+                close()
+                moveTo(12f, 17f)
+                curveToRelative(-1.1f, 0f, -2f, -0.9f, -2f, -2f)
+                reflectiveCurveToRelative(0.9f, -2f, 2f, -2f)
+                reflectiveCurveToRelative(2f, 0.9f, 2f, 2f)
+                reflectiveCurveTo(13.1f, 17f, 12f, 17f)
+                close()
+                moveTo(15.1f, 8f)
+                horizontalLineTo(8.9f)
+                verticalLineTo(6f)
+                curveToRelative(0f, -1.71f, 1.39f, -3.1f, 3.1f, -3.1f)
+                curveToRelative(1.71f, 0f, 3.1f, 1.39f, 3.1f, 3.1f)
+                verticalLineTo(8f)
+                close()
+            }
+        }.build()
+    }
 }

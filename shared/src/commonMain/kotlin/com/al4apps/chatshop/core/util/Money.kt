@@ -21,6 +21,20 @@ value class Money(val minorUnits: Long) : Comparable<Money> {
         return "$sign$whole.${cents.toString().padStart(2, '0')}"
     }
 
+    /** Отображаемая сумма: разряды через пробел и запятая — `1 250,00`. */
+    fun asDisplayString(): String {
+        val sign = if (minorUnits < 0) "-" else ""
+        val units = abs(minorUnits)
+        val whole = units / 100
+        val cents = units % 100
+        val groupedWhole = whole.toString()
+            .reversed()
+            .chunked(3)
+            .joinToString(" ")
+            .reversed()
+        return "$sign$groupedWhole,${cents.toString().padStart(2, '0')}"
+    }
+
     override fun compareTo(other: Money): Int = minorUnits.compareTo(other.minorUnits)
 
     companion object {

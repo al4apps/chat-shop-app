@@ -13,8 +13,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 /**
  * In-memory «сервер» тестового режима: диалоги и лента в памяти.
@@ -129,6 +130,37 @@ class TestChatsStore {
             )
     }
 
+    /**
+     * Тестовая команда клиента `ORDER_COMPLETED`.
+     *
+     * Разрешена только при `orderStatus = PROCESSING`; добавляет SYSTEM-событие
+     * и обновляет проекцию заказа. Иначе возвращает null (тестовая реализация
+     * маппит это в `409`).
+     */
+    suspend fun completeOrder(dialogId: String): DialogDto? = mutex.withLock {
+        ensureSeeded()
+        val index = dialogs.indexOfFirst { it.id == dialogId }
+        if (index < 0) return@withLock null
+
+        val current = dialogs[index]
+        if (current.orderStatus != "PROCESSING") return@withLock null
+
+        appendMessageLocked(
+            dialogId = dialogId,
+            senderRole = "SYSTEM",
+            type = "SYSTEM",
+            text = "Заказ №${current.orderNo} получен",
+            eventType = "ORDER_COMPLETED",
+            payload = orderPayload(
+                orderNo = current.orderNo,
+                amount = current.orderAmount,
+                description = current.orderDescription,
+            ),
+        )
+        dialogs[index] = dialogs[index].copy(orderStatus = "COMPLETED")
+        dialogs[index]
+    }
+
     private fun findByClientMessageIdLocked(clientMessageId: String): MessageDto? =
         messages.values.asSequence()
             .flatMap { it.asSequence() }
@@ -178,15 +210,17 @@ class TestChatsStore {
         val now = nowIso()
         val firstId = Uuid.random().toString()
         val secondId = Uuid.random().toString()
+        val closedId = Uuid.random().toString()
+        val cancelledId = Uuid.random().toString()
         val first = DialogDto(
             id = firstId,
             status = "ACTIVE",
             orderStatus = "PROCESSING",
             orderAmount = "1250.00",
-            orderDescription = "Заказ №101 — тормозные колодки",
+            orderDescription = "Тормозные колодки",
             orderNo = 101,
             lastMessageAt = now,
-            lastMessageSeq = 4,
+            lastMessageSeq = 5,
             createdAt = now,
             hasOperator = true,
         )
@@ -195,22 +229,50 @@ class TestChatsStore {
             status = "ACTIVE",
             orderStatus = "PAID",
             orderAmount = "480.00",
-            orderDescription = "Заказ №102 — масляный фильтр",
+            orderDescription = "Масляный фильтр",
             orderNo = 102,
             lastMessageAt = now,
-            lastMessageSeq = 6,
+            lastMessageSeq = 7,
+            createdAt = now,
+            hasOperator = true,
+        )
+        val closed = DialogDto(
+            id = closedId,
+            status = "CLOSED",
+            orderStatus = "COMPLETED",
+            orderAmount = "620.00",
+            orderDescription = "Воздушный фильтр",
+            orderNo = 103,
+            lastMessageAt = now,
+            lastMessageSeq = 10,
+            createdAt = now,
+            hasOperator = true,
+        )
+        val cancelled = DialogDto(
+            id = cancelledId,
+            status = "ACTIVE",
+            orderStatus = "CANCELLED",
+            orderAmount = "980.00",
+            orderDescription = "Свечи зажигания",
+            orderNo = 104,
+            lastMessageAt = now,
+            lastMessageSeq = 12,
             createdAt = now,
             hasOperator = true,
         )
         dialogs += first
         dialogs += second
+        dialogs += closed
+        dialogs += cancelled
         messages[first.id] = mutableListOf(
             system(
                 dialogId = first.id,
                 seq = 1,
                 eventType = "ORDER_CREATED",
                 text = "Заказ №101 создан на сумму 1250.00",
+                orderNo = 101,
                 amount = "1250.00",
+                description = "Тормозные колодки",
                 createdAt = now,
             ),
             MessageDto(
@@ -232,8 +294,18 @@ class TestChatsStore {
             system(
                 dialogId = first.id,
                 seq = 4,
-                eventType = "PAID",
+                eventType = "ORDER_PAID",
                 text = "Заказ №101 оплачен",
+                orderNo = 101,
+                amount = "1250.00",
+                createdAt = now,
+            ),
+            system(
+                dialogId = first.id,
+                seq = 5,
+                eventType = "ORDER_PROCESSING",
+                text = "Заказ №101 собирается",
+                orderNo = 101,
                 amount = "1250.00",
                 createdAt = now,
             ),
@@ -241,14 +313,16 @@ class TestChatsStore {
         messages[second.id] = mutableListOf(
             system(
                 dialogId = second.id,
-                seq = 5,
+                seq = 6,
                 eventType = "ORDER_CREATED",
                 text = "Заказ №102 создан на сумму 480.00",
+                orderNo = 102,
                 amount = "480.00",
+                description = "Масляный фильтр",
                 createdAt = now,
             ),
             MessageDto(
-                seq = 6,
+                seq = 7,
                 dialogId = second.id,
                 senderRole = "OPERATOR",
                 type = "TEXT",
@@ -256,7 +330,56 @@ class TestChatsStore {
                 createdAt = now,
             ),
         )
-        nextSeq = 6
+        messages[closed.id] = mutableListOf(
+            system(
+                dialogId = closed.id,
+                seq = 8,
+                eventType = "ORDER_CREATED",
+                text = "Заказ №103 создан на сумму 620.00",
+                orderNo = 103,
+                amount = "620.00",
+                description = "Воздушный фильтр",
+                createdAt = now,
+            ),
+            system(
+                dialogId = closed.id,
+                seq = 9,
+                eventType = "ORDER_COMPLETED",
+                text = "Заказ №103 получен",
+                orderNo = 103,
+                amount = "620.00",
+                createdAt = now,
+            ),
+            system(
+                dialogId = closed.id,
+                seq = 10,
+                eventType = "DIALOG_CLOSED",
+                text = "Диалог закрыт оператором",
+                createdAt = now,
+            ),
+        )
+        messages[cancelled.id] = mutableListOf(
+            system(
+                dialogId = cancelled.id,
+                seq = 11,
+                eventType = "ORDER_CREATED",
+                text = "Заказ №104 создан на сумму 980.00",
+                orderNo = 104,
+                amount = "980.00",
+                description = "Свечи зажигания",
+                createdAt = now,
+            ),
+            system(
+                dialogId = cancelled.id,
+                seq = 12,
+                eventType = "ORDER_CANCELLED",
+                text = "Заказ №104 отменён",
+                orderNo = 104,
+                amount = "980.00",
+                createdAt = now,
+            ),
+        )
+        nextSeq = 12
     }
 
     private fun system(
@@ -264,7 +387,9 @@ class TestChatsStore {
         seq: Long,
         eventType: String,
         text: String,
-        amount: String,
+        orderNo: Int? = null,
+        amount: String? = null,
+        description: String? = null,
         createdAt: String,
     ): MessageDto = MessageDto(
         seq = seq,
@@ -273,9 +398,19 @@ class TestChatsStore {
         type = "SYSTEM",
         text = text,
         eventType = eventType,
-        payload = Json.parseToJsonElement("""{"amount":"$amount"}"""),
+        payload = orderPayload(orderNo, amount, description),
         createdAt = createdAt,
     )
+
+    private fun orderPayload(
+        orderNo: Int?,
+        amount: String?,
+        description: String?,
+    ): JsonElement = buildJsonObject {
+        if (orderNo != null) put("orderNo", orderNo)
+        if (amount != null) put("amount", amount)
+        if (!description.isNullOrBlank()) put("description", description)
+    }
 
     private fun nowIso(): String = Clock.System.now().toString()
 }

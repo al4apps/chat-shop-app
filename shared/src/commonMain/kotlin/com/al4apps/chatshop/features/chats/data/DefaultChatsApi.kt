@@ -4,6 +4,7 @@ import com.al4apps.chatshop.core.network.AppResult
 import com.al4apps.chatshop.core.network.apiCall
 import com.al4apps.chatshop.features.chats.data.dto.DialogDto
 import com.al4apps.chatshop.features.chats.data.dto.MessageDto
+import com.al4apps.chatshop.features.chats.data.dto.OrderCommandRequest
 import com.al4apps.chatshop.features.chats.data.dto.SendMessageRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
@@ -79,5 +80,14 @@ class DefaultChatsApi(
                 )
             },
         )
+    }
+
+    override suspend fun sendOrderCommand(
+        dialogId: String,
+        request: OrderCommandRequest,
+    ): AppResult<DialogDto> = apiCall {
+        client.post("dialogs/$dialogId/commands") {
+            setBody(request)
+        }
     }
 }

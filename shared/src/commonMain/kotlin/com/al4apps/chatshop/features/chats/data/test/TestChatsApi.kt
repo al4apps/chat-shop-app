@@ -1,9 +1,11 @@
 package com.al4apps.chatshop.features.chats.data.test
 
+import com.al4apps.chatshop.core.network.AppError
 import com.al4apps.chatshop.core.network.AppResult
 import com.al4apps.chatshop.features.chats.data.ChatsApi
 import com.al4apps.chatshop.features.chats.data.dto.DialogDto
 import com.al4apps.chatshop.features.chats.data.dto.MessageDto
+import com.al4apps.chatshop.features.chats.data.dto.OrderCommandRequest
 import com.al4apps.chatshop.features.chats.data.dto.SendMessageRequest
 
 /**
@@ -62,4 +64,24 @@ class TestChatsApi(
             clientMessageId = clientMessageId,
         ),
     )
+
+    override suspend fun sendOrderCommand(
+        dialogId: String,
+        request: OrderCommandRequest,
+    ): AppResult<DialogDto> {
+        if (request.type != "ORDER_COMPLETED") {
+            return AppResult.Failure(
+                AppError.Api(status = 403, title = "Forbidden", detail = "Команда недоступна клиенту"),
+            )
+        }
+        val dialog = store.completeOrder(dialogId)
+            ?: return AppResult.Failure(
+                AppError.Api(
+                    status = 409,
+                    title = "Conflict",
+                    detail = "Заказ уже завершён или отменён",
+                ),
+            )
+        return AppResult.Success(dialog)
+    }
 }

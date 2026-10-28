@@ -3,6 +3,7 @@ package com.al4apps.chatshop.features.chats.data
 import com.al4apps.chatshop.core.network.AppResult
 import com.al4apps.chatshop.features.chats.data.dto.DialogDto
 import com.al4apps.chatshop.features.chats.data.dto.MessageDto
+import com.al4apps.chatshop.features.chats.data.dto.OrderCommandRequest
 import com.al4apps.chatshop.features.chats.data.dto.SendMessageRequest
 
 /**
@@ -46,4 +47,13 @@ interface ChatsApi {
         durationSec: Int,
         clientMessageId: String,
     ): AppResult<MessageDto>
+
+    /**
+     * Команда заказа/диалога. Клиенту доступна только `ORDER_COMPLETED` из `PROCESSING`;
+     * ответ — обновлённый снапшот диалога, само SYSTEM-событие придёт из ленты.
+     */
+    suspend fun sendOrderCommand(
+        dialogId: String,
+        request: OrderCommandRequest,
+    ): AppResult<DialogDto>
 }

@@ -4,6 +4,7 @@ import com.al4apps.chatshop.features.chats.data.test.TestChatsStore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -142,5 +143,33 @@ class TestChatsStoreTest {
         )
         assertNotNull(Uuid.parse(fileMessage.file!!.id))
         Unit
+    }
+
+    @Test
+    fun completeOrderMovesProcessingToCompletedAndAppendsSystemEvent() = runBlocking {
+        val store = TestChatsStore()
+        store.reset()
+        val processing = store.dialogs().first { it.orderStatus == "PROCESSING" }
+
+        val updated = store.completeOrder(processing.id)
+
+        assertNotNull(updated)
+        assertEquals("COMPLETED", updated.orderStatus)
+        val event = store.messages(processing.id, afterSeq = 0, limit = 100)
+            .items
+            .last { it.eventType == "ORDER_COMPLETED" }
+        assertEquals("SYSTEM", event.senderRole)
+        assertEquals("SYSTEM", event.type)
+        assertEquals(processing.orderNo, event.payload?.toString()?.let { Regex("\"orderNo\":(\\d+)").find(it)?.groupValues?.get(1)?.toInt() })
+        assertNull(store.completeOrder(processing.id))
+    }
+
+    @Test
+    fun completeOrderRejectsNonProcessingDialog() = runBlocking {
+        val store = TestChatsStore()
+        store.reset()
+        val paid = store.dialogs().first { it.orderStatus == "PAID" }
+
+        assertNull(store.completeOrder(paid.id))
     }
 }

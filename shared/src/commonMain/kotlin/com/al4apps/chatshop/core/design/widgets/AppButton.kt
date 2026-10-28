@@ -2,6 +2,7 @@ package com.al4apps.chatshop.core.design.widgets
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -11,6 +12,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.al4apps.chatshop.core.design.model.ButtonUiState
 import com.al4apps.chatshop.core.design.theme.AppTheme
 import com.al4apps.chatshop.core.ui.resolve
@@ -55,6 +57,34 @@ fun AppPrimaryButton(
         modifier = modifier,
         enabled = state.enabled,
     )
+}
+
+/** Встроенное действие в карточке: компактная основная кнопка высотой 44. */
+@Composable
+fun AppInlinePrimaryButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.height(44.dp),
+        enabled = enabled,
+        shape = AppTheme.shapes.medium,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = AppTheme.colors.accent,
+            contentColor = AppTheme.colors.onAccent,
+            disabledContainerColor = AppTheme.colors.disabledContainer,
+            disabledContentColor = AppTheme.colors.disabledContent,
+        ),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+    ) {
+        Text(
+            text = text,
+            style = AppTheme.typography.button.copy(fontSize = 14.sp, lineHeight = 18.sp),
+        )
+    }
 }
 
 /** Второстепенная кнопка: контурная, синий текст. */

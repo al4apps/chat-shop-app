@@ -8,6 +8,9 @@ data class MessageItemUiState(
     val text: String,
     val isMine: Boolean,
     val isSystem: Boolean,
+    val eventType: String?,
+    val orderEvent: OrderEventUiState?,
+    val showConfirmAction: Boolean,
     val isImage: Boolean,
     /** Локальный путь к картинке (своя или скачанная); null — ещё нет байтов. */
     val imagePath: String?,

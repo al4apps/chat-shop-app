@@ -43,6 +43,18 @@
     <string name="chat_list_title">Заказы</string>
     <string name="chat_list_new_dialog">Новый заказ</string>
     <string name="chat_list_order_number">Новый заказ %1$s</string>
+    <string name="order_number">Заказ №%1$s</string>
+    <string name="order_amount">%1$s ₽</string>
+    <string name="order_event_created_title">Заказ №%1$s создан</string>
+    <string name="order_event_paid_title">Заказ оплачен</string>
+    <string name="order_event_processing_title">Заказ собирается</string>
+    <string name="order_event_completed_title">Заказ получен</string>
+    <string name="order_event_cancelled_title">Заказ отменён</string>
+    <string name="order_event_closed_title">Диалог закрыт</string>
+    <string name="order_processing_hint">Оператор собирает ваш заказ. Подтвердите получение, когда получите.</string>
+    <string name="order_confirm_receipt">Подтвердить получение</string>
+    <string name="order_confirming">Подтверждаем…</string>
+    <string name="order_closed_footer">Диалог закрыт. Написать сообщение нельзя.</string>
     <string name="chat_list_empty_title">Пока нет заказов</string>
     <string name="dialog_status_new">Ожидает оператора</string>
     <string name="dialog_status_assigned">Оператор подключён</string>
@@ -51,7 +63,7 @@
     <string name="order_status_created">Заказ оформлен</string>
     <string name="order_status_paid">Оплачен</string>
     <string name="order_status_processing">Собирается</string>
-    <string name="order_status_completed">Завершён</string>
+    <string name="order_status_completed">Получен</string>
     <string name="order_status_cancelled">Отменён</string>
     <string name="order_status_unknown">Статус неизвестен</string>
     <string name="dialog_title">Новый заказ</string>

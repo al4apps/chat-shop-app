@@ -210,8 +210,14 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
       `TestChatsStore` (in-memory «сервер»), `InMemoryTokenStorage`, `TestDataInitializer`
       (очистка БД + reset мок-стора на старте), `TestAutoReplyService` (авто-ответ
       оператора).
-- [ ] Этап 11: статусы заказа (карточки SYSTEM-событий, «Подтвердить получение»,
-      блокировки) — не начат.
+- [x] Этап 11 (статусы заказа): SYSTEM-события заказа по `eventType`/`payload` —
+      карточки `ORDER_CREATED`/`PAID`/`PROCESSING`/`COMPLETED`/`CANCELLED`, плашки
+      `OPERATOR_*`, карточка `DIALOG_CLOSED`; кнопка «Подтвердить получение» внутри
+      `PROCESSING` → `POST /dialogs/{id}/commands` (`ORDER_COMPLETED`), снапшот в БД;
+      order strip и бейджи статуса в шапке; список чатов с номером, описанием, бейджем
+      и суммой; закрытый футер вместо ввода; обработка `403`/`409` без авторетрая.
+      Тесты: `Money`, `ChatListAssembler`, `DialogAssembler`, `TestChatsStore`,
+      `TestChatsApi`, `DefaultChatsInteractor`; ручная матрица Android.
 
 ### Известные ограничения
 
@@ -221,7 +227,8 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
   обработка ошибок; verify/refresh — компиляцией и логикой).
 - `TEST_MODE = true` сейчас включён; код тест-режима попадает в release.
 - Dev-хосты захардкожены (`10.0.2.2` / `localhost`), cleartext HTTP разрешён глобально.
-- Тесты — smoke-заглушки (`1 + 2`), реального покрытия нет.
+- Тесты покрывают `Money`, assemblers, тестовый store/API и команду заказа; UI
+  проверяется ручной матрицей на Android.
 
 ---
 

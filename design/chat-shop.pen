@@ -1095,7 +1095,8 @@
                   "content": "Оператор подберёт размер и подтвердит наличие.",
                   "lineHeight": 1.5,
                   "fontFamily": "Manrope",
-                  "fontSize": 16
+                  "fontSize": 16,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -1135,7 +1136,8 @@
                   "content": "14:05 · Доставлено",
                   "lineHeight": 1.38,
                   "fontFamily": "Manrope",
-                  "fontSize": 13
+                  "fontSize": 13,
+                  "fontWeight": "normal"
                 },
                 {
                   "type": "text",
@@ -3896,6 +3898,4022 @@
                   "content": "В корзину"
                 }
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "mNn8t",
+      "x": 0,
+      "y": 4280,
+      "name": "Chat screens",
+      "width": 1752,
+      "fill": "$v2-surface",
+      "cornerRadius": 32,
+      "layout": "vertical",
+      "gap": 32,
+      "padding": 48,
+      "children": [
+        {
+          "type": "frame",
+          "id": "a8avaf",
+          "name": "Header",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "text",
+              "id": "x5sTC",
+              "name": "Title",
+              "fill": "$v2-text",
+              "content": "ChatShop · чаты и статусы заказа",
+              "fontFamily": "Manrope",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "wZzu2",
+              "name": "Subtitle",
+              "fill": "$v2-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 900,
+              "content": "Текущие экраны и целевые состояния этапа 11: SYSTEM-карточки, подтверждение получения и закрытый диалог",
+              "fontFamily": "Manrope",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eqgyn",
+          "name": "Row 1 · Current and list states",
+          "width": "fill_container",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "ilSVx",
+              "name": "01 · Список чатов — сейчас",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yQncw",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "01 · Список чатов — сейчас",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "Xl50W",
+                  "name": "Chat list current",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VZXpA",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DYYUo",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "L1ZavI",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ZCKkO",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "q8Nat",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "r0OYA",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ey9q7",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "PM0fM",
+                          "name": "Leading spacer",
+                          "width": 12,
+                          "height": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "g94Xj",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказы",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "i2q8cu",
+                          "name": "Action",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "HIqMT",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "add",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NfWIm",
+                      "name": "List",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "W0UWwU",
+                          "name": "Dialog row",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "YobId",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "CpBUR",
+                                  "name": "Title",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Заказ №101 — тормозные колодки",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "swIfU",
+                                  "name": "Subtitle",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Собирается",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "MaWHJ",
+                              "name": "Time",
+                              "fill": "$v2-text-secondary",
+                              "content": "17:02",
+                              "fontFamily": "Manrope",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "VPsRJ",
+                          "name": "Divider",
+                          "fill": "$v2-divider",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "frame",
+                          "id": "nDKbX",
+                          "name": "Dialog row",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "eGoVr",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "DLmv6",
+                                  "name": "Title",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Заказ №102 — масляный фильтр",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "uVk38",
+                                  "name": "Subtitle",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Оплачен",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "DvQrK",
+                              "name": "Time",
+                              "fill": "$v2-text-secondary",
+                              "content": "17:02",
+                              "fontFamily": "Manrope",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "f5U4W",
+                          "name": "Divider",
+                          "fill": "$v2-divider",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "c6KbtG",
+              "name": "02 · Диалог — сейчас",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "E82rq2",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "02 · Диалог — сейчас",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "z9BpAP",
+                  "name": "Dialog current",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "D9CvH",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "grchO",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "r82LZ",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "UU0gb",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "KnX37",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "T25DB",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "K2Td61",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "s3jHD8",
+                          "name": "Back",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "F0dLMk",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow_back",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "NMkqO",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказ №101 — тормозные колодки",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SxwcW",
+                          "name": "Trailing spacer",
+                          "width": 40,
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RVqao",
+                      "name": "Feed",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "TXOob",
+                          "name": "System pill",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "IeLWK",
+                              "name": "Pill",
+                              "fill": "$v2-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "uqCxQ",
+                                  "name": "Text",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Заказ №101 создан на сумму 1250.00",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vXjv2",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "justifyContent": "end",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "H4GNh",
+                              "name": "My message",
+                              "width": 264,
+                              "fill": "$v2-accent",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "m5Jrx",
+                                  "name": "Text",
+                                  "fill": "$v2-on-accent",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Здравствуйте! Нужны передние тормозные колодки.",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "sjTBE",
+                                  "name": "Time",
+                                  "fill": "#FFFFFFB3",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "17:02",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "q28Ci",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cbMub",
+                              "name": "Operator message",
+                              "width": 264,
+                              "fill": "$v2-surface",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "D94GCe",
+                                  "name": "Text",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Добрый день! Есть в наличии, оформляю заказ.",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Zo8Ws",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "17:02",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "q4QqO",
+                          "name": "System pill",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "z4MHFW",
+                              "name": "Pill",
+                              "fill": "$v2-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "DQRCD",
+                                  "name": "Text",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Заказ №101 оплачен",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "eOwRt",
+                      "name": "Input bar",
+                      "width": "fill_container",
+                      "height": 72,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "top": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "V7fYhM",
+                          "name": "Attach",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "attach_file",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-text-secondary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OsP0p",
+                          "name": "Field",
+                          "width": "fill_container",
+                          "height": 44,
+                          "fill": "$v2-bg",
+                          "cornerRadius": 12,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "rmtz3",
+                              "name": "Placeholder",
+                              "fill": "$v2-text-secondary",
+                              "content": "Сообщение",
+                              "fontFamily": "Manrope",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "Y98YFG",
+                          "name": "Mic",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "mic",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pLI67",
+              "name": "03 · Список чатов — статусы",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "IUMdL",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "03 · Список чатов — статусы",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "hPBd0",
+                  "name": "Chat list statuses",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "e0NCYf",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "SF7fn",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LmHoG",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "jT0uM",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "TLqyp",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "A66JsM",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "V92UD4",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "WUBXs",
+                          "name": "Leading spacer",
+                          "width": 12,
+                          "height": 1
+                        },
+                        {
+                          "type": "text",
+                          "id": "YtYrE",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказы",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "oKDjB",
+                          "name": "Action",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "lNr3Y",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "add",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MHQ5n",
+                      "name": "List",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "VR5qP",
+                          "name": "Order row",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "OkrEz",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "JbIdW",
+                                  "name": "Title row",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "i7IJx",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "content": "Заказ №101",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "ZG8Rg",
+                                      "name": "Badge",
+                                      "fill": "$v2-accent-soft",
+                                      "cornerRadius": 999,
+                                      "padding": [
+                                        6,
+                                        10
+                                      ],
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "ESlWT",
+                                          "name": "Label",
+                                          "fill": "$v2-accent",
+                                          "content": "Собирается",
+                                          "fontFamily": "Manrope",
+                                          "fontSize": 12,
+                                          "fontWeight": "600"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "lxcKK",
+                                  "name": "Subtitle",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Тормозные колодки",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "yPXDZ",
+                              "name": "Meta",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "j3qPQ",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "17:02",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "V3JoHq",
+                                  "name": "Amount",
+                                  "fill": "$v2-text",
+                                  "content": "1 250,00 ₽",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "P3qF10",
+                          "name": "Divider",
+                          "fill": "$v2-divider",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jd4r9",
+                          "name": "Order row",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "u7m9OE",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "S1Fqs",
+                                  "name": "Title row",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "xW3if",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "content": "Заказ №102",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "oMrjD",
+                                      "name": "Badge",
+                                      "fill": "$v2-accent-soft",
+                                      "cornerRadius": 999,
+                                      "padding": [
+                                        6,
+                                        10
+                                      ],
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "mTeFI",
+                                          "name": "Label",
+                                          "fill": "$v2-accent",
+                                          "content": "Оплачен",
+                                          "fontFamily": "Manrope",
+                                          "fontSize": 12,
+                                          "fontWeight": "600"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "qUPb4",
+                                  "name": "Subtitle",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Масляный фильтр",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "GKD2I",
+                              "name": "Meta",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "W0TPo",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "17:02",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "nuoDq",
+                                  "name": "Amount",
+                                  "fill": "$v2-text",
+                                  "content": "740,00 ₽",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "YRlBg",
+                          "name": "Divider",
+                          "fill": "$v2-divider",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Trl4Q",
+                          "name": "Order row",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "CKile",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "X1wqq",
+                                  "name": "Title row",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "egWHS",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "content": "Заказ №99",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "nUT6M",
+                                      "name": "Badge",
+                                      "fill": "$v2-disabled-container",
+                                      "cornerRadius": 999,
+                                      "padding": [
+                                        6,
+                                        10
+                                      ],
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "rvblZ",
+                                          "name": "Label",
+                                          "fill": "$v2-text-secondary",
+                                          "content": "Получен",
+                                          "fontFamily": "Manrope",
+                                          "fontSize": 12,
+                                          "fontWeight": "600"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "rDAu2",
+                                  "name": "Subtitle",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Щётки стеклоочистителя",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "xgAEZ",
+                              "name": "Meta",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "vp5Wo",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Вчера",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "C3phZ",
+                                  "name": "Amount",
+                                  "fill": "$v2-text",
+                                  "content": "1 100,00 ₽",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "s2qjN",
+                          "name": "Divider",
+                          "fill": "$v2-divider",
+                          "width": "fill_container",
+                          "height": 1
+                        },
+                        {
+                          "type": "frame",
+                          "id": "L2frJJ",
+                          "name": "Order row",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "padding": [
+                            14,
+                            16
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "TKLfg",
+                              "name": "Text",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "bMa5h",
+                                  "name": "Title row",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "ZJUB1",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "content": "Заказ №98",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "o7iUwB",
+                                      "name": "Badge",
+                                      "fill": "$v2-disabled-container",
+                                      "cornerRadius": 999,
+                                      "padding": [
+                                        6,
+                                        10
+                                      ],
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "RMxZ2",
+                                          "name": "Label",
+                                          "fill": "$v2-error",
+                                          "content": "Отменён",
+                                          "fontFamily": "Manrope",
+                                          "fontSize": 12,
+                                          "fontWeight": "600"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "GBF1Z",
+                                  "name": "Subtitle",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Воздушный фильтр",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "D0JSmE",
+                              "name": "Meta",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "DAO7i",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Вчера",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "TTAon",
+                                  "name": "Amount",
+                                  "fill": "$v2-text",
+                                  "content": "620,00 ₽",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "rectangle",
+                          "id": "mD1W5",
+                          "name": "Divider",
+                          "fill": "$v2-divider",
+                          "width": "fill_container",
+                          "height": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fe0AC",
+          "name": "Row 2 · Order states",
+          "width": "fill_container",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "f92ya",
+              "name": "04 · Диалог — в работе",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "O61s0",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "04 · Диалог — в работе",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "j5Jf07",
+                  "name": "Dialog processing",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xQgac",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "PxJRT",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uacgj",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "WS5WD",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "Ket3n",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "TH5j0",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "iobaE",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ZXtGa",
+                          "name": "Back",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "C0KoW7",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow_back",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "E6AVNw",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказ №101",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tFsy9",
+                          "name": "Trailing spacer",
+                          "width": 40,
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "prMMS",
+                      "name": "Order strip",
+                      "width": "fill_container",
+                      "height": 44,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Pxqix",
+                          "name": "Summary",
+                          "fill": "$v2-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Тормозные колодки · 1 250,00 ₽",
+                          "fontFamily": "Manrope",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jXkKy",
+                          "name": "Badge",
+                          "fill": "$v2-accent-soft",
+                          "cornerRadius": 999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "y82rW",
+                              "name": "Label",
+                              "fill": "$v2-accent",
+                              "content": "Собирается",
+                              "fontFamily": "Manrope",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "U24Mg",
+                      "name": "Feed",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gcHxg",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "nXCJ1",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "Y3jcw2",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "receipt_long",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "C4BXx",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "vLhmX",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "m3exrn",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ №101 создан",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "wcEoc",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Тормозные колодки · 1 250,00 ₽",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "n0jlV",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "justifyContent": "end",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ucGfW",
+                              "name": "My message",
+                              "width": 264,
+                              "fill": "$v2-accent",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "gBLaP",
+                                  "name": "Text",
+                                  "fill": "$v2-on-accent",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Спасибо, жду!",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "AZRxq",
+                                  "name": "Time",
+                                  "fill": "#FFFFFFB3",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "17:02",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jnpsg",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "BGF2e",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "QscpX",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "payments",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "TR3aS",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "udR5u",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "gIakV",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ оплачен",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "H6JLfX",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "1 250,00 ₽ · 17:02",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pIoUC",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ljihc",
+                              "name": "Operator message",
+                              "width": 264,
+                              "fill": "$v2-surface",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "W8PEQ",
+                                  "name": "Text",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Собираем заказ, скоро отправим.",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Mp9iN",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "17:04",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Bs35s",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "DMBTL",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "kAhyd",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "inventory_2",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "shFdP",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "XtPFZ",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "TxKfA",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ собирается",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "o3ihCa",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Оператор собирает ваш заказ. Подтвердите получение, когда получите.",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "EvU62",
+                                  "name": "Confirm action",
+                                  "width": "fill_container",
+                                  "height": 44,
+                                  "fill": "$v2-accent",
+                                  "cornerRadius": 12,
+                                  "justifyContent": "center",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "LQkqA",
+                                      "name": "Label",
+                                      "fill": "$v2-on-accent",
+                                      "content": "Подтвердить получение",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "htlus",
+                      "name": "Input bar",
+                      "width": "fill_container",
+                      "height": 72,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "top": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "nVDXs",
+                          "name": "Attach",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "attach_file",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-text-secondary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wdhZa",
+                          "name": "Field",
+                          "width": "fill_container",
+                          "height": 44,
+                          "fill": "$v2-bg",
+                          "cornerRadius": 12,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "TKwSP",
+                              "name": "Placeholder",
+                              "fill": "$v2-text-secondary",
+                              "content": "Сообщение",
+                              "fontFamily": "Manrope",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "O6Tl8",
+                          "name": "Mic",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "mic",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bNoZt",
+              "name": "05 · Диалог — получен",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "obsr9",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "05 · Диалог — получен",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZTv0W",
+                  "name": "Dialog completed",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "kConl",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rpWb5",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "muiA6",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "gectm",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "aum2H",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "KKMfo",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sl2BK",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gmtgg",
+                          "name": "Back",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "ZoZd3",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow_back",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "LPZHE",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказ №101",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "R4mtej",
+                          "name": "Trailing spacer",
+                          "width": 40,
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KiUOO",
+                      "name": "Order strip",
+                      "width": "fill_container",
+                      "height": 44,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tGTPc",
+                          "name": "Summary",
+                          "fill": "$v2-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Тормозные колодки · 1 250,00 ₽",
+                          "fontFamily": "Manrope",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zZbYW",
+                          "name": "Badge",
+                          "fill": "$v2-disabled-container",
+                          "cornerRadius": 999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "UmOfg",
+                              "name": "Label",
+                              "fill": "$v2-text-secondary",
+                              "content": "Получен",
+                              "fontFamily": "Manrope",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nmBca",
+                      "name": "Feed",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FNaHf",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "e8Ac8x",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "kd9Ts",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "receipt_long",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "bliUG",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "obhIq",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "rEHOP",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ №101 создан",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "i4sYEc",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Тормозные колодки · 1 250,00 ₽",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pt3v1",
+                          "name": "System pill",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Cjwyo",
+                              "name": "Pill",
+                              "fill": "$v2-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "m1WhuM",
+                                  "name": "Text",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Оператор подключился",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "c5h5B",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "sYEmZ",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "LJ4AB",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "payments",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "MWkN7",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "QcwDS",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "H0uSb",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ оплачен",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "tCEM3",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "1 250,00 ₽ · 17:02",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "czuZT",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ttDqO",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "mRlay",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "check_circle",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QO48N",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "GhTaY",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "MIBNu",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ получен",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "cAH7e",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Спасибо! Заказ №101 завершён.",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "OIzMz",
+                          "name": "System pill",
+                          "width": "fill_container",
+                          "justifyContent": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "R6qtJX",
+                              "name": "Pill",
+                              "fill": "$v2-surface",
+                              "cornerRadius": 12,
+                              "padding": [
+                                6,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "NvhGa",
+                                  "name": "Text",
+                                  "fill": "$v2-text-secondary",
+                                  "content": "Оператор освободил диалог",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 12,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "h94ysj",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "justifyContent": "end",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "D4MA42",
+                              "name": "My message",
+                              "width": 264,
+                              "fill": "$v2-accent",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Sq45z",
+                                  "name": "Text",
+                                  "fill": "$v2-on-accent",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Спасибо, всё получил!",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "pxHOt",
+                                  "name": "Time",
+                                  "fill": "#FFFFFFB3",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "18:20",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vvdz8",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "f65C8",
+                              "name": "Operator message",
+                              "width": 264,
+                              "fill": "$v2-surface",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Hy0G0",
+                                  "name": "Text",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Будем рады видеть вас снова.",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "UcGQD",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "18:21",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WfVyD",
+                      "name": "Input bar",
+                      "width": "fill_container",
+                      "height": 72,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "top": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "KWzmJ",
+                          "name": "Attach",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "attach_file",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-text-secondary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "y6rKb",
+                          "name": "Field",
+                          "width": "fill_container",
+                          "height": 44,
+                          "fill": "$v2-bg",
+                          "cornerRadius": 12,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "HfpIk",
+                              "name": "Placeholder",
+                              "fill": "$v2-text-secondary",
+                              "content": "Сообщение",
+                              "fontFamily": "Manrope",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "Y53Pl",
+                          "name": "Mic",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "mic",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "u2h8xz",
+              "name": "06 · Диалог — отменён",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hl0nl",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "06 · Диалог — отменён",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "uZ2la",
+                  "name": "Dialog cancelled",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WOBR4",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "npmhe",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "AxdKD",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "n8u0Zc",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "X68kiA",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "W5RDD",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "l5gl4g",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "tVlsP",
+                          "name": "Back",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "vKRYA",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow_back",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "endYS",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказ №101",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FTFlX",
+                          "name": "Trailing spacer",
+                          "width": 40,
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D9Tko8",
+                      "name": "Order strip",
+                      "width": "fill_container",
+                      "height": 44,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "E7xa5",
+                          "name": "Summary",
+                          "fill": "$v2-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Тормозные колодки · 1 250,00 ₽",
+                          "fontFamily": "Manrope",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "eDB7O",
+                          "name": "Badge",
+                          "fill": "$v2-disabled-container",
+                          "cornerRadius": 999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "QKAza",
+                              "name": "Label",
+                              "fill": "$v2-error",
+                              "content": "Отменён",
+                              "fontFamily": "Manrope",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KfkLh",
+                      "name": "Feed",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cn7ea",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "tAY2l",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "SkcVp",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "receipt_long",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "IIRuf",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "UFlPY",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "N37QC",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ №101 создан",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "isJf9",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Тормозные колодки · 1 250,00 ₽",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "FQXCU",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "C2nRyq",
+                              "name": "Operator message",
+                              "width": 264,
+                              "fill": "$v2-surface",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "g9JRB",
+                                  "name": "Text",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "К сожалению, товара нет в наличии.",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "l20IHR",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "17:10",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Gr4Ya",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "T5zH0E",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "#FEF2F2",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "u7Xsa",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "cancel",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-error"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "jEzZZ",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "ETHFg",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "U1xkZ",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ отменён",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "F3qX4",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Оператор отменил заказ №101.",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FMPlH",
+                      "name": "Input bar",
+                      "width": "fill_container",
+                      "height": 72,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "top": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "C0MwT",
+                          "name": "Attach",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "attach_file",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-text-secondary"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "P3bys",
+                          "name": "Field",
+                          "width": "fill_container",
+                          "height": 44,
+                          "fill": "$v2-bg",
+                          "cornerRadius": 12,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "padding": [
+                            0,
+                            12
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "qgJdF",
+                              "name": "Placeholder",
+                              "fill": "$v2-text-secondary",
+                              "content": "Сообщение",
+                              "fontFamily": "Manrope",
+                              "fontSize": 15,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "icon",
+                          "id": "TfHXg",
+                          "name": "Mic",
+                          "width": 24,
+                          "height": 24,
+                          "icon": "mic",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "bL6GX",
+              "name": "07 · Диалог — закрыт",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "N97Baz",
+                  "name": "Label",
+                  "fill": "$v2-text",
+                  "content": "07 · Диалог — закрыт",
+                  "fontFamily": "Manrope",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "pILMd",
+                  "name": "Dialog closed",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$v2-bg",
+                  "cornerRadius": 32,
+                  "stroke": "$v2-divider",
+                  "strokeWidth": 1,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#10182814",
+                    "offset": {
+                      "x": 0,
+                      "y": 16
+                    },
+                    "blur": 40
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MtVFf",
+                      "name": "Status bar",
+                      "width": "fill_container",
+                      "height": 62,
+                      "padding": [
+                        0,
+                        24
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MhDvE",
+                          "name": "Time",
+                          "fill": "$v2-text",
+                          "content": "9:41",
+                          "fontFamily": "Manrope",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Rn0W2",
+                          "name": "Status icons",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "FUUN0",
+                              "name": "Signal",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "signal_cellular_alt",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "pTRNN",
+                              "name": "Wi-Fi",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "wifi",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "s9wstj",
+                              "name": "Battery",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "battery_full",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "scPdP",
+                      "name": "Top bar",
+                      "width": "fill_container",
+                      "height": 56,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        0,
+                        4
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "gMEfG",
+                          "name": "Back",
+                          "width": 40,
+                          "height": 40,
+                          "cornerRadius": 20,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "aHtM0",
+                              "name": "Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "arrow_back",
+                              "library": "Material Symbols Rounded",
+                              "fill": "$v2-text"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "tXgKL",
+                          "name": "Title",
+                          "fill": "$v2-text",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Заказ №101",
+                          "fontFamily": "Manrope",
+                          "fontSize": 17,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "J0WzzF",
+                          "name": "Trailing spacer",
+                          "width": 40,
+                          "height": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "obtQN",
+                      "name": "Order strip",
+                      "width": "fill_container",
+                      "height": 44,
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ATKJ8",
+                          "name": "Summary",
+                          "fill": "$v2-text-secondary",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Тормозные колодки · 1 250,00 ₽",
+                          "fontFamily": "Manrope",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "p3Omx",
+                          "name": "Badge",
+                          "fill": "$v2-disabled-container",
+                          "cornerRadius": 999,
+                          "padding": [
+                            6,
+                            10
+                          ],
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "XF54k",
+                              "name": "Label",
+                              "fill": "$v2-text-secondary",
+                              "content": "Закрыт",
+                              "fontFamily": "Manrope",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "n64wH",
+                      "name": "Feed",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "HygPU",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "qX0sJ",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "e2ct2",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "receipt_long",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "a2fSfo",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "hDp6B",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "V9rcY",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ №101 создан",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "dR1Mc",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Тормозные колодки · 1 250,00 ₽",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bAotT",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "w9UjmS",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-accent-soft",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "D5p0Kc",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "check_circle",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-accent"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "wgNBR",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "m0viio",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "z6eLM",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ получен",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "H6p3b",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Заказ №101 завершён.",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Xkqg3",
+                          "name": "Message row",
+                          "width": "fill_container",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FHWeQ",
+                              "name": "Operator message",
+                              "width": 264,
+                              "fill": "$v2-surface",
+                              "cornerRadius": 20,
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [
+                                10,
+                                12
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Zi6Ge",
+                                  "name": "Text",
+                                  "fill": "$v2-text",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "Спасибо за заказ!",
+                                  "lineHeight": 1.35,
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 15,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "p5Tq2d",
+                                  "name": "Time",
+                                  "fill": "$v2-text-secondary",
+                                  "textGrowth": "fixed-width",
+                                  "width": 240,
+                                  "content": "18:25",
+                                  "textAlign": "right",
+                                  "fontFamily": "Manrope",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pdThw",
+                          "name": "System order card",
+                          "width": "fill_container",
+                          "fill": "$v2-bg",
+                          "cornerRadius": 16,
+                          "stroke": "$v2-divider",
+                          "strokeWidth": 1,
+                          "effect": {
+                            "type": "shadow",
+                            "shadowType": "outer",
+                            "color": "#1018280A",
+                            "offset": {
+                              "x": 0,
+                              "y": 4
+                            },
+                            "blur": 12
+                          },
+                          "gap": 12,
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "r7Bze",
+                              "name": "Icon plate",
+                              "width": 36,
+                              "height": 36,
+                              "fill": "$v2-disabled-container",
+                              "cornerRadius": 12,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "oqbk2",
+                                  "name": "Icon",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "lock",
+                                  "library": "Material Symbols Rounded",
+                                  "fill": "$v2-text-secondary"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "G2tWo",
+                              "name": "Content",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "X27F65",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 4,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "DpCSc",
+                                      "name": "Title",
+                                      "fill": "$v2-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Диалог закрыт",
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "fYJnl",
+                                      "name": "Subtitle",
+                                      "fill": "$v2-text-secondary",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Оператор закрыл диалог. Написать сообщение нельзя.",
+                                      "lineHeight": 1.35,
+                                      "fontFamily": "Manrope",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VaQvh",
+                      "name": "Closed footer",
+                      "width": "fill_container",
+                      "height": 72,
+                      "fill": "$v2-surface",
+                      "stroke": "$v2-divider",
+                      "strokeWidth": {
+                        "top": 1
+                      },
+                      "gap": 8,
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "gzYVC",
+                          "name": "Lock",
+                          "width": 18,
+                          "height": 18,
+                          "icon": "lock",
+                          "library": "Material Symbols Rounded",
+                          "fill": "$v2-text-secondary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "zeKl3",
+                          "name": "Text",
+                          "fill": "$v2-text-secondary",
+                          "content": "Диалог закрыт. Написать сообщение нельзя.",
+                          "fontFamily": "Manrope",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }

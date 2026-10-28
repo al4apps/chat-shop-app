@@ -12,7 +12,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.al4apps.chatshop.core.design.model.StatusBadgeTone
 import com.al4apps.chatshop.core.design.theme.AppTheme
+import com.al4apps.chatshop.core.ui.UiText
+import com.al4apps.chatshop.core.ui.resolve
 
 /**
  * Компактный статусный бейдж: мягкий accent-фон, accent-текст и capsule-форма.
@@ -45,4 +48,24 @@ fun AppBadge(
             overflow = TextOverflow.Ellipsis,
         )
     }
+}
+
+/** Статусный бейдж с тоном из UI-модели; цвета выбираются темой. */
+@Composable
+fun StatusBadge(
+    text: UiText,
+    tone: StatusBadgeTone,
+    modifier: Modifier = Modifier,
+) {
+    val (container, content) = when (tone) {
+        StatusBadgeTone.ACCENT -> AppTheme.colors.accentSoft to AppTheme.colors.accent
+        StatusBadgeTone.NEUTRAL -> AppTheme.colors.disabledContainer to AppTheme.colors.textSecondary
+        StatusBadgeTone.ERROR -> AppTheme.colors.disabledContainer to AppTheme.colors.error
+    }
+    AppBadge(
+        text = text.resolve(),
+        modifier = modifier,
+        containerColor = container,
+        contentColor = content,
+    )
 }

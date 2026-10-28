@@ -35,5 +35,8 @@ interface DialogComponent {
 
     fun onRetryClick(localId: Long)
 
+    /** Подтвердить получение заказа командой ORDER_COMPLETED. */
+    fun onConfirmReceipt()
+
     fun onBackClick()
 }

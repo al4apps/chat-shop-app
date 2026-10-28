@@ -185,15 +185,15 @@ DefaultRootComponent (childStack)
   Body 16/24 Regular, Caption 13/18 Regular, Button 16/20 SemiBold.
 - Радиусы: 8 / 12 / 16 / 20 / 24. Кнопка — высота 52, поле — 56 и радиус 12.
 - Базовые компоненты: `AppButton` (primary/secondary/text), `AppTextField`,
-  `AppTopBar`, `AppIconButton`, `MessageInputBar`, `AppBadge`. Дополняется по мере фич
-  (MessageBubble, SystemEventCard, RecordButton, AudioPlayerBar...).
+  `AppTopBar`, `AppIconButton`, `MessageInputBar`, `AppBadge`, `SystemEventCard`.
+  Дополняется по мере фич (MessageBubble, RecordButton, AudioPlayerBar...).
 - Все строки — через UiText + compose-ресурсы (ru), хардкод запрещён.
 
 ---
 
 ## 7. Этапы разработки (один этап = одна итерация с апрувом)
 
-Статус: этапы 0–10b и dev-тест-режим выполнены; этап 11 не начат (детали — [`PROJECT.md`](PROJECT.md) §5).
+Статус: этапы 0–11 и dev-тест-режим выполнены; этап 12 (стабилизация MVP) не начат (детали — [`PROJECT.md`](PROJECT.md) §5).
 
 | # | Этап | Содержание | Результат |
 |---|---|---|---|
