@@ -1,6 +1,5 @@
 package com.al4apps.chatshop.services.outbox
 
-import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.network.AppError
 import com.al4apps.chatshop.core.network.AppResult
 import com.al4apps.chatshop.core.session.SessionManager
@@ -35,9 +34,10 @@ class OutboxService(
     private val chatsApi: ChatsApi,
     private val messagesRepository: MessagesRepository,
     private val filesRepository: FilesRepository,
-    private val fileStore: FileStore,
+    private val fileStore: OutboxFileStore,
     private val sessionManager: SessionManager,
     private val scope: CoroutineScope,
+    private val retryPolicy: RetryPolicy = RetryPolicy(),
 ) {
 
     init {
@@ -98,11 +98,11 @@ class OutboxService(
                 is AppResult.Failure -> when (result.error) {
                     AppError.Network -> {
                         attempt++
-                        if (attempt >= MAX_NETWORK_ATTEMPTS) {
+                        if (attempt >= retryPolicy.maxAttempts) {
                             messagesRepository.markFailed(message.localId)
                             return
                         }
-                        delay(RETRY_BACKOFF_MS * attempt)
+                        delay(retryPolicy.backoffMs * attempt)
                     }
 
                     else -> {
@@ -150,10 +150,5 @@ class OutboxService(
         val serverFileId = serverMessage.file?.id ?: return
         val path = fileStore.save(serverFileId, bytes)
         filesRepository.setLocalPath(serverFileId, path)
-    }
-
-    private companion object {
-        const val MAX_NETWORK_ATTEMPTS = 3
-        const val RETRY_BACKOFF_MS = 2_000L
     }
 }

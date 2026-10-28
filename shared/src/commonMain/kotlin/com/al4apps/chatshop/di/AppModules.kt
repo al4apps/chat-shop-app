@@ -1,6 +1,7 @@
 package com.al4apps.chatshop.di
 
 import com.al4apps.chatshop.core.db.DatabaseFactory
+import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.network.HttpClientFactory
 import com.al4apps.chatshop.core.session.InMemoryTokenStorage
 import com.al4apps.chatshop.core.session.KSafeTokenStorage
@@ -29,6 +30,8 @@ import com.al4apps.chatshop.features.chats.domain.FilesRepository
 import com.al4apps.chatshop.features.chats.domain.MessagesInteractor
 import com.al4apps.chatshop.features.chats.domain.MessagesRepository
 import com.al4apps.chatshop.services.files.FileDownloadService
+import com.al4apps.chatshop.services.outbox.FileStoreOutboxAdapter
+import com.al4apps.chatshop.services.outbox.OutboxFileStore
 import com.al4apps.chatshop.services.outbox.OutboxService
 import com.al4apps.chatshop.services.sync.DefaultSyncApi
 import com.al4apps.chatshop.services.sync.SyncApi
@@ -141,6 +144,9 @@ private val syncModule = module {
 }
 
 private val outboxModule = module {
+    // Узкий порт для отправки: позволяет тестировать outbox без платформенного FileStore.
+    single<OutboxFileStore> { FileStoreOutboxAdapter(fileStore = get<FileStore>()) }
+
     // createdAtStart: сервис ни в кого не инжектится, но должен работать с запуска.
     single(createdAtStart = true) {
         OutboxService(
