@@ -61,7 +61,9 @@ adb shell am start -n com.al4apps.chatshop/.MainActivity
 
 - AGP 9.4 использует новый Android-KMP плагин: задача называется `:shared:testAndroidHostTest`,
   а не `testDebugUnitTest`.
-- iOS: `./gradlew :shared:compileKotlinIosSimulatorArm64` или
+- iOS: сборка и запуск на симуляторе — `make ios` (или `make ios-build` / `make ios-run`);
+  конкретный симулятор — `make ios SIM_UDID=<udid>`. Gradle-задачи:
+  `./gradlew :shared:compileKotlinIosSimulatorArm64` или
   `./gradlew :shared:linkDebugFrameworkIosSimulatorArm64`; Xcode-проект — `iosApp/iosApp.xcodeproj`,
   framework статический, `baseName = "Shared"`.
 - CI, ktlint/detekt, formatter, pre-commit и `verifyMigrations` **не настроены**. Не выдумывай

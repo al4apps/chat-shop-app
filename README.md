@@ -12,3 +12,19 @@ Kotlin Multiplatform (Android + iOS) клиент для chat-commerce: пере
 ./gradlew :androidApp:assembleDebug
 ./gradlew :shared:testAndroidHostTest
 ```
+
+### iOS
+
+```bash
+make ios          # собрать, установить и запустить на симуляторе
+make ios-build    # только сборка
+make ios-run      # установить и запустить без пересборки
+make ios-devices  # список доступных симуляторов
+```
+
+Конкретный симулятор:
+
+```bash
+make ios SIM_UDID=<udid>
+make ios SIM_NAME="iPhone 17 Pro"
+```
