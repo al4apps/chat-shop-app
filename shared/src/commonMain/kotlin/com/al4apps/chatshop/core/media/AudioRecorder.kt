@@ -6,7 +6,7 @@ package com.al4apps.chatshop.core.media
  */
 interface AudioRecorder {
 
-    /** Доступна ли запись на платформе (Android — да; iOS пока нет, см. DEBT). */
+    /** Доступна ли запись на платформе. */
     val isAvailable: Boolean
 
     /**

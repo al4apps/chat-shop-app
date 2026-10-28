@@ -76,7 +76,7 @@ chat-commerce (диалог + лента событий + проекция за�
 | Токены/настройки | KSafe 2.2.1 (Keystore/Keychain) |
 | Изображения | Coil 3.5.0 |
 | Списки | kotlinx-collections-immutable 0.4.0 |
-| Аудио/фото | приоритет — стабильная KMP-библиотека; текущие native expect/actual (MediaRecorder/MediaPlayer, Photo Picker/PHPicker); iOS voice — stub, см. `BACKLOG.md` |
+| Аудио/фото | native expect/actual: Android MediaRecorder/MediaPlayer, iOS AVAudioRecorder/AVAudioPlayer, Photo Picker/PHPicker; native fallback после оценки KMP, см. `DEBT.md` |
 | Деньги | собственный `Money` (минорные единицы `Long`, парсинг decimal-строки) |
 
 Ограничения версий:
@@ -182,7 +182,7 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
       первая отправка → createDialog → sendText → Home replaceAll(ChatList, Dialog)
       (back ведёт в список). Общий `MessageInputBar` вынесен в design/widgets.
 - [x] Этап 9a (отправка изображений): Coil; core/media — ImagePicker (Android
-      PickVisualMedia через мост Activity; iOS — заглушка, см. DEBT), compressImageToJpeg
+      PickVisualMedia через мост Activity; iOS — PHPickerViewController), compressImageToJpeg
       (≤ 5 МБ), FileStore (expect/actual). ChatsApi.sendImage (multipart),
       MessagesInteractor.sendImage, OutboxService ветка IMAGE (+ привязка своих байтов к
       серверному `file.id`), FilesRepository. UI: скрепка, пузырь-картинка (Coil из
@@ -191,8 +191,8 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
       FileDownloadService (событийный, отдельный клиент без Auth — presigned GET, кэш по
       `file.id` → localPath), заглушка DELETED, полноэкранный просмотр (vmState + перехват
       «назад» через BackCallback).
-- [x] Этап 10a (запись голосовых): core/media — AudioRecorder (Android MediaRecorder →
-      AAC/M4A + разрешение RECORD_AUDIO через мост Activity; iOS заглушка, DEBT),
+- [x] Этап 10a (запись голосовых): core/media — AudioRecorder (Android MediaRecorder,
+      iOS AVAudioRecorder → AAC/M4A; разрешение микрофона на обеих платформах),
       VoiceRecordingController (таймер, авто-стоп 120 с). ChatsApi.sendVoice
       (multipart + durationSec), OutboxService ветка VOICE, MessagesInteractor.sendVoice,
       SQL insertOutgoingVoice. UI: микрофон в MessageInputBar, запись-бар, большая кнопка
@@ -221,8 +221,8 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
 
 ### Известные ограничения
 
-- iOS: выбор фото и запись голоса — заглушки (`IosImagePicker` → null,
-  `IosAudioRecorder.isAvailable = false`); плеер на iOS реализован.
+- iOS media: выбор фото и запись голоса реализованы и проверены на симуляторе;
+  на физическом iOS-устройстве не проверялись. Плеер на iOS реализован.
 - Happy-path авторизации не прогнан с реальным бэкендом (проверены UI, валидация,
   обработка ошибок; verify/refresh — компиляцией и логикой).
 - `TEST_MODE = true` сейчас включён; код тест-режима попадает в release.

@@ -18,20 +18,6 @@
 
 ## Открыто
 
-## [2026-07-22] iOS-медиа (пикер и рекордер) — заглушки
-- Модуль/файл: `shared` iosMain `core/media/IosImagePicker.kt` (пикер → null),
-  `IosAudioRecorder.kt` (isAvailable=false). Android-реализации полные.
-- Суть: на iOS не реализованы выбор фото (PHPicker) и запись голосовых
-  (AVAudioRecorder + AVAudioSession permission). Приложение тестируется на Android.
-- Приоритет исправления: сначала оценить стабильную KMP-библиотеку для записи/пикера;
-  нативная реализация — fallback. Детали и критерии выбора — [`BACKLOG.md`](BACKLOG.md)
-  (`IOS-VOICE-1`).
-- Риск: на iOS кнопки «прикрепить»/«микрофон» неактивны (isAvailable=false скрывает
-  микрофон в UI — деградация корректная, без мёртвых кнопок).
-- Как исправить: рассмотреть KMP-библиотеки; если подходящей нет — PHPickerViewController
-  + NSItemProvider (пикер); AVAudioRecorder в M4A/AAC + запрос разрешения на микрофон
-  (Info.plist NSMicrophoneUsageDescription), презентация с корневого UIViewController.
-
 ## [2026-09-17] Тестовый режим без бэкенда доступен в прод-сборке
 - Модуль/файл: `shared` commonMain `di/DiConfig.kt` (`TEST_MODE`), `di/AppModules.kt`
   (`testDataModule`), `features/*/data/Test*Api.kt`, `services/testmode/`
@@ -62,3 +48,25 @@
 ## [2026-07-20 → 2026-07-20] Временный вход в витрину дизайн-системы с онбординга
 - Закрыто на этапе 3: кнопка и колбэк удалены с реального онбординга. Экран `features/example`
   и `Config.Example` остаются в коде как dev-витрина без входа из прод-UI.
+
+## [2026-07-22 → 2026-10-28] iOS-медиа: native fallback вместо KMP-библиотеки
+
+- **Модуль/файл:** `shared` iosMain `IosImagePicker.kt`, `IosImagePickerDelegate.kt`,
+  `IosAudioRecorder.kt`, `IosAudioSession.kt`; `MainViewController.kt`;
+  `iosApp/iosApp/Info.plist`.
+- **Суть:** выбор фото и запись голосовых реализованы нативно: `PHPickerViewController`
+  для одного изображения и `AVAudioRecorder` (AAC/M4A) с `AVAudioSession`. Пикер
+  презентуется от корневого `ComposeUIViewController`, переданного через `attach`.
+- **Почему native:** рассмотрены KMP-кандидаты. `ImagePickerKMP` требует
+  Compose-state и тянет камеру/кроп/Coil; `Peekaboo` не развивается с 2024;
+  `kmp-record` не работает на iOS Simulator; `KRecorder` слишком ранний;
+  `Klarinet` — тяжёлый low-level audio engine. Для одного фото и голосового
+  системные API дают меньшую зависимость и полный контроль.
+- **Риск:** native-код нужно сопровождать отдельно для iOS; UIKit-сценарии не
+  покрываются host-тестами.
+- **Проверка:** iOS Simulator — выбор фото, отмена, повторный выбор, запись,
+  воспроизведение, отмена записи и отказ в микрофоне пройдены; Android-регрессия
+  (`testAndroidHostTest` + `assembleDebug`) пройдена. На физическом iOS-устройстве
+  не проверялось.
+- **Как исправить при необходимости:** заменить реализацию на KMP-библиотеку,
+  сохранив интерфейсы `ImagePicker`/`AudioRecorder`.

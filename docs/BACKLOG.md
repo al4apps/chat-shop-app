@@ -8,27 +8,6 @@
 
 ## Открыто
 
-## [IOS-VOICE-1] iOS: запись голосовых сообщений
-
-- **Статус:** backlog
-- **Приоритет:** высокий (функциональный паритет Android/iOS)
-- **Контекст:** `IosAudioRecorder` — заглушка (`isAvailable = false`), на Android запись
-  работает через `AndroidAudioRecorder` (MediaRecorder). Воспроизведение на iOS
-  реализовано (`AVAudioPlayer`).
-- **Факт:** исторически аудио делалось через `expect/actual` без библиотек. Сейчас
-  приоритет — сначала стабильная KMP-библиотека.
-- **Что проверить:** `KRecorder`, `kmp-record`, `kmp-audio-recorder-player`, `Klarinet`
-  и другие актуальные KMP-решения. Критерии: стабильный релиз, поддержка текущих
-  Kotlin/Compose Multiplatform, iOS Simulator, AAC/M4A, разрешения, лицензия, размер,
-  активность поддержки.
-- **Acceptance criteria:**
-  - запись, стоп и отмена работают на iOS и Android;
-  - запрос разрешения на микрофон и корректная деградация при отказе;
-  - длительность 1–120 секунд, реальный `durationSec` уходит в `VOICE`;
-  - запись отправляется через outbox и воспроизводится на обеих платформах;
-  - есть тест/ручной чек-лист и обновлённый `DEBT.md`.
-- **Следующий шаг:** spike-сравнение библиотек, решение в `design.md` change-а.
-
 ## [CHAT-OUTBOX-2] Outbox: сетевые ретраи одного диалога задерживают другие
 
 - **Статус:** backlog
@@ -48,6 +27,19 @@
   поведение намеренно не менялось.
 
 ## Закрыто
+
+## [IOS-VOICE-1] iOS: запись голосовых сообщений
+
+- **Статус:** закрыто (2026-10-28)
+- **Проверено:** change `ios-media-parity`
+- **Что сделано:** `IosAudioRecorder` на `AVAudioRecorder` (AAC/M4A, 1–120 секунд),
+  `AVAudioSession` для записи/воспроизведения, `NSMicrophoneUsageDescription`; одновременно
+  реализован `IosImagePicker` на `PHPickerViewController`.
+- **Проверка:** iOS Simulator — запись, воспроизведение, отмена записи, отказ в микрофоне;
+  фото — выбор, отмена и повторный выбор. Android-регрессия — `testAndroidHostTest` и
+  `assembleDebug`. Детали native fallback — в `DEBT.md`.
+- **Результат:** iOS-медиа паритет с Android на уровне сервисов; outbox отправляет
+  `VOICE`/`IMAGE`.
 
 ## [CHAT-OUTBOX-1] Аудит маршрутизации и отправки сообщений
 

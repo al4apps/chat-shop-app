@@ -43,6 +43,7 @@ class IosAudioPlayer : AudioPlayer {
 
     private fun startNew(id: String, filePath: String) {
         stop()
+        IosAudioSession.configurePlayback()
         val url = NSURL.fileURLWithPath(filePath)
         val created = AVAudioPlayer(contentsOfURL = url, error = null)
         val prepared = created.prepareToPlay() && created.play()
