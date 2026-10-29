@@ -4,6 +4,15 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>ApiBaseUrl</key>
+	<string>$(API_BASE_URL)</string>
+	<key>TestMode</key>
+	<string>$(TEST_MODE)</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Доступ к микрофону нужен для записи голосовых сообщений.</string>
 </dict>

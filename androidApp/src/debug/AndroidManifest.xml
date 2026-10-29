@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Debug ходит на локальный backend по HTTP; release cleartext не разрешает. -->
+    <application android:usesCleartextTraffic="true" />
+
+</manifest>

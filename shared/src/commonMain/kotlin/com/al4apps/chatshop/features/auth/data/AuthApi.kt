@@ -8,7 +8,7 @@ import com.al4apps.chatshop.features.auth.data.dto.VerifyCodeRequest
 
 /**
  * Запросы auth-эндпоинтов (CLIENT_GUIDE §3). Реализации: сетевая ([DefaultAuthApi])
- * и тестовая ([TestAuthApi]); выбор реализации — в DI (`DiConfig.TEST_MODE`).
+ * и тестовая ([TestAuthApi]); выбор реализации — в DI (`AppConfig.testMode`).
  * Refresh здесь нет — он в HttpClientFactory.
  */
 interface AuthApi {

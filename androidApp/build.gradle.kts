@@ -1,5 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+val debugApiBaseUrl = providers.gradleProperty("API_BASE_URL_DEBUG")
+    .orElse(providers.environmentVariable("API_BASE_URL_DEBUG"))
+    .orElse("http://10.0.2.2:8080/api/v1")
+val releaseApiBaseUrl = providers.gradleProperty("API_BASE_URL_RELEASE")
+    .orElse(providers.environmentVariable("API_BASE_URL_RELEASE"))
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
@@ -37,8 +43,20 @@ android {
         }
     }
     buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "API_BASE_URL",
+                "\"${debugApiBaseUrl.get()}\"",
+            )
+        }
         release {
             isMinifyEnabled = false
+            buildConfigField(
+                "String",
+                "API_BASE_URL",
+                "\"${releaseApiBaseUrl.orNull.orEmpty()}\"",
+            )
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,5 +69,20 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+}
+
+if (gradle.startParameter.taskNames.any { it.contains("Release", ignoreCase = true) }) {
+    val releaseUrl = releaseApiBaseUrl.orNull
+    check(!releaseUrl.isNullOrBlank()) {
+        "API_BASE_URL_RELEASE is required for release builds. " +
+            "Pass -PAPI_BASE_URL_RELEASE=https://<host>/api/v1 or set the environment variable."
+    }
+    check(releaseUrl.startsWith("https://")) {
+        "API_BASE_URL_RELEASE must use https://"
+    }
+    check(!releaseUrl.contains("localhost", ignoreCase = true) && !releaseUrl.contains("10.0.2.2")) {
+        "API_BASE_URL_RELEASE must not point to a development host"
     }
 }

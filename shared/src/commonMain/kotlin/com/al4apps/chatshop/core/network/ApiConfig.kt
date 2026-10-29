@@ -1,10 +1,10 @@
 package com.al4apps.chatshop.core.network
 
 /**
- * Конфигурация API. Создаётся на краю приложения (платформенный Koin-модуль):
- * dev-хосты различаются (Android-эмулятор — 10.0.2.2, iOS-симулятор — localhost).
+ * Конфигурация API. Создаётся в общем DI из `AppConfig`, который передаёт entrypoint:
+ * debug — dev-хост, release — production URL.
  */
 data class ApiConfig(
-    /** Базовый URL с путём версии, без завершающего `/`: `http://10.0.2.2:8080/api/v1`. */
+    /** Базовый URL с путём версии, без завершающего `/`. */
     val baseUrl: String,
 )

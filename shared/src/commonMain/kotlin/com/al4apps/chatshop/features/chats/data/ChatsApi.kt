@@ -8,7 +8,7 @@ import com.al4apps.chatshop.features.chats.data.dto.SendMessageRequest
 
 /**
  * Действия фичи чатов (чтение — в SyncApi). Реализации: сетевая ([DefaultChatsApi])
- * и тестовая ([TestChatsApi]); выбор реализации — в DI (`DiConfig.TEST_MODE`).
+ * и тестовая ([TestChatsApi]); выбор реализации — в DI (`AppConfig.testMode`).
  */
 interface ChatsApi {
 

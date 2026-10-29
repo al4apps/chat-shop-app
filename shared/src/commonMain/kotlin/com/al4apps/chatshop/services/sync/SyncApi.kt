@@ -6,7 +6,7 @@ import com.al4apps.chatshop.features.chats.data.dto.MessagesPageDto
 
 /**
  * Чтение данных для синхронизации (CLIENT_GUIDE §5). Реализации: сетевая ([DefaultSyncApi])
- * и тестовая ([TestSyncApi]); выбор реализации — в DI (`DiConfig.TEST_MODE`).
+ * и тестовая ([TestSyncApi]); выбор реализации — в DI (`AppConfig.testMode`).
  */
 interface SyncApi {
 

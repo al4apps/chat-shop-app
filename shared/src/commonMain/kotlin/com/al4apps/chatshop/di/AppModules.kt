@@ -2,6 +2,7 @@ package com.al4apps.chatshop.di
 
 import com.al4apps.chatshop.core.db.DatabaseFactory
 import com.al4apps.chatshop.core.media.FileStore
+import com.al4apps.chatshop.core.network.ApiConfig
 import com.al4apps.chatshop.core.network.HttpClientFactory
 import com.al4apps.chatshop.core.session.InMemoryTokenStorage
 import com.al4apps.chatshop.core.session.KSafeTokenStorage
@@ -50,17 +51,17 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 /**
- * Собирает граф приложения. Режим (прод/тест) выбирается в DI ([DiConfig.TEST_MODE]):
- * подменяется набор реализаций сервисов, общая логика и модули не меняются.
+ * Собирает граф приложения по конфигурации entrypoint: режим (прод/тест) и base URL.
+ * Общая логика и платформенные модули не меняются.
  */
-fun appModules(testMode: Boolean): List<Module> = buildList {
-    addAll(commonModules())
-    add(if (testMode) testDataModule else productionDataModule)
+fun appModules(appConfig: AppConfig): List<Module> = buildList {
+    addAll(commonModules(apiBaseUrl = appConfig.apiBaseUrl))
+    add(if (appConfig.testMode) testDataModule else productionDataModule)
 }
 
-private fun commonModules(): List<Module> = listOf(
+private fun commonModules(apiBaseUrl: String): List<Module> = listOf(
     platformModule,
-    coreModule,
+    coreModule(apiBaseUrl),
     networkModule,
     dbModule,
     authModule,
@@ -70,7 +71,8 @@ private fun commonModules(): List<Module> = listOf(
     filesModule,
 )
 
-private val coreModule = module {
+private fun coreModule(apiBaseUrl: String): Module = module {
+    single { ApiConfig(baseUrl = apiBaseUrl) }
     single {
         Json {
             ignoreUnknownKeys = true

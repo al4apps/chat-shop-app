@@ -4,7 +4,7 @@ import org.koin.core.module.Module
 
 /**
  * Платформенные зависимости, создаваемые на краю приложения:
- * KSafe (хранилища), ApiConfig (dev-хост платформы), Ktor-engine.
+ * KSafe (хранилища), Ktor-engine.
  */
 expect val platformModule: Module
 

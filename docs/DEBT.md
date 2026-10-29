@@ -18,22 +18,6 @@
 
 ## Открыто
 
-## [2026-09-17] Тестовый режим без бэкенда доступен в прод-сборке
-- Модуль/файл: `shared` commonMain `di/DiConfig.kt` (`TEST_MODE`), `di/AppModules.kt`
-  (`testDataModule`), `features/*/data/Test*Api.kt`, `services/testmode/`
-  (`TestDataInitializer`, `TestAutoReplyService`), `features/chats/data/test/TestChatsStore.kt`.
-- Суть: переключение на мок-реализации выполняется значением `DiConfig.TEST_MODE`
-  (сейчас в коде `true`), но сам код тест-режима присутствует в release-сборке.
-- Риск: при случайном `TEST_MODE = true` в релизе вход без бэкенда станет доступен любому.
-- Как исправить: привязать `DiConfig.TEST_MODE` к build-флагу (только debug) или
-  исключать исходники тест-режима из release; перед релизом — проверить значение.
-
-## [2026-07-20] Dev-хосты и cleartext HTTP захардкожены
-- Модуль/файл: `shared` androidMain/iosMain `di/PlatformModule.*.kt` (baseUrl 10.0.2.2 / localhost), `androidApp` `AndroidManifest.xml` (`usesCleartextTraffic="true"`).
-- Суть: для MVP-разработки base URL зашит константой в платформенных Koin-модулях, Android разрешает cleartext-трафик глобально.
-- Риск: уйдёт в прод с http и dev-хостом.
-- Как исправить: перед релизом — конфигурация окружений (debug/release baseUrl, https), cleartext ограничить networkSecurityConfig только debug-сборкой.
-
 ## [2026-07-20] Happy-path авторизации не прогнан с реальным бэкендом
 - Модуль/файл: `features/auth` (экран кода, verify, refresh-цепочка).
 - Суть: локальный бэкенд не был поднят — проверены UI-флоу, маска, валидация и обработка сетевой ошибки; экран кода и verify/refresh проверены только компиляцией и логикой.
@@ -70,3 +54,25 @@
   не проверялось.
 - **Как исправить при необходимости:** заменить реализацию на KMP-библиотеку,
   сохранив интерфейсы `ImagePicker`/`AudioRecorder`.
+
+## [2026-07-20 → 2026-10-29] Release-конфигурация: test mode, dev-хосты и cleartext
+
+- **Модуль/файл:** `shared` commonMain `di/AppConfig.kt`, `InitKoin.kt`, `AppModules.kt`;
+  `androidApp/build.gradle.kts`, `androidApp/src/main/AndroidManifest.xml`,
+  `androidApp/src/debug/AndroidManifest.xml`; `iosApp/Configuration/Config.xcconfig`,
+  `iosApp/Configuration/CheckReleaseConfig.sh`, `iosApp/iosApp/Info.plist`,
+  `iosApp/iosApp.xcodeproj/project.pbxproj`.
+- **Суть:** конфигурация вынесена в `AppConfig` на entrypoint. Debug использует
+  test mode и dev-хост; release получает `API_BASE_URL_RELEASE` (HTTPS), test mode
+  выключен. Cleartext разрешён только debug-manifest; iOS Release проверяется
+  Run Script, Android — Gradle-проверкой.
+- **Риск:** release-сборка теперь требует явный `API_BASE_URL_RELEASE`; без него
+  сборка падает. Это осознанно: лучше ошибка сборки, чем production-артефакт с
+  dev-хостом или тестовым входом.
+- **Команды:** Android —
+  `./gradlew :androidApp:assembleRelease -PAPI_BASE_URL_RELEASE=https://<host>/api/v1`;
+  iOS — `xcodebuild ... -configuration Release API_BASE_URL_RELEASE=https://<host>/api/v1`.
+  Фактический production URL не хранится в репозитории; его задаёт release-владелец.
+- **Проверка:** debug-сборка сохраняет test mode; release-сборки Android/iOS
+  проверены с `https://api.example.invalid/api/v1`; release без URL падает;
+  release manifest не содержит cleartext.

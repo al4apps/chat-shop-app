@@ -8,7 +8,6 @@ import com.al4apps.chatshop.core.media.AudioPlayer
 import com.al4apps.chatshop.core.media.AudioRecorder
 import com.al4apps.chatshop.core.media.FileStore
 import com.al4apps.chatshop.core.media.ImagePicker
-import com.al4apps.chatshop.core.network.ApiConfig
 import eu.anifantakis.lib.ksafe.KSafe
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
@@ -24,8 +23,6 @@ actual val platformModule: Module = module {
     single(named(KSAFE_PREFS)) {
         KSafe(context = androidContext().applicationContext, fileName = "prefs")
     }
-    // Android-эмулятор видит хост-машину как 10.0.2.2.
-    single { ApiConfig(baseUrl = "http://10.0.2.2:8080/api/v1") }
     single<HttpClientEngine> { OkHttp.create() }
     single { DatabaseFactory(context = androidContext().applicationContext) }
     single { FileStore(context = androidContext().applicationContext) }

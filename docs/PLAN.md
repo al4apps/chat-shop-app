@@ -39,6 +39,10 @@
 подходящей библиотеки нет или она нестабильна. Решение и альтернативы фиксируются
 в [`DEBT.md`](DEBT.md) или [`BACKLOG.md`](BACKLOG.md).
 
+**Конфигурация окружений:** debug — test mode и dev-хост; release — обязательный
+`API_BASE_URL_RELEASE` (HTTPS), test mode выключен. Android cleartext разрешён только
+в debug-manifest; iOS Release проверяется Run Script. Детали — в [`DEBT.md`](DEBT.md).
+
 ---
 
 ## 2. Структура модулей и пакетов

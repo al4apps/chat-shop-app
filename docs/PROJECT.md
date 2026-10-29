@@ -119,7 +119,7 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
   `chats` (`list`, `dialog`, `firstorder`, `data`, `domain`, `data/test`), `example`
   (dev-витрина дизайн-системы без входа из прод-UI).
 - `services/` — `sync`, `outbox`, `files`, `testmode`.
-- `di/` — `AppModules`, `DiConfig`, `InitKoin`, `PlatformModule` (expect/actual).
+- `di/` — `AppConfig`, `AppModules`, `InitKoin`, `PlatformModule` (expect/actual).
 
 ---
 
@@ -203,8 +203,10 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
       стоп при уходе с экрана. Пузырь VOICE (play/pause + прогресс + таймер), заглушки
       «скачивается»/DELETED. Входящие голосовые качает FileDownloadService.
 - [x] Dev (вне этапов): тестовый режим без бэкенда, выбор **только через DI**:
-      `di/DiConfig.TEST_MODE` → `appModules(testMode)` подставляет
-      `productionDataModule` или `testDataModule`. Без рантайм-переключения:
+      `di/AppConfig(testMode, apiBaseUrl)` создаётся entrypoint из Android
+      `BuildConfig.DEBUG` / iOS `Info.plist`; `appModules` подставляет
+      `productionDataModule` или `testDataModule`. Debug использует test mode и
+      dev-хост; release — production URL и test mode off. Без рантайм-переключения:
       `AuthApi`/`ChatsApi`/`SyncApi` — интерфейсы с парой реализаций `Default*` / `Test*`.
       В тест-модуле: мок-auth (любой номер/код), `TestChatsApi`/`TestSyncApi` над
       `TestChatsStore` (in-memory «сервер»), `InMemoryTokenStorage`, `TestDataInitializer`
@@ -225,8 +227,9 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
   на физическом iOS-устройстве не проверялись. Плеер на iOS реализован.
 - Happy-path авторизации не прогнан с реальным бэкендом (проверены UI, валидация,
   обработка ошибок; verify/refresh — компиляцией и логикой).
-- `TEST_MODE = true` сейчас включён; код тест-режима попадает в release.
-- Dev-хосты захардкожены (`10.0.2.2` / `localhost`), cleartext HTTP разрешён глобально.
+- Release-сборка требует `API_BASE_URL_RELEASE` (HTTPS); фактический production URL
+  не хранится в репозитории. Debug использует test mode и dev-хост, cleartext разрешён
+  только в debug-manifest.
 - Тесты покрывают `Money`, assemblers, тестовый store/API и команду заказа; UI
   проверяется ручной матрицей на Android.
 

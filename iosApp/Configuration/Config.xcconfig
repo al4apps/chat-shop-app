@@ -5,3 +5,11 @@ PRODUCT_BUNDLE_IDENTIFIER=com.al4apps.chatshop.ChatShop$(TEAM_ID)
 
 CURRENT_PROJECT_VERSION=1
 MARKETING_VERSION=1.0
+
+// Debug использует локальный backend; release URL задаётся при сборке.
+// `//` в xcconfig начинает комментарий, поэтому схема собирается из переменных.
+SLASH = /
+API_BASE_URL_DEBUG = http:$(SLASH)$(SLASH)localhost:8080/api/v1
+API_BASE_URL_RELEASE =
+TEST_MODE_DEBUG = YES
+TEST_MODE_RELEASE = NO

@@ -8,7 +8,7 @@ import com.al4apps.chatshop.features.auth.data.dto.VerifyCodeRequest
 
 /**
  * Мок auth-API тестового режима: без сети. Принимает любой номер и код,
- * возвращает фейковую пару токенов. Подключается только через DI ([DiConfig]).
+ * возвращает фейковую пару токенов. Подключается только через DI (`AppConfig.testMode`).
  */
 class TestAuthApi : AuthApi {
 

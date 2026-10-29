@@ -3,11 +3,13 @@ package com.al4apps.chatshop
 import androidx.compose.ui.window.ComposeUIViewController
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.core.media.IosImagePicker
+import com.al4apps.chatshop.di.AppConfig
 import com.al4apps.chatshop.di.initKoin
 import com.al4apps.chatshop.root.DefaultRootComponent
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.ApplicationLifecycle
 import org.koin.mp.KoinPlatform
+import platform.Foundation.NSBundle
 import platform.UIKit.UIViewController
 
 private var isKoinStarted = false
@@ -15,7 +17,16 @@ private var isKoinStarted = false
 fun MainViewController(): UIViewController {
     if (!isKoinStarted) {
         isKoinStarted = true
-        initKoin()
+        val bundle = NSBundle.mainBundle
+        val apiBaseUrl = bundle.objectForInfoDictionaryKey("ApiBaseUrl") as? String ?: ""
+        val testMode = (bundle.objectForInfoDictionaryKey("TestMode") as? String)
+            ?.equals("YES", ignoreCase = true) == true
+        initKoin(
+            appConfig = AppConfig(
+                testMode = testMode,
+                apiBaseUrl = apiBaseUrl,
+            ),
+        )
     }
     val koin = KoinPlatform.getKoin()
 
