@@ -249,7 +249,6 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_MODE = "$(TEST_MODE_DEBUG)";
 			};
 			name = Debug;
 		};
@@ -308,7 +307,6 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				TEST_MODE = "$(TEST_MODE_RELEASE)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -343,7 +341,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_MODE = "$(TEST_MODE_RELEASE)";
 			};
 			name = Release;
 		};
@@ -377,7 +374,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_MODE = "$(TEST_MODE_DEBUG)";
 			};
 			name = Debug;
 		};

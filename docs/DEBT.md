@@ -55,24 +55,23 @@
 - **Как исправить при необходимости:** заменить реализацию на KMP-библиотеку,
   сохранив интерфейсы `ImagePicker`/`AudioRecorder`.
 
-## [2026-07-20 → 2026-10-29] Release-конфигурация: test mode, dev-хосты и cleartext
+## [2026-07-20 → 2026-11-02] Release-конфигурация: test mode, dev-хосты и cleartext
 
-- **Модуль/файл:** `shared` commonMain `di/AppConfig.kt`, `InitKoin.kt`, `AppModules.kt`;
-  `androidApp/build.gradle.kts`, `androidApp/src/main/AndroidManifest.xml`,
+- **Модуль/файл:** `shared` commonMain `di/AppConfig.kt`, `DevConfig.kt`, `InitKoin.kt`,
+  `AppModules.kt`; `androidApp/build.gradle.kts`, `androidApp/src/main/AndroidManifest.xml`,
   `androidApp/src/debug/AndroidManifest.xml`; `iosApp/Configuration/Config.xcconfig`,
-  `iosApp/Configuration/CheckReleaseConfig.sh`, `iosApp/iosApp/Info.plist`,
-  `iosApp/iosApp.xcodeproj/project.pbxproj`.
-- **Суть:** конфигурация вынесена в `AppConfig` на entrypoint. Debug использует
-  test mode и dev-хост; release получает `API_BASE_URL_RELEASE` (HTTPS), test mode
-  выключен. Cleartext разрешён только debug-manifest; iOS Release проверяется
-  Run Script, Android — Gradle-проверкой.
-- **Риск:** release-сборка теперь требует явный `API_BASE_URL_RELEASE`; без него
-  сборка падает. Это осознанно: лучше ошибка сборки, чем production-артефакт с
-  dev-хостом или тестовым входом.
+  `iosApp/Configuration/CheckReleaseConfig.sh`, `iosApp/iosApp/Info.plist`.
+- **Суть:** `testMode` — константа `DevConfig.TEST_MODE` в common-коде, независимая от
+  debug/release. Debug-сборки по умолчанию используют test mode; для локального backend
+  константа выставляется в `false`. Release получает `API_BASE_URL_RELEASE` (HTTPS);
+  cleartext разрешён только debug-manifest.
+- **Риск:** release-сборка требует не только URL, но и **ручного** `DevConfig.TEST_MODE =
+  false`. Автоматической проверки константы нет — это осознанный компромисс ради
+  code-level переключателя. Перед релизом проверить реальный auth и отсутствие мок-диалогов.
 - **Команды:** Android —
   `./gradlew :androidApp:assembleRelease -PAPI_BASE_URL_RELEASE=https://<host>/api/v1`;
   iOS — `xcodebuild ... -configuration Release API_BASE_URL_RELEASE=https://<host>/api/v1`.
   Фактический production URL не хранится в репозитории; его задаёт release-владелец.
-- **Проверка:** debug-сборка сохраняет test mode; release-сборки Android/iOS
-  проверены с `https://api.example.invalid/api/v1`; release без URL падает;
-  release manifest не содержит cleartext.
+- **Проверка:** Android/iOS debug проверены с `DevConfig.TEST_MODE=true` и локальным
+  backend при `false`; release-сборки с тестовым HTTPS URL проходят, release без URL
+  падает, release manifest не содержит cleartext.

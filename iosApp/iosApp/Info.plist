@@ -6,8 +6,6 @@
 	<true/>
 	<key>ApiBaseUrl</key>
 	<string>$(API_BASE_URL)</string>
-	<key>TestMode</key>
-	<string>$(TEST_MODE)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>

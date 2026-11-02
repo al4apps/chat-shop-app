@@ -4,6 +4,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.al4apps.chatshop.core.media.ImagePicker
 import com.al4apps.chatshop.core.media.IosImagePicker
 import com.al4apps.chatshop.di.AppConfig
+import com.al4apps.chatshop.di.DevConfig
 import com.al4apps.chatshop.di.initKoin
 import com.al4apps.chatshop.root.DefaultRootComponent
 import com.arkivanov.decompose.DefaultComponentContext
@@ -19,11 +20,9 @@ fun MainViewController(): UIViewController {
         isKoinStarted = true
         val bundle = NSBundle.mainBundle
         val apiBaseUrl = bundle.objectForInfoDictionaryKey("ApiBaseUrl") as? String ?: ""
-        val testMode = (bundle.objectForInfoDictionaryKey("TestMode") as? String)
-            ?.equals("YES", ignoreCase = true) == true
         initKoin(
             appConfig = AppConfig(
-                testMode = testMode,
+                testMode = DevConfig.TEST_MODE,
                 apiBaseUrl = apiBaseUrl,
             ),
         )

@@ -202,11 +202,11 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
       positionSec), toggle/stop. DialogComponent: 5-й flow плеера в combine, onVoiceClick,
       стоп при уходе с экрана. Пузырь VOICE (play/pause + прогресс + таймер), заглушки
       «скачивается»/DELETED. Входящие голосовые качает FileDownloadService.
-- [x] Dev (вне этапов): тестовый режим без бэкенда, выбор **только через DI**:
-      `di/AppConfig(testMode, apiBaseUrl)` создаётся entrypoint из Android
-      `BuildConfig.DEBUG` / iOS `Info.plist`; `appModules` подставляет
-      `productionDataModule` или `testDataModule`. Debug использует test mode и
-      dev-хост; release — production URL и test mode off. Без рантайм-переключения:
+- [x] Dev (вне этапов): тестовый режим без бэкенда, выбор через code-level
+      `DevConfig.TEST_MODE`; `AppConfig(testMode, apiBaseUrl)` собирается entrypoint,
+      `appModules` подставляет `productionDataModule` или `testDataModule`. Константа
+      не зависит от debug/release: `true` — моки, `false` — реальный backend. Перед
+      release её нужно выставить в `false`. Без рантайм-переключения:
       `AuthApi`/`ChatsApi`/`SyncApi` — интерфейсы с парой реализаций `Default*` / `Test*`.
       В тест-модуле: мок-auth (любой номер/код), `TestChatsApi`/`TestSyncApi` над
       `TestChatsStore` (in-memory «сервер»), `InMemoryTokenStorage`, `TestDataInitializer`
@@ -227,9 +227,10 @@ iOS bundle id `com.al4apps.chatshop.ChatShop`.
   на физическом iOS-устройстве не проверялись. Плеер на iOS реализован.
 - Happy-path авторизации не прогнан с реальным бэкендом (проверены UI, валидация,
   обработка ошибок; verify/refresh — компиляцией и логикой).
-- Release-сборка требует `API_BASE_URL_RELEASE` (HTTPS); фактический production URL
-  не хранится в репозитории. Debug использует test mode и dev-хост, cleartext разрешён
-  только в debug-manifest.
+- Release-сборка требует `API_BASE_URL_RELEASE` (HTTPS) и ручного
+  `DevConfig.TEST_MODE = false`; фактический production URL не хранится в репозитории.
+  Debug по умолчанию использует test mode и dev-хост; cleartext разрешён только в
+  debug-manifest.
 - Тесты покрывают `Money`, assemblers, тестовый store/API и команду заказа; UI
   проверяется ручной матрицей на Android.
 

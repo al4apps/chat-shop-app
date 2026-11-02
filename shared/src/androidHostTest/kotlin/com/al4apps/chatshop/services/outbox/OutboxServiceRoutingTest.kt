@@ -214,7 +214,10 @@ class OutboxServiceRoutingTest {
         }
 
         withOutboxHarness(initial = listOf(image), fileStore = fileStore) { harness ->
-            harness.await { harness.repository.confirmed.size == 1 }
+            harness.await {
+                harness.repository.confirmed.size == 1 &&
+                    harness.filesRepository.localPaths.containsKey("server-client-1")
+            }
 
             val call = harness.api.calls.single()
             assertEquals("image/jpeg", call.mime)

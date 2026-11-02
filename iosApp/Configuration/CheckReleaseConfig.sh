@@ -25,8 +25,3 @@ case "${API_BASE_URL}" in
         exit 1
         ;;
 esac
-
-if [ "${TEST_MODE:-}" != "NO" ]; then
-    echo "error: TEST_MODE must be NO in Release." >&2
-    exit 1
-fi
